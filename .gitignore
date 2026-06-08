@@ -1,0 +1,14 @@
+node_modules
+dist
+.powerapps
+canvas-current/
+canvas-current.msapp
+docs/plans/
+lancedb/
+models/
+rag/db/
+rag/models/
+npm-debug.log*
+*.log
+*.local
+.DS_Store

@@ -1,0 +1,14 @@
+{
+  "version": "1.0",
+  "appId": "e8a9c7f3-f052-4a32-ae0b-4d0dae5f91cb",
+  "appDisplayName": "Request Intake Copilot",
+  "region": "prod",
+  "environmentId": "543d442f-0b4a-e67b-89eb-1e32c0622907",
+  "description": "Agent-assisted request intake form for Power Platform delivery teams",
+  "buildPath": "./dist",
+  "buildEntryPoint": "index.html",
+  "localAppUrl": "http://127.0.0.1:5173",
+  "logoPath": "Default",
+  "connectionReferences": {},
+  "databaseReferences": {}
+}
