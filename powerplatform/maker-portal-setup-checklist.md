@@ -123,6 +123,7 @@ Status: agent send, draft save, and submit status handling are complete. `Reques
 - Prompt tuning update: both `IntakeCopilot_Run` and `IntakeCopilot_CanvasRun` now instruct the agent to retain conversation context, interpret short answers as answers to the previous question, avoid redundant tool/platform questions, avoid asking for personal concrete values during intake, and return strings for every field except `missingRequirements`.
 - Canvas send update: `conversationJson` now sends the prior transcript as context plus the latest user message, and the developer-notes update no longer parses optional `acceptanceCriteria` directly.
 - Latest travel-documentation smoke test passed the important checks: no generic Bing Maps question, no exact home-address request, no array/type runtime error.
+- Latest OneDrive storage smoke test passed: after the mileage reimbursement screenshot request and `onedrive`, the agent returned `I have enough for initial triage. Review the generated fields, then save or submit the draft.` instead of asking product or implementation-discovery questions.
 - Note for future package edits: updating only `Src/*.fx.yaml` is not enough; the packed app can still return the old formula from `Other/Src/*.pa.yaml`.
 - Older Power Apps admin API checks: app `GET`, `acquireLease`, and `releaseLease` work, but the current app document URI is read/list only. A package update through this API still needs a readable document URI for the patched `.msapp`.
 - Publish the app.

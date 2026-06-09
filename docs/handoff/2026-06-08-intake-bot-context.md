@@ -116,6 +116,8 @@ There are two related implementations in this workspace.
 - Updated the live Canvas send formula so `conversationJson` includes the prior transcript as a `context` row plus the latest user message. This prevents the flow from losing earlier context between turns.
 - Hardened the live Canvas send formula by removing a fragile `Text(varParsedDraft.acceptanceCriteria)` conversion. This avoids runtime failures when the model returns an optional field in the wrong shape.
 - Smoke-tested the travel documentation scenario. After a mileage-reimbursement request and `Bing Maps`, the agent no longer asked a generic Bing Maps question, did not ask for the exact home address, and did not show the prior untyped object array error.
+- Further tuned the live prompts after the agent still asked generic OneDrive/documentation questions. Added explicit rules for storage destinations, business-value answers, personal productivity wording, and a hard travel-reimbursement screenshot override: once the request includes meeting/map screenshots for mileage reimbursement and the user selects OneDrive or SharePoint storage, `nextQuestion` must be `I have enough for initial triage. Review the generated fields, then save or submit the draft.`
+- Smoke-tested the exact OneDrive path. After the mileage reimbursement screenshot request and `onedrive`, the agent stopped with the completion statement and did not ask the generic OneDrive, documentation-system, calendar-source, or multi-user questions.
 
 ## Important Local Files
 
