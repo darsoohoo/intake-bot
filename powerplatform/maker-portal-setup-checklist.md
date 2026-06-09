@@ -18,6 +18,8 @@ Use this checklist in `SPDEV-Dev2` for the `WorkManagementAgent` solution.
 | Copilot Studio agent ID | `d410db8a-ac1c-4357-a331-c97ecf394708` |
 | Workflow ID | `179221c2-9463-f111-ab0c-7c1e521c7ea3` |
 | Canvas wrapper flow ID | `337338cd-9d63-f111-ab0c-7c1e521c7ea3` |
+| Model-driven app ID | `01e9a589-4264-f111-ab0c-7c1e521c7ea3` |
+| Model-driven app unique name | `request_intake_model_app_20d5b868` |
 
 ## 1. Repair Connections
 
@@ -132,6 +134,7 @@ Status: agent send, draft save, and submit status handling are complete. `Reques
 - Latest Canvas layout polish is published: the auto-filled fields header and right column were moved higher, buttons were aligned, short generated fields were set to single-line inputs, and the paragraph/transcript fields were made taller to reduce inner scrolling. Fresh Canvas download reported zero parser and binding errors.
 - Latest platform-default prompt update is published: `IntakeCopilot_Run`, `IntakeCopilot_CanvasRun`, and the agent instructions now assume requests are for Power Platform solutions unless the requester explicitly names a non-Power Platform system. Round-trip solution export verified the rule in both workflow prompts and agent instruction files.
 - Comparison copy is created: `Request Intake Copilot Canvas - Agent Chat` / `fc5b4e4a-c6eb-4cd6-9c59-1b1ea31f48a6`. Directly embedding the existing Copilot Studio agent is currently blocked for this copied app because Studio does not expose the retired custom Copilot settings or the replacement M365 Copilot toggle in this environment. Details are in [canvas-agent-chat-copy.md](./canvas-agent-chat-copy.md).
+- Canvas perceived-speed update is published: `btnSendAgentMessage` now appends the user message plus `Agent is thinking...`, disables the send controls with `varAgentBusy`, and starts hidden timer `tmrRunAgent` to call `IntakeCopilot_CanvasRun` after the UI repaints. Published smoke testing confirmed the app re-enables after the agent response and updates generated fields.
 - Note for future package edits: updating only `Src/*.fx.yaml` is not enough; the packed app can still return the old formula from `Other/Src/*.pa.yaml`.
 - Older Power Apps admin API checks: app `GET`, `acquireLease`, and `releaseLease` work, but the current app document URI is read/list only. A package update through this API still needs a readable document URI for the patched `.msapp`.
 - Publish the app.
@@ -145,3 +148,16 @@ Status: agent send, draft save, and submit status handling are complete. `Reques
 - Open the Canvas play URL and repeat the same smoke test outside Studio preview.
 - Completed smoke test for draft save: published Canvas play app created Dataverse row `3e10a06b-9c63-f111-ab0c-7c1e521c7ea3` for `Finance Power BI export fails`.
 - Completed smoke test for submit: published Canvas play app created Dataverse row `ad6f3671-b963-f111-ab0c-7c1e521c7ea3` with `crb_status` = `Submitted`.
+
+## 6. Model-Driven App
+
+Status: initial shell and table navigation complete.
+
+- App: `Request Intake Model App`
+- App ID: `01e9a589-4264-f111-ab0c-7c1e521c7ea3`
+- Unique name: `request_intake_model_app_20d5b868`
+- Added to solution: `WorkManagementAgent`
+- App module includes table component `crb_intakerequest`
+- Sitemap includes Main > Intake > Request Intakes
+
+Next model-driven work is to add a PCF agent/chat assistant to the Request Intake form. See [model-driven-request-intake.md](./model-driven-request-intake.md).

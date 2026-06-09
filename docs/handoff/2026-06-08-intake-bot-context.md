@@ -28,6 +28,9 @@ Use this file when continuing the project from another computer or a fresh Codex
 - Copilot Studio workflow/tool ID: `179221c2-9463-f111-ab0c-7c1e521c7ea3`
 - Canvas-callable wrapper flow name: `IntakeCopilot_CanvasRun`
 - Canvas-callable wrapper flow ID: `337338cd-9d63-f111-ab0c-7c1e521c7ea3`
+- Model-driven app display name: `Request Intake Model App`
+- Model-driven app ID: `01e9a589-4264-f111-ab0c-7c1e521c7ea3`
+- Model-driven app unique name: `request_intake_model_app_20d5b868`
 
 ## What Was Built
 
@@ -131,6 +134,9 @@ There are two related implementations in this workspace.
 - Updated and published the live `IntakeCopilot_Run`, `IntakeCopilot_CanvasRun`, and `Request Intake Copilot` agent instructions so the agent assumes incoming requests are for the Power Platform team and should map to Power Apps, Power Automate, Dataverse, Power BI, Copilot Studio, Power Pages, or Microsoft 365 connector solutions unless the requester explicitly names a non-Power Platform system. Round-trip solution export verified the rule is present in both workflow prompts and the agent instruction files.
 - Created a separate Canvas app copy named `Request Intake Copilot Canvas - Agent Chat` in the `WorkManagementAgent` solution so the original `Request Intake Copilot Canvas` remains available for comparison. The copy was created by duplicating the Canvas component in an unpacked solution, assigning a new schema name/display name/identity, packing, importing, and publishing.
 - Investigated wiring the existing Copilot Studio agent directly into the copied Canvas app. Microsoft has discontinued adding the old custom Copilot/App Copilot feature and the Copilot control to new canvas apps as of February 2, 2026. The current Studio UI for this copied app does not expose `App Copilot`, `Copilot component`, `Edit in Copilot Studio`, or `M365 Copilot in canvas apps (Preview)` settings, even when opened with `enableM365CopilotSetting=true`. Keep using the wrapper-flow backed chat surface unless the tenant/environment later exposes Microsoft 365 Copilot for canvas apps or another supported embedding path.
+- Created and published model-driven app shell `Request Intake Model App` in the `WorkManagementAgent` solution using `pac model create`. Added `crb_intakerequest` as an app module component and added a sitemap area/group/subarea for `Request Intakes`. Round-trip solution export verified the table component and sitemap subarea are present.
+- Improved Canvas chat perceived speed in the published original Canvas app. `btnSendAgentMessage` now immediately stores the current transcript, appends the user message plus `Agent is thinking...`, disables the input/button via `varAgentBusy`, and starts hidden timer `tmrRunAgent` to call `IntakeCopilot_CanvasRun` after the UI repaints. The timer replaces the thinking placeholder with the returned agent question and re-enables the send controls.
+- Smoke-tested the published Canvas app after the speed update. A Power BI export failure message updated fields and transcript after the flow returned. A second message immediately disabled the send button while the agent ran and then re-enabled it after the response updated the generated fields.
 
 ## Important Local Files
 
@@ -141,6 +147,7 @@ There are two related implementations in this workspace.
 - `powerplatform/ai-prompt-contract.md`: AI/Copilot prompt contract.
 - `powerplatform/canvas-app-formulas.md`: Canvas formula design notes.
 - `powerplatform/dataverse-request-table.md`: Dataverse table shape.
+- `powerplatform/model-driven-request-intake.md`: model-driven app and PCF/agent path notes.
 - `canvas/RequestIntakeCopilotCanvas-src/Src/Screen1.pa.yaml`: latest published Canvas source export.
 - `canvas/RequestIntakeCopilotCanvas.msapp`: latest downloaded Canvas app package.
 
@@ -224,6 +231,7 @@ Start-Process "https://apps.powerapps.com/play/e/543d442f-0b4a-e67b-89eb-1e32c06
 - Prefer editing the live Canvas app in Power Apps Studio for nontrivial visual changes. The CLI can download/unpack the Canvas source, but `pac canvas pack` with `SourceCode` layout currently fails in PAC 2.8.1 with a `System.FormatException` from `SourceCodeCanvasPacker.ValidateSources`. Experimental layout can unpack/pack a no-op `.msapp`, but importing/updating the existing app still needs Studio or solution ALM.
 - Treat `canvas/RequestIntakeCopilotCanvas-src` as a review/export artifact, not the only source of truth.
 - The current Canvas app uses `IntakeCopilot_CanvasRun.Run(...)` for the send-button agent response and still uses rule-based Power Fx for the separate Analyze button. `Save request draft` writes Dataverse rows with custom status `Draft`; `Submit` writes rows with custom status `Submitted`.
+- The current Canvas app uses hidden timer `tmrRunAgent` to make the chat feel responsive: the click handler updates the transcript and busy state immediately, and the timer performs the flow call.
 - The Dataverse table, Copilot Studio agent, `IntakeCopilot_Run` workflow, and `IntakeCopilot_CanvasRun` wrapper flow now exist. The wrapper is in the `WorkManagementAgent` solution and is associated to the Canvas app as an in-context flow.
 - `IntakeCopilot_Run` was built with the newer Copilot Studio Workflows surface, not the classic Power Automate designer. It uses a Manual/on-demand trigger and M365 Copilot `Response` output instead of separate `draftJson` and `nextQuestion` response outputs.
 - Because `IntakeCopilot_Run` did not appear in the Canvas Add data picker, the Canvas app uses `IntakeCopilot_CanvasRun` from the Power Automate pane/flow context instead.

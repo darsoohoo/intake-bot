@@ -343,8 +343,9 @@ Screens:
       - txtAgentMessage:
           Control: ModernTextInput@1.1.0
           Properties:
+            DisplayMode: =If(varAgentBusy, DisplayMode.View, DisplayMode.Edit)
             Height: =56
-            Placeholder: ="Reply to the intake agent"
+            Placeholder: =If(varAgentBusy, "Waiting for the agent...", "Reply to the intake agent")
             Type: =TextInputType.Multiline
             Width: =405
             X: =680
@@ -352,11 +353,35 @@ Screens:
       - btnSendAgentMessage:
           Control: ModernButton@1.0.0
           Properties:
+            DisplayMode: =If(varAgentBusy, DisplayMode.Disabled, DisplayMode.Edit)
             Height: =44
             OnSelect: |
-              =If(IsBlank(Trim(txtAgentMessage.Text)),
+              =If(varAgentBusy,
+                  false,
+                  If(IsBlank(Trim(txtAgentMessage.Text)),
                   Notify("Type a message for the intake agent first.", NotificationType.Warning),
                   Set(varChatText, Trim(txtAgentMessage.Text));
+                  Set(varConversationBeforeSend, Coalesce(varConversationLog, "Agent: Tell me what the requester needs. I will ask follow-up questions and fill the intake fields as we go."));
+                  Set(varConversationLog, varConversationBeforeSend & Char(10) & Char(10) & "You: " & varChatText & Char(10) & "Agent: Agent is thinking...");
+                  Set(varAgentBusy, true);
+                  Set(varRunAgentTimer, false);
+                  Reset(txtAgentTranscript);
+                  Reset(txtAgentMessage);
+                  Set(varRunAgentTimer, true)
+                  )
+              )
+            Text: =If(varAgentBusy, "Sending...", "Send to agent")
+            Width: =175
+            X: =1100
+            Y: =714
+      - tmrRunAgent:
+          Control: Timer@2.1.0
+          Properties:
+            AutoStart: =varRunAgentTimer
+            Duration: =100
+            Height: =1
+            OnTimerEnd: |
+              =Set(varRunAgentTimer, false);
                   Set(
                       varAgentResponse,
                       IntakeCopilot_CanvasRun.Run(
@@ -377,7 +402,7 @@ Screens:
                               Table(
                                   {
                                       role: "context",
-                                      content: Coalesce(varConversationLog, ""),
+                                      content: Coalesce(varConversationBeforeSend, ""),
                                       createdAt: Text(Now(), DateTimeFormat.UTC)
                                   },
                                   {
@@ -400,7 +425,8 @@ Screens:
                       Set(varTimeline, Coalesce(Text(varParsedDraft.estimatedDuration), ""));
                       Set(varQuestion, Coalesce(Text(varParsedDraft.nextQuestion), "I captured the latest message. Review the auto-filled fields and save the draft."));
                       Set(varDeveloperNotes, "Developer notes: " & Coalesce(Text(varParsedDraft.additionalInformation), ""));
-                      Set(varConversationLog, Coalesce(varConversationLog, "Agent: Tell me what the requester needs. I will ask follow-up questions and fill the intake fields as we go.") & Char(10) & Char(10) & "You: " & varChatText & Char(10) & "Agent: " & varQuestion),
+                      Set(varConversationLog, varConversationBeforeSend & Char(10) & Char(10) & "You: " & varChatText & Char(10) & "Agent: " & varQuestion),
+                      Set(varConversationLog, varConversationBeforeSend & Char(10) & Char(10) & "You: " & varChatText & Char(10) & "Agent: I could not get a usable response. Please try again.");
                       Notify("The intake agent did not return a usable response. Please try again.", NotificationType.Error)
                   );
                   Reset(txtRequestTitle);
@@ -411,9 +437,11 @@ Screens:
                   Reset(txtTimeline);
                   Reset(txtDeveloperNotes);
                   Reset(txtAgentTranscript);
-                  Reset(txtAgentMessage)
-              )
-            Text: ="Send to agent"
-            Width: =175
-            X: =1100
+                  Set(varAgentBusy, false);
+                  Reset(tmrRunAgent)
+            Repeat: =false
+            Start: =varRunAgentTimer
+            Visible: =false
+            Width: =1
+            X: =1275
             Y: =714
