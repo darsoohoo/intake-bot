@@ -122,6 +122,12 @@ Use this shorter formula for the currently exported Canvas app controls. It avoi
 - `txtTimeline`
 - `txtDeveloperNotes`
 
+The published app also binds the main intake fields to variables so the agent can fill them as soon as it has enough context:
+
+- `txtRequestTitle.Default = Coalesce(varRequestTitle, "")`
+- `txtProblem.Default = Coalesce(varProblemDescription, "")`
+- `txtBusinessImpact.Default = Coalesce(varBusinessImpact, "")`
+
 ```powerfx
 If(
     IsBlank(Trim(txtAgentMessage.Text)),
@@ -133,10 +139,10 @@ If(
             varChatText,
             JSON(
                 {
-                    title: Coalesce(txtProblem.Text, ""),
-                    description: Coalesce(txtProblem.Text, ""),
+                    title: Coalesce(txtRequestTitle.Text, varRequestTitle, ""),
+                    description: Coalesce(txtProblem.Text, varProblemDescription, ""),
                     category: Coalesce(varCategory, "Uncategorized"),
-                    businessImpact: Coalesce(txtBusinessImpact.Text, ""),
+                    businessImpact: Coalesce(txtBusinessImpact.Text, varBusinessImpact, ""),
                     estimatedEffort: Coalesce(varEffort, ""),
                     estimatedDuration: Coalesce(varTimeline, ""),
                     additionalInformation: Coalesce(txtAdditionalInfo.Text, "")
@@ -157,6 +163,9 @@ If(
     );
     IfError(
         Set(varParsedDraft, ParseJSON(varAgentResponse.response));
+        Set(varRequestTitle, If(IsBlank(Text(varParsedDraft.title)), txtRequestTitle.Text, Text(varParsedDraft.title)));
+        Set(varProblemDescription, If(IsBlank(Text(varParsedDraft.description)), txtProblem.Text, Text(varParsedDraft.description)));
+        Set(varBusinessImpact, If(IsBlank(Text(varParsedDraft.businessImpact)), txtBusinessImpact.Text, Text(varParsedDraft.businessImpact)));
         Set(varCategory, Coalesce(Text(varParsedDraft.category), "Uncategorized"));
         Set(varEffort, Coalesce(Text(varParsedDraft.estimatedEffort), ""));
         Set(varTimeline, Coalesce(Text(varParsedDraft.estimatedDuration), ""));
@@ -165,6 +174,9 @@ If(
         Set(varConversationLog, Coalesce(varConversationLog, "Agent: Tell me what the requester needs. I will ask follow-up questions and fill the intake fields as we go.") & Char(10) & Char(10) & "You: " & varChatText & Char(10) & "Agent: " & varQuestion),
         Notify("The intake agent did not return a usable response. Please try again.", NotificationType.Error)
     );
+    Reset(txtRequestTitle);
+    Reset(txtProblem);
+    Reset(txtBusinessImpact);
     Reset(txtCategory);
     Reset(txtEffort);
     Reset(txtTimeline);

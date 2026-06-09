@@ -38,6 +38,7 @@ Screens:
       - txtRequestTitle:
           Control: ModernTextInput@1.1.0
           Properties:
+            Default: =Coalesce(varRequestTitle, "")
             Height: =44
             Placeholder: ="Short title for the request"
             Width: =570
@@ -54,6 +55,7 @@ Screens:
       - txtProblem:
           Control: ModernTextInput@1.1.0
           Properties:
+            Default: =Coalesce(varProblemDescription, "")
             Height: =100
             Placeholder: ="Describe what is happening, what you need, or what changed."
             Type: =TextInputType.Multiline
@@ -71,6 +73,7 @@ Screens:
       - txtBusinessImpact:
           Control: ModernTextInput@1.1.0
           Properties:
+            Default: =Coalesce(varBusinessImpact, "")
             Height: =70
             Placeholder: ="Who is affected, how often, and what is blocked?"
             Type: =TextInputType.Multiline
@@ -123,6 +126,9 @@ Screens:
               Set(varTimeline, "");
               Set(varQuestion, "");
               Set(varDeveloperNotes, "");
+              Set(varRequestTitle, "");
+              Set(varProblemDescription, "");
+              Set(varBusinessImpact, "");
               Reset(txtRequestTitle);
               Reset(txtProblem);
               Reset(txtBusinessImpact);
@@ -353,10 +359,10 @@ Screens:
                           varChatText,
                           JSON(
                               {
-                                  title: Coalesce(txtProblem.Text, ""),
-                                  description: Coalesce(txtProblem.Text, ""),
+                                  title: Coalesce(txtRequestTitle.Text, varRequestTitle, ""),
+                                  description: Coalesce(txtProblem.Text, varProblemDescription, ""),
                                   category: Coalesce(varCategory, "Uncategorized"),
-                                  businessImpact: Coalesce(txtBusinessImpact.Text, ""),
+                                  businessImpact: Coalesce(txtBusinessImpact.Text, varBusinessImpact, ""),
                                   estimatedEffort: Coalesce(varEffort, ""),
                                   estimatedDuration: Coalesce(varTimeline, ""),
                                   additionalInformation: Coalesce(txtAdditionalInfo.Text, "")
@@ -382,6 +388,9 @@ Screens:
                   );
                   IfError(
                       Set(varParsedDraft, ParseJSON(varAgentResponse.response));
+                      Set(varRequestTitle, If(IsBlank(Text(varParsedDraft.title)), txtRequestTitle.Text, Text(varParsedDraft.title)));
+                      Set(varProblemDescription, If(IsBlank(Text(varParsedDraft.description)), txtProblem.Text, Text(varParsedDraft.description)));
+                      Set(varBusinessImpact, If(IsBlank(Text(varParsedDraft.businessImpact)), txtBusinessImpact.Text, Text(varParsedDraft.businessImpact)));
                       Set(varCategory, Coalesce(Text(varParsedDraft.category), "Uncategorized"));
                       Set(varEffort, Coalesce(Text(varParsedDraft.estimatedEffort), ""));
                       Set(varTimeline, Coalesce(Text(varParsedDraft.estimatedDuration), ""));
@@ -390,6 +399,9 @@ Screens:
                       Set(varConversationLog, Coalesce(varConversationLog, "Agent: Tell me what the requester needs. I will ask follow-up questions and fill the intake fields as we go.") & Char(10) & Char(10) & "You: " & varChatText & Char(10) & "Agent: " & varQuestion),
                       Notify("The intake agent did not return a usable response. Please try again.", NotificationType.Error)
                   );
+                  Reset(txtRequestTitle);
+                  Reset(txtProblem);
+                  Reset(txtBusinessImpact);
                   Reset(txtCategory);
                   Reset(txtEffort);
                   Reset(txtTimeline);

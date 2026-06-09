@@ -1046,7 +1046,7 @@
         "Rules": [
           {
             "Category": "Data",
-            "InvariantScript": "\"\"",
+            "InvariantScript": "Coalesce(varRequestTitle, \"\")",
             "Property": "Default",
             "RuleProviderType": "Unknown"
           },
@@ -2513,7 +2513,7 @@
         "Rules": [
           {
             "Category": "Data",
-            "InvariantScript": "\"\"",
+            "InvariantScript": "Coalesce(varProblemDescription, \"\")",
             "Property": "Default",
             "RuleProviderType": "Unknown"
           },
@@ -3980,7 +3980,7 @@
         "Rules": [
           {
             "Category": "Data",
-            "InvariantScript": "\"\"",
+            "InvariantScript": "Coalesce(varBusinessImpact, \"\")",
             "Property": "Default",
             "RuleProviderType": "Unknown"
           },
@@ -5835,7 +5835,7 @@
           },
           {
             "Category": "Behavior",
-            "InvariantScript": "Set(varCategory, \"\");\nSet(varEffort, \"\");\nSet(varTimeline, \"\");\nSet(varQuestion, \"\");\nSet(varDeveloperNotes, \"\");\nReset(txtRequestTitle);\nReset(txtProblem);\nReset(txtBusinessImpact);\nReset(txtAdditionalInfo);\nReset(txtCategory);\nReset(txtEffort);\nReset(txtTimeline);\nReset(txtDeveloperNotes)\n",
+            "InvariantScript": "Set(varCategory, \"\");\nSet(varEffort, \"\");\nSet(varTimeline, \"\");\nSet(varQuestion, \"\");\nSet(varDeveloperNotes, \"\");\nSet(varRequestTitle, \"\");\nSet(varProblemDescription, \"\");\nSet(varBusinessImpact, \"\");\nReset(txtRequestTitle);\nReset(txtProblem);\nReset(txtBusinessImpact);\nReset(txtAdditionalInfo);\nReset(txtCategory);\nReset(txtEffort);\nReset(txtTimeline);\nReset(txtDeveloperNotes)\n",
             "Property": "OnSelect",
             "RuleProviderType": "Unknown"
           }
@@ -6869,7 +6869,7 @@
           },
           {
             "Category": "Behavior",
-            "InvariantScript": "If(IsBlank(Trim(txtAgentMessage.Text)),\n    Notify(\"Type a message for the intake agent first.\", NotificationType.Warning),\n    Set(varChatText, Trim(txtAgentMessage.Text));\n    Set(\n        varAgentResponse,\n        IntakeCopilot_CanvasRun.Run(\n            varChatText,\n            JSON(\n                {\n                    title: Coalesce(txtProblem.Text, \"\"),\n                    description: Coalesce(txtProblem.Text, \"\"),\n                    category: Coalesce(varCategory, \"Uncategorized\"),\n                    businessImpact: Coalesce(txtBusinessImpact.Text, \"\"),\n                    estimatedEffort: Coalesce(varEffort, \"\"),\n                    estimatedDuration: Coalesce(varTimeline, \"\"),\n                    additionalInformation: Coalesce(txtAdditionalInfo.Text, \"\")\n                },\n                JSONFormat.Compact\n            ),\n            JSON(\n                Table(\n                    {\n                        role: \"context\",\n                        content: Coalesce(varConversationLog, \"\"),\n                        createdAt: Text(Now(), DateTimeFormat.UTC)\n                    },\n                    {\n                        role: \"user\",\n                        content: varChatText,\n                        createdAt: Text(Now(), DateTimeFormat.UTC)\n                    }\n                ),\n                JSONFormat.Compact\n            )\n        )\n    );\n    IfError(\n        Set(varParsedDraft, ParseJSON(varAgentResponse.response));\n        Set(varCategory, Coalesce(Text(varParsedDraft.category), \"Uncategorized\"));\n        Set(varEffort, Coalesce(Text(varParsedDraft.estimatedEffort), \"\"));\n        Set(varTimeline, Coalesce(Text(varParsedDraft.estimatedDuration), \"\"));\n        Set(varQuestion, Coalesce(Text(varParsedDraft.nextQuestion), \"I captured the latest message. Review the auto-filled fields and save the draft.\"));\n        Set(varDeveloperNotes, \"Developer notes: \" & Coalesce(Text(varParsedDraft.additionalInformation), \"\"));\n        Set(varConversationLog, Coalesce(varConversationLog, \"Agent: Tell me what the requester needs. I will ask follow-up questions and fill the intake fields as we go.\") & Char(10) & Char(10) & \"You: \" & varChatText & Char(10) & \"Agent: \" & varQuestion),\n        Notify(\"The intake agent did not return a usable response. Please try again.\", NotificationType.Error)\n    );\n    Reset(txtCategory);\n    Reset(txtEffort);\n    Reset(txtTimeline);\n    Reset(txtDeveloperNotes);\n    Reset(txtAgentTranscript);\n    Reset(txtAgentMessage)\n)\n",
+            "InvariantScript": "If(IsBlank(Trim(txtAgentMessage.Text)),\n    Notify(\"Type a message for the intake agent first.\", NotificationType.Warning),\n    Set(varChatText, Trim(txtAgentMessage.Text));\n    Set(\n        varAgentResponse,\n        IntakeCopilot_CanvasRun.Run(\n            varChatText,\n            JSON(\n                {\n                    title: Coalesce(txtRequestTitle.Text, varRequestTitle, \"\"),\n                    description: Coalesce(txtProblem.Text, varProblemDescription, \"\"),\n                    category: Coalesce(varCategory, \"Uncategorized\"),\n                    businessImpact: Coalesce(txtBusinessImpact.Text, varBusinessImpact, \"\"),\n                    estimatedEffort: Coalesce(varEffort, \"\"),\n                    estimatedDuration: Coalesce(varTimeline, \"\"),\n                    additionalInformation: Coalesce(txtAdditionalInfo.Text, \"\")\n                },\n                JSONFormat.Compact\n            ),\n            JSON(\n                Table(\n                    {\n                        role: \"context\",\n                        content: Coalesce(varConversationLog, \"\"),\n                        createdAt: Text(Now(), DateTimeFormat.UTC)\n                    },\n                    {\n                        role: \"user\",\n                        content: varChatText,\n                        createdAt: Text(Now(), DateTimeFormat.UTC)\n                    }\n                ),\n                JSONFormat.Compact\n            )\n        )\n    );\n    IfError(\n        Set(varParsedDraft, ParseJSON(varAgentResponse.response));\n        Set(varRequestTitle, If(IsBlank(Text(varParsedDraft.title)), txtRequestTitle.Text, Text(varParsedDraft.title)));\n        Set(varProblemDescription, If(IsBlank(Text(varParsedDraft.description)), txtProblem.Text, Text(varParsedDraft.description)));\n        Set(varBusinessImpact, If(IsBlank(Text(varParsedDraft.businessImpact)), txtBusinessImpact.Text, Text(varParsedDraft.businessImpact)));\n        Set(varCategory, Coalesce(Text(varParsedDraft.category), \"Uncategorized\"));\n        Set(varEffort, Coalesce(Text(varParsedDraft.estimatedEffort), \"\"));\n        Set(varTimeline, Coalesce(Text(varParsedDraft.estimatedDuration), \"\"));\n        Set(varQuestion, Coalesce(Text(varParsedDraft.nextQuestion), \"I captured the latest message. Review the auto-filled fields and save the draft.\"));\n        Set(varDeveloperNotes, \"Developer notes: \" & Coalesce(Text(varParsedDraft.additionalInformation), \"\"));\n        Set(varConversationLog, Coalesce(varConversationLog, \"Agent: Tell me what the requester needs. I will ask follow-up questions and fill the intake fields as we go.\") & Char(10) & Char(10) & \"You: \" & varChatText & Char(10) & \"Agent: \" & varQuestion),\n        Notify(\"The intake agent did not return a usable response. Please try again.\", NotificationType.Error)\n    );\n    Reset(txtRequestTitle);\n    Reset(txtProblem);\n    Reset(txtBusinessImpact);\n    Reset(txtCategory);\n    Reset(txtEffort);\n    Reset(txtTimeline);\n    Reset(txtDeveloperNotes);\n    Reset(txtAgentTranscript);\n    Reset(txtAgentMessage)\n)\n",
             "Property": "OnSelect",
             "RuleProviderType": "Unknown"
           }
