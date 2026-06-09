@@ -11,6 +11,7 @@ Use this checklist in `SPDEV-Dev2` for the `WorkManagementAgent` solution.
 | Solution unique name | `WorkManagementAgent` |
 | Solution ID | `5f0fcba3-5f63-f111-ab0c-7c1e521c7ea3` |
 | Canvas app ID | `b524aff3-cb3e-4baa-bedc-8e006b7bae74` |
+| Canvas app copy ID | `fc5b4e4a-c6eb-4cd6-9c59-1b1ea31f48a6` |
 | Code app ID | `e8a9c7f3-f052-4a32-ae0b-4d0dae5f91cb` |
 | Dataverse table logical name | `crb_intakerequest` |
 | Dataverse table ID | `6c428a0e-8d63-f111-ab0c-7c1e521c7ea3` |
@@ -130,6 +131,7 @@ Status: agent send, draft save, and submit status handling are complete. `Reques
 - Latest PDF merge/email smoke test passed: after selected PDFs and numeric sort order defaulted from screen display order were known, the agent returned the completion statement instead of asking what email service to use. The live prompts now assume Microsoft 365 Outlook for Power Platform email output unless the requester names a nonstandard service.
 - Latest Canvas layout polish is published: the auto-filled fields header and right column were moved higher, buttons were aligned, short generated fields were set to single-line inputs, and the paragraph/transcript fields were made taller to reduce inner scrolling. Fresh Canvas download reported zero parser and binding errors.
 - Latest platform-default prompt update is published: `IntakeCopilot_Run`, `IntakeCopilot_CanvasRun`, and the agent instructions now assume requests are for Power Platform solutions unless the requester explicitly names a non-Power Platform system. Round-trip solution export verified the rule in both workflow prompts and agent instruction files.
+- Comparison copy is created: `Request Intake Copilot Canvas - Agent Chat` / `fc5b4e4a-c6eb-4cd6-9c59-1b1ea31f48a6`. Directly embedding the existing Copilot Studio agent is currently blocked for this copied app because Studio does not expose the retired custom Copilot settings or the replacement M365 Copilot toggle in this environment. Details are in [canvas-agent-chat-copy.md](./canvas-agent-chat-copy.md).
 - Note for future package edits: updating only `Src/*.fx.yaml` is not enough; the packed app can still return the old formula from `Other/Src/*.pa.yaml`.
 - Older Power Apps admin API checks: app `GET`, `acquireLease`, and `releaseLease` work, but the current app document URI is read/list only. A package update through this API still needs a readable document URI for the patched `.msapp`.
 - Publish the app.

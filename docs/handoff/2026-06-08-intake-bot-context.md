@@ -11,6 +11,9 @@ Use this file when continuing the project from another computer or a fresh Codex
 - Solution unique name: `WorkManagementAgent`
 - Canvas app display name: `Request Intake Copilot Canvas`
 - Canvas app ID: `b524aff3-cb3e-4baa-bedc-8e006b7bae74`
+- Canvas comparison copy display name: `Request Intake Copilot Canvas - Agent Chat`
+- Canvas comparison copy app ID: `fc5b4e4a-c6eb-4cd6-9c59-1b1ea31f48a6`
+- Canvas comparison copy component name: `cr3d3_requestintakecopilotcanvasagentchat`
 - Canvas editor URL:
   `https://make.powerapps.com/e/543d442f-0b4a-e67b-89eb-1e32c0622907/canvas/?action=edit&form-factor=tablet&name=Request+Intake+Copilot+Canvas&solution-id=5f0fcba3-5f63-f111-ab0c-7c1e521c7ea3&app-id=%2Fproviders%2FMicrosoft.PowerApps%2Fapps%2Fb524aff3-cb3e-4baa-bedc-8e006b7bae74`
 - Canvas play URL:
@@ -126,6 +129,8 @@ There are two related implementations in this workspace.
 - Smoke-tested the PDF merge scenario in the published play app. After the requester specified selected PDFs and numeric sort order defaulted from screen display order, the agent returned `I have enough for initial triage. Review the generated fields, then save or submit the draft.` instead of asking what email service to use. It captured PDF library, file-size/performance, and email attachment constraints as developer notes.
 - Polished the published Canvas layout through unmanaged solution import after updating both Experimental layout copies. The auto-filled fields section now starts higher, action buttons align on a single row, short generated fields explicitly use single-line text inputs, and the problem, business impact, developer notes, and Copilot transcript boxes are taller to reduce internal scrolling. Fresh `pac canvas download` confirmed zero parser and binding errors.
 - Updated and published the live `IntakeCopilot_Run`, `IntakeCopilot_CanvasRun`, and `Request Intake Copilot` agent instructions so the agent assumes incoming requests are for the Power Platform team and should map to Power Apps, Power Automate, Dataverse, Power BI, Copilot Studio, Power Pages, or Microsoft 365 connector solutions unless the requester explicitly names a non-Power Platform system. Round-trip solution export verified the rule is present in both workflow prompts and the agent instruction files.
+- Created a separate Canvas app copy named `Request Intake Copilot Canvas - Agent Chat` in the `WorkManagementAgent` solution so the original `Request Intake Copilot Canvas` remains available for comparison. The copy was created by duplicating the Canvas component in an unpacked solution, assigning a new schema name/display name/identity, packing, importing, and publishing.
+- Investigated wiring the existing Copilot Studio agent directly into the copied Canvas app. Microsoft has discontinued adding the old custom Copilot/App Copilot feature and the Copilot control to new canvas apps as of February 2, 2026. The current Studio UI for this copied app does not expose `App Copilot`, `Copilot component`, `Edit in Copilot Studio`, or `M365 Copilot in canvas apps (Preview)` settings, even when opened with `enableM365CopilotSetting=true`. Keep using the wrapper-flow backed chat surface unless the tenant/environment later exposes Microsoft 365 Copilot for canvas apps or another supported embedding path.
 
 ## Important Local Files
 
@@ -206,6 +211,12 @@ Download latest Canvas package:
 
 ```powershell
 pac canvas download --environment 543d442f-0b4a-e67b-89eb-1e32c0622907 --name b524aff3-cb3e-4baa-bedc-8e006b7bae74 --file-name "canvas\RequestIntakeCopilotCanvas.msapp" --overwrite
+```
+
+Open the copied Canvas app for comparison:
+
+```powershell
+Start-Process "https://apps.powerapps.com/play/e/543d442f-0b4a-e67b-89eb-1e32c0622907/a/fc5b4e4a-c6eb-4cd6-9c59-1b1ea31f48a6"
 ```
 
 ## Continuation Notes
