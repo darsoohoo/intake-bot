@@ -4,6 +4,7 @@ dist
 canvas-current/
 canvas-current.msapp
 docs/plans/
+.agentworkstream/
 lancedb/
 models/
 rag/db/

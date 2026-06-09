@@ -49,7 +49,14 @@ function App() {
     [hasEstimateOverride, inferredDraft, overrides]
   );
   const readiness = useMemo(() => getReadiness(draft), [draft]);
-  const payload = useMemo(() => toPowerPlatformPayload(draft), [draft]);
+  const draftPayload = useMemo(
+    () => toPowerPlatformPayload(draft, { messages, status: "Draft" }),
+    [draft, messages]
+  );
+  const submittedPayload = useMemo(
+    () => toPowerPlatformPayload(draft, { messages, status: "Submitted" }),
+    [draft, messages]
+  );
 
   const sendMessage = () => {
     const trimmed = input.trim();
@@ -90,7 +97,7 @@ function App() {
   const saveDraft = () => {
     localStorage.setItem(
       "request-intake-copilot:draft",
-      JSON.stringify({ draft, messages, savedAt: new Date().toISOString() }, null, 2)
+      JSON.stringify({ payload: draftPayload, draft, messages, savedAt: new Date().toISOString() }, null, 2)
     );
     setSubmitState("Draft saved locally");
   };
@@ -99,13 +106,13 @@ function App() {
     const key = `request-intake-copilot:submission:${Date.now()}`;
     localStorage.setItem(
       key,
-      JSON.stringify({ payload, draft, messages, submittedAt: new Date().toISOString() }, null, 2)
+      JSON.stringify({ payload: submittedPayload, draft, messages, submittedAt: new Date().toISOString() }, null, 2)
     );
     setSubmitState(readiness.tone === "ready" ? "Submission staged" : "Submission staged with gaps");
   };
 
   const copyPayload = async () => {
-    await navigator.clipboard.writeText(JSON.stringify(payload, null, 2));
+    await navigator.clipboard.writeText(JSON.stringify(draftPayload, null, 2));
     setSubmitState("Payload copied");
   };
 

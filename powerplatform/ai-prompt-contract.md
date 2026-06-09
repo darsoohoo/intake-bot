@@ -1,6 +1,6 @@
 # AI Prompt Contract
 
-Use this contract for a Power Automate flow or Copilot Studio action that receives the conversation and returns structured intake data.
+Use this contract for the Copilot Studio agent tool described in [copilot-studio-agent.md](./copilot-studio-agent.md). The tool receives the conversation and returns structured intake data.
 
 ## Flow Inputs
 
@@ -72,11 +72,10 @@ Rules:
 }
 ```
 
-## Power Automate Shape
+## Copilot Studio Tool / Power Automate Shape
 
-1. Trigger: Power Apps (V2).
+1. Trigger: Copilot Studio agent tool, or Power Apps (V2) when calling from the app directly.
 2. Inputs: `conversationJson`, `currentDraftJson`, `lastUserMessage`.
 3. Action: AI Builder custom prompt or Copilot Studio action using the instruction above.
 4. Action: Parse JSON with the expected schema.
-5. Response to Power Apps: return `draftJson` and `nextQuestion`.
-
+5. Response to Copilot Studio or Power Apps: return `draftJson` and `nextQuestion`.

@@ -22,6 +22,13 @@ export type Urgency = "Low" | "Medium" | "High" | "Critical";
 
 export type RequestSize = "Small" | "Medium" | "Large" | "Extra Large";
 
+export type RequestStatus =
+  | "Draft"
+  | "Needs Review"
+  | "Submitted"
+  | "Accepted"
+  | "Rejected";
+
 export type IntakeDraft = {
   title: string;
   description: string;

@@ -4,6 +4,7 @@ import type {
   Readiness,
   RequestCategory,
   RequestSize,
+  RequestStatus,
   Urgency
 } from "./types";
 
@@ -363,7 +364,13 @@ export function getNextQuestion(draft: IntakeDraft): string {
   return "I have enough to draft the request. Review the fields, adjust anything that looks off, and submit when ready.";
 }
 
-export function toPowerPlatformPayload(draft: IntakeDraft) {
+export function toPowerPlatformPayload(
+  draft: IntakeDraft,
+  options: {
+    messages?: IntakeMessage[];
+    status?: RequestStatus;
+  } = {}
+) {
   return {
     crb_title: draft.title,
     crb_description: draft.description,
@@ -381,7 +388,9 @@ export function toPowerPlatformPayload(draft: IntakeDraft) {
     crb_estimatedduration: draft.estimatedDuration,
     crb_confidence: draft.confidence,
     crb_missingrequirements: draft.missingRequirements.join("; "),
-    crb_additionalinformation: draft.additionalInformation
+    crb_additionalinformation: draft.additionalInformation,
+    crb_conversationjson: JSON.stringify(options.messages ?? []),
+    crb_status: options.status ?? "Draft"
   };
 }
 
