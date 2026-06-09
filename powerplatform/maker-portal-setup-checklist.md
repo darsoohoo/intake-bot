@@ -113,12 +113,13 @@ Portal path if the flow/tool needs to be recreated:
 
 Status: agent send, draft save, and submit status handling are complete. `Request Intakes` is connected as a Dataverse data source, `Save request draft` patches custom status `Draft`, `Submit` patches custom status `Submitted`, and `btnSendAgentMessage.OnSelect` calls `IntakeCopilot_CanvasRun`.
 
-- Wrapper flow `IntakeCopilot_CanvasRun` has been created, activated, added to `WorkManagementAgent`, and associated to the Canvas app with `Add-AdminFlowPowerAppContext`.
+- Wrapper flow `IntakeCopilot_CanvasRun` has been created, activated, added to `WorkManagementAgent`, associated to the Canvas app with `Add-AdminFlowPowerAppContext`, and added inside Power Apps Studio from `Power Automate` > `Add flow` so the Canvas package includes the `shared_logicflows` data source.
 - The Canvas formula was updated through unmanaged solution import after patching both Experimental layout copies: `Src/Screen1.fx.yaml` and `Other/Src/Screen1.pa.yaml`.
-- Fresh `pac canvas download` confirmed `btnSendAgentMessage.OnSelect` contains `IntakeCopilot_CanvasRun.Run(...)`.
+- Fresh `pac canvas download` confirmed `btnSendAgentMessage.OnSelect` contains `IntakeCopilot_CanvasRun.Run(...)` and the app has no parser or binding errors.
 - Fresh `pac canvas download` confirmed `btnSubmitRequest.OnSelect` exists and both save paths patch `Status (crb_status)` with `Status (Request Intakes)`. AppChecker reported no formula-level errors.
 - Manual play-app smoke test found the initial wider submit button overlapped the Copilot transcript area. The live button is now shortened to `Submit` with `Width = 80`, ending before the right-hand panel.
 - Completed smoke test for submit: published Canvas play app created Dataverse row `ad6f3671-b963-f111-ab0c-7c1e521c7ea3` for `Smoke submitted status 2026-06-09T04-12-31-697Z` with `crb_status` = `Submitted`.
+- Completed smoke test for `Send to agent`: published Canvas play app invoked `IntakeCopilot_CanvasRun`, flow run `08584205844564420110835111213CU21` succeeded at `2026-06-09T16:27:25Z`, and the transcript updated with the agent follow-up question.
 - Note for future package edits: updating only `Src/*.fx.yaml` is not enough; the packed app can still return the old formula from `Other/Src/*.pa.yaml`.
 - Older Power Apps admin API checks: app `GET`, `acquireLease`, and `releaseLease` work, but the current app document URI is read/list only. A package update through this API still needs a readable document URI for the patched `.msapp`.
 - Publish the app.

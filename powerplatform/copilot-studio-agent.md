@@ -157,7 +157,7 @@ Best next step for the existing published Canvas app:
 1. Publish the Copilot Studio agent in the same environment as the Canvas app.
 2. Add the agent to the Canvas app as a custom copilot if you want a built-in Copilot side panel.
 3. Keep the existing on-screen chat controls if you want the intake chat embedded in the screen layout.
-4. Replace the rule-based `btnSendAgentMessage.OnSelect` formula with a call to `IntakeCopilot_Run`.
+4. Replace the rule-based `btnSendAgentMessage.OnSelect` formula with a call to the Canvas-callable wrapper flow `IntakeCopilot_CanvasRun`. `IntakeCopilot_Run` remains the Copilot Studio agent tool, but it is not exposed directly as a Canvas flow data source in this environment.
 5. Patch the draft to Dataverse when the user selects `Save request draft` or `Submit`.
 
 ### Code app

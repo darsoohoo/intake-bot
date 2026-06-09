@@ -381,7 +381,7 @@ Screens:
                       Set(varEffort, Coalesce(Text(varParsedDraft.estimatedEffort), ""));
                       Set(varTimeline, Coalesce(Text(varParsedDraft.estimatedDuration), ""));
                       Set(varQuestion, Coalesce(Text(varParsedDraft.nextQuestion), "I captured the latest message. Review the auto-filled fields and save the draft."));
-                      Set(varDeveloperNotes, "Developer notes: " & Coalesce(Text(varParsedDraft.additionalInformation), ""));
+                      Set(varDeveloperNotes, "Developer notes: " & Coalesce(Text(varParsedDraft.additionalInformation), "") & If(IsBlank(Text(varParsedDraft.acceptanceCriteria)), "", Char(10) & Char(10) & "Acceptance criteria: " & Text(varParsedDraft.acceptanceCriteria)));
                       Set(varConversationLog, Coalesce(varConversationLog, "Agent: Tell me what the requester needs. I will ask follow-up questions and fill the intake fields as we go.") & Char(10) & Char(10) & "You: " & varChatText & Char(10) & "Agent: " & varQuestion),
                       Notify("The intake agent did not return a usable response. Please try again.", NotificationType.Error)
                   );

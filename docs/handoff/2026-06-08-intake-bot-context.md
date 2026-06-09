@@ -110,6 +110,8 @@ There are two related implementations in this workspace.
 - Refreshed `canvas/RequestIntakeCopilotCanvas-src` and `canvas/RequestIntakeCopilotCanvas.msapp` from the updated live app.
 - Ran local code-app validation: `npm.cmd run lint` passed and `npm.cmd run build` passed. Vite emitted a warning that Node.js `20.12.2` is below its recommended `20.19+` / `22.12+`, but the build completed.
 - Downloaded the latest published Canvas app into `canvas/RequestIntakeCopilotCanvas-src` and latest `.msapp` into `canvas/RequestIntakeCopilotCanvas.msapp`.
+- Fixed the live Canvas editor error on `btnSendAgentMessage`: Power Apps Studio reported `Run` as unknown because `IntakeCopilot_CanvasRun` was associated as an in-context flow but had not been added as an app data source. Added it from Studio's `Power Automate` pane under `Add flow` > `Instant`, saved, and published. A fresh Canvas download now includes a `shared_logicflows` local connection reference and a `References/DataSources.json` entry for `IntakeCopilot_CanvasRun`.
+- Completed smoke test for `Send to agent` after that fix. The published play app invoked wrapper flow run `08584205844564420110835111213CU21`; the run succeeded at `2026-06-09T16:27:25Z`, and the transcript updated with the agent follow-up: `What error message do you receive when attempting to export the Power BI report?`
 
 ## Important Local Files
 
