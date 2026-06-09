@@ -124,6 +124,7 @@ Status: agent send, draft save, and submit status handling are complete. `Reques
 - Canvas send update: `conversationJson` now sends the prior transcript as context plus the latest user message, and the developer-notes update no longer parses optional `acceptanceCriteria` directly.
 - Latest travel-documentation smoke test passed the important checks: no generic Bing Maps question, no exact home-address request, no array/type runtime error.
 - Latest OneDrive storage smoke test passed: after the mileage reimbursement screenshot request and `onedrive`, the agent returned `I have enough for initial triage. Review the generated fields, then save or submit the draft.` instead of asking product or implementation-discovery questions.
+- Latest calendar-source smoke test passed: when the requester answered `automatically would be nice but i can enter manually as well`, the agent interpreted it as Outlook calendar lookup with manual fallback and returned the completion statement instead of asking `What specific data or process do you want to automate?`.
 - Note for future package edits: updating only `Src/*.fx.yaml` is not enough; the packed app can still return the old formula from `Other/Src/*.pa.yaml`.
 - Older Power Apps admin API checks: app `GET`, `acquireLease`, and `releaseLease` work, but the current app document URI is read/list only. A package update through this API still needs a readable document URI for the patched `.msapp`.
 - Publish the app.
