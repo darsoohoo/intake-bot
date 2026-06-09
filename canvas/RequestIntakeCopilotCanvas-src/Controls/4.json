@@ -913,7 +913,7 @@
           },
           {
             "Category": "Design",
-            "InvariantScript": "112",
+            "InvariantScript": "82",
             "Property": "Y",
             "RuleProviderType": "Unknown"
           },
@@ -1154,7 +1154,7 @@
           },
           {
             "Category": "Design",
-            "InvariantScript": "140",
+            "InvariantScript": "132",
             "Property": "Y",
             "RuleProviderType": "Unknown"
           },
@@ -1402,7 +1402,7 @@
           },
           {
             "Category": "Design",
-            "InvariantScript": "154",
+            "InvariantScript": "132",
             "Property": "Y",
             "RuleProviderType": "Unknown"
           },
@@ -1650,7 +1650,7 @@
           },
           {
             "Category": "Design",
-            "InvariantScript": "154",
+            "InvariantScript": "132",
             "Property": "Y",
             "RuleProviderType": "Unknown"
           },
@@ -1891,7 +1891,7 @@
           },
           {
             "Category": "Design",
-            "InvariantScript": "182",
+            "InvariantScript": "152",
             "Property": "Y",
             "RuleProviderType": "Unknown"
           },
@@ -2132,7 +2132,7 @@
           },
           {
             "Category": "Design",
-            "InvariantScript": "182",
+            "InvariantScript": "152",
             "Property": "Y",
             "RuleProviderType": "Unknown"
           },
@@ -2621,7 +2621,7 @@
           },
           {
             "Category": "Design",
-            "InvariantScript": "226",
+            "InvariantScript": "214",
             "Property": "Y",
             "RuleProviderType": "Unknown"
           },
@@ -2633,7 +2633,7 @@
           },
           {
             "Category": "Design",
-            "InvariantScript": "100",
+            "InvariantScript": "144",
             "Property": "Height",
             "RuleProviderType": "Unknown"
           },
@@ -2869,7 +2869,7 @@
           },
           {
             "Category": "Design",
-            "InvariantScript": "246",
+            "InvariantScript": "228",
             "Property": "Y",
             "RuleProviderType": "Unknown"
           },
@@ -3110,7 +3110,7 @@
           },
           {
             "Category": "Design",
-            "InvariantScript": "274",
+            "InvariantScript": "244",
             "Property": "Y",
             "RuleProviderType": "Unknown"
           },
@@ -3358,7 +3358,7 @@
           },
           {
             "Category": "Design",
-            "InvariantScript": "338",
+            "InvariantScript": "308",
             "Property": "Y",
             "RuleProviderType": "Unknown"
           },
@@ -3606,7 +3606,7 @@
           },
           {
             "Category": "Design",
-            "InvariantScript": "342",
+            "InvariantScript": "374",
             "Property": "Y",
             "RuleProviderType": "Unknown"
           },
@@ -3847,7 +3847,7 @@
           },
           {
             "Category": "Design",
-            "InvariantScript": "366",
+            "InvariantScript": "336",
             "Property": "Y",
             "RuleProviderType": "Unknown"
           },
@@ -3859,7 +3859,7 @@
           },
           {
             "Category": "Design",
-            "InvariantScript": "126",
+            "InvariantScript": "158",
             "Property": "Height",
             "RuleProviderType": "Unknown"
           },
@@ -4088,7 +4088,7 @@
           },
           {
             "Category": "Design",
-            "InvariantScript": "370",
+            "InvariantScript": "402",
             "Property": "Y",
             "RuleProviderType": "Unknown"
           },
@@ -4100,7 +4100,7 @@
           },
           {
             "Category": "Design",
-            "InvariantScript": "70",
+            "InvariantScript": "94",
             "Property": "Height",
             "RuleProviderType": "Unknown"
           },
@@ -4336,7 +4336,7 @@
           },
           {
             "Category": "Design",
-            "InvariantScript": "456",
+            "InvariantScript": "512",
             "Property": "Y",
             "RuleProviderType": "Unknown"
           },
@@ -4577,7 +4577,7 @@
           },
           {
             "Category": "Design",
-            "InvariantScript": "484",
+            "InvariantScript": "540",
             "Property": "Y",
             "RuleProviderType": "Unknown"
           },
@@ -4589,7 +4589,7 @@
           },
           {
             "Category": "Design",
-            "InvariantScript": "80",
+            "InvariantScript": "82",
             "Property": "Height",
             "RuleProviderType": "Unknown"
           },
@@ -5080,7 +5080,7 @@
           },
           {
             "Category": "Design",
-            "InvariantScript": "520",
+            "InvariantScript": "514",
             "Property": "Y",
             "RuleProviderType": "Unknown"
           },
@@ -5321,7 +5321,7 @@
           },
           {
             "Category": "Design",
-            "InvariantScript": "548",
+            "InvariantScript": "540",
             "Property": "Y",
             "RuleProviderType": "Unknown"
           },
@@ -5333,7 +5333,7 @@
           },
           {
             "Category": "Design",
-            "InvariantScript": "82",
+            "InvariantScript": "156",
             "Property": "Height",
             "RuleProviderType": "Unknown"
           },
@@ -5554,13 +5554,13 @@
           },
           {
             "Category": "Design",
-            "InvariantScript": "590",
+            "InvariantScript": "636",
             "Property": "Y",
             "RuleProviderType": "Unknown"
           },
           {
             "Category": "Design",
-            "InvariantScript": "180",
+            "InvariantScript": "170",
             "Property": "Width",
             "RuleProviderType": "Unknown"
           },
@@ -5775,19 +5775,19 @@
           },
           {
             "Category": "Design",
-            "InvariantScript": "246",
+            "InvariantScript": "230",
             "Property": "X",
             "RuleProviderType": "Unknown"
           },
           {
             "Category": "Design",
-            "InvariantScript": "590",
+            "InvariantScript": "636",
             "Property": "Y",
             "RuleProviderType": "Unknown"
           },
           {
             "Category": "Design",
-            "InvariantScript": "130",
+            "InvariantScript": "120",
             "Property": "Width",
             "RuleProviderType": "Unknown"
           },
@@ -6009,19 +6009,19 @@
           },
           {
             "Category": "Design",
-            "InvariantScript": "390",
+            "InvariantScript": "362",
             "Property": "X",
             "RuleProviderType": "Unknown"
           },
           {
             "Category": "Design",
-            "InvariantScript": "590",
+            "InvariantScript": "636",
             "Property": "Y",
             "RuleProviderType": "Unknown"
           },
           {
             "Category": "Design",
-            "InvariantScript": "200",
+            "InvariantScript": "180",
             "Property": "Width",
             "RuleProviderType": "Unknown"
           },
@@ -6203,19 +6203,19 @@
           },
           {
             "Category": "Design",
-            "InvariantScript": "80",
+            "InvariantScript": "84",
             "Property": "Width",
             "RuleProviderType": "Unknown"
           },
           {
             "Category": "Design",
-            "InvariantScript": "600",
+            "InvariantScript": "554",
             "Property": "X",
             "RuleProviderType": "Unknown"
           },
           {
             "Category": "Design",
-            "InvariantScript": "590",
+            "InvariantScript": "636",
             "Property": "Y",
             "RuleProviderType": "Unknown"
           },
@@ -6582,7 +6582,7 @@
           },
           {
             "Category": "Design",
-            "InvariantScript": "640",
+            "InvariantScript": "708",
             "Property": "Y",
             "RuleProviderType": "Unknown"
           },
@@ -6815,7 +6815,7 @@
           },
           {
             "Category": "Design",
-            "InvariantScript": "646",
+            "InvariantScript": "714",
             "Property": "Y",
             "RuleProviderType": "Unknown"
           },
@@ -7057,7 +7057,7 @@
           },
           {
             "Category": "Design",
-            "InvariantScript": "650",
+            "InvariantScript": "696",
             "Property": "Y",
             "RuleProviderType": "Unknown"
           },
@@ -7069,7 +7069,7 @@
           },
           {
             "Category": "Design",
-            "InvariantScript": "72",
+            "InvariantScript": "56",
             "Property": "Height",
             "RuleProviderType": "Unknown"
           },

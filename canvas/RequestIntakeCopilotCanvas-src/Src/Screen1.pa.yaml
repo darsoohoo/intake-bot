@@ -41,9 +41,10 @@ Screens:
             Default: =Coalesce(varRequestTitle, "")
             Height: =44
             Placeholder: ="Short title for the request"
+            Type: =TextInputType.SingleLine
             Width: =570
             X: =48
-            Y: =140
+            Y: =132
       - lblProblem:
           Control: ModernText@1.0.0
           Properties:
@@ -56,12 +57,12 @@ Screens:
           Control: ModernTextInput@1.1.0
           Properties:
             Default: =Coalesce(varProblemDescription, "")
-            Height: =100
+            Height: =144
             Placeholder: ="Describe what is happening, what you need, or what changed."
             Type: =TextInputType.Multiline
             Width: =570
             X: =48
-            Y: =226
+            Y: =214
       - lblBusinessImpact:
           Control: ModernText@1.0.0
           Properties:
@@ -69,17 +70,17 @@ Screens:
             Text: ="Business impact"
             Width: =300
             X: =48
-            Y: =342
+            Y: =374
       - txtBusinessImpact:
           Control: ModernTextInput@1.1.0
           Properties:
             Default: =Coalesce(varBusinessImpact, "")
-            Height: =70
+            Height: =94
             Placeholder: ="Who is affected, how often, and what is blocked?"
             Type: =TextInputType.Multiline
             Width: =570
             X: =48
-            Y: =370
+            Y: =402
       - lblAdditionalInfo:
           Control: ModernText@1.0.0
           Properties:
@@ -87,16 +88,16 @@ Screens:
             Text: ="Additional context"
             Width: =300
             X: =48
-            Y: =456
+            Y: =512
       - txtAdditionalInfo:
           Control: ModernTextInput@1.1.0
           Properties:
-            Height: =80
+            Height: =82
             Placeholder: ="Systems, URLs, screenshots, deadlines, examples, or constraints."
             Type: =TextInputType.Multiline
             Width: =570
             X: =48
-            Y: =484
+            Y: =540
       - btnAnalyze:
           Control: ModernButton@1.0.0
           Properties:
@@ -113,9 +114,9 @@ Screens:
               Reset(txtTimeline);
               Reset(txtDeveloperNotes)
             Text: ="Analyze request"
-            Width: =180
+            Width: =170
             X: =48
-            Y: =590
+            Y: =636
       - btnClear:
           Control: ModernButton@1.0.0
           Properties:
@@ -138,19 +139,19 @@ Screens:
               Reset(txtTimeline);
               Reset(txtDeveloperNotes)
             Text: ="Clear"
-            Width: =130
-            X: =246
-            Y: =590
+            Width: =120
+            X: =230
+            Y: =636
       - lblAgentQuestion:
           Control: ModernText@1.0.0
           Properties:
-            Height: =72
+            Height: =56
             Size: =14
             Text: |
               ="Agent prompt: " & Coalesce(varQuestion, "Describe the request, then use Analyze request to generate triage fields.")
             Width: =570
             X: =48
-            Y: =650
+            Y: =696
       - lblAutoFields:
           Control: ModernText@1.0.0
           Properties:
@@ -159,7 +160,7 @@ Screens:
             Text: ="Auto-filled request fields"
             Width: =520
             X: =680
-            Y: =112
+            Y: =82
       - lblCategory:
           Control: ModernText@1.0.0
           Properties:
@@ -167,16 +168,17 @@ Screens:
             Text: ="Category"
             Width: =260
             X: =680
-            Y: =154
+            Y: =132
       - txtCategory:
           Control: ModernTextInput@1.1.0
           Properties:
             Default: =Coalesce(varCategory, "")
             Height: =44
             Placeholder: ="Generated category"
+            Type: =TextInputType.SingleLine
             Width: =285
             X: =680
-            Y: =182
+            Y: =152
       - lblEffort:
           Control: ModernText@1.0.0
           Properties:
@@ -184,16 +186,17 @@ Screens:
             Text: ="Estimated effort"
             Width: =260
             X: =995
-            Y: =154
+            Y: =132
       - txtEffort:
           Control: ModernTextInput@1.1.0
           Properties:
             Default: =Coalesce(varEffort, "")
             Height: =44
             Placeholder: ="Generated effort"
+            Type: =TextInputType.SingleLine
             Width: =280
             X: =995
-            Y: =182
+            Y: =152
       - lblTimeline:
           Control: ModernText@1.0.0
           Properties:
@@ -201,16 +204,17 @@ Screens:
             Text: ="Likely timeline"
             Width: =260
             X: =680
-            Y: =246
+            Y: =228
       - txtTimeline:
           Control: ModernTextInput@1.1.0
           Properties:
             Default: =Coalesce(varTimeline, "")
             Height: =44
             Placeholder: ="Generated timeline"
+            Type: =TextInputType.SingleLine
             Width: =595
             X: =680
-            Y: =274
+            Y: =244
       - lblDeveloperNotes:
           Control: ModernText@1.0.0
           Properties:
@@ -218,17 +222,17 @@ Screens:
             Text: ="Additional developer notes"
             Width: =420
             X: =680
-            Y: =338
+            Y: =308
       - txtDeveloperNotes:
           Control: ModernTextInput@1.1.0
           Properties:
             Default: =Coalesce(varDeveloperNotes, "")
-            Height: =126
+            Height: =158
             Placeholder: ="Generated notes for developers"
             Type: =TextInputType.Multiline
             Width: =595
             X: =680
-            Y: =366
+            Y: =336
       - lblChecklist:
           Control: ModernText@1.0.0
           Properties:
@@ -275,9 +279,9 @@ Screens:
               );
               Notify("Request draft saved to Dataverse.", NotificationType.Success)
             Text: ="Save request draft"
-            Width: =200
-            X: =390
-            Y: =590
+            Width: =180
+            X: =362
+            Y: =636
       - btnSubmitRequest:
           Control: ModernButton@1.0.0
           Properties:
@@ -313,9 +317,9 @@ Screens:
               );
               Notify("Request submitted to Dataverse.", NotificationType.Success)
             Text: ="Submit"
-            Width: =80
-            X: =600
-            Y: =590
+            Width: =84
+            X: =554
+            Y: =636
       - lblConversation:
           Control: ModernText@1.0.0
           Properties:
@@ -324,18 +328,18 @@ Screens:
             Text: ="Copilot messages"
             Width: =300
             X: =680
-            Y: =520
+            Y: =514
       - txtAgentTranscript:
           Control: ModernTextInput@1.1.0
           Properties:
             Default: |
               =Coalesce(varConversationLog, "Agent: Tell me what the requester needs. I will ask follow-up questions and fill the intake fields as we go.")
             DisplayMode: =DisplayMode.View
-            Height: =82
+            Height: =156
             Type: =TextInputType.Multiline
             Width: =595
             X: =680
-            Y: =548
+            Y: =540
       - txtAgentMessage:
           Control: ModernTextInput@1.1.0
           Properties:
@@ -344,7 +348,7 @@ Screens:
             Type: =TextInputType.Multiline
             Width: =405
             X: =680
-            Y: =640
+            Y: =708
       - btnSendAgentMessage:
           Control: ModernButton@1.0.0
           Properties:
@@ -412,4 +416,4 @@ Screens:
             Text: ="Send to agent"
             Width: =175
             X: =1100
-            Y: =646
+            Y: =714
