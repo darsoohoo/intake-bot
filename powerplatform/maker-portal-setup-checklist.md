@@ -120,6 +120,9 @@ Status: agent send, draft save, and submit status handling are complete. `Reques
 - Manual play-app smoke test found the initial wider submit button overlapped the Copilot transcript area. The live button is now shortened to `Submit` with `Width = 80`, ending before the right-hand panel.
 - Completed smoke test for submit: published Canvas play app created Dataverse row `ad6f3671-b963-f111-ab0c-7c1e521c7ea3` for `Smoke submitted status 2026-06-09T04-12-31-697Z` with `crb_status` = `Submitted`.
 - Completed smoke test for `Send to agent`: published Canvas play app invoked `IntakeCopilot_CanvasRun`, flow run `08584205844564420110835111213CU21` succeeded at `2026-06-09T16:27:25Z`, and the transcript updated with the agent follow-up question.
+- Prompt tuning update: both `IntakeCopilot_Run` and `IntakeCopilot_CanvasRun` now instruct the agent to retain conversation context, interpret short answers as answers to the previous question, avoid redundant tool/platform questions, avoid asking for personal concrete values during intake, and return strings for every field except `missingRequirements`.
+- Canvas send update: `conversationJson` now sends the prior transcript as context plus the latest user message, and the developer-notes update no longer parses optional `acceptanceCriteria` directly.
+- Latest travel-documentation smoke test passed the important checks: no generic Bing Maps question, no exact home-address request, no array/type runtime error.
 - Note for future package edits: updating only `Src/*.fx.yaml` is not enough; the packed app can still return the old formula from `Other/Src/*.pa.yaml`.
 - Older Power Apps admin API checks: app `GET`, `acquireLease`, and `releaseLease` work, but the current app document URI is read/list only. A package update through this API still needs a readable document URI for the patched `.msapp`.
 - Publish the app.
