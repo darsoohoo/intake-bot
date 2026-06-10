@@ -89,7 +89,9 @@ For the exact maker-portal sequence and known environment IDs, use [powerplatfor
 
 Current `SPDEV-Dev2` status: the `Request Intake` Dataverse table, `Request Intake Copilot` agent, `IntakeCopilot_Run` workflow tool, and Canvas wrapper flow are provisioned in the `WorkManagementAgent` solution. The Canvas app saves drafts to Dataverse, includes a `Submit` button that patches the custom status choice as `Submitted`, and `btnSendAgentMessage` calls `IntakeCopilot_CanvasRun`.
 
-For a code app flow hookup, initialize the app first, then add the solution-aware Power Apps-triggered flow:
+The code app is also connected to `IntakeCopilot_CanvasRun` in `SPDEV-Dev2`. When hosted in Power Apps, the chat sends the latest message, current draft, and conversation history to the flow. When running locally without Power Apps connector context, the app falls back to the local intake engine so development still works.
+
+For future code app flow hookups, initialize the app first, then add the solution-aware Power Apps-triggered flow:
 
 ```powershell
 npx.cmd power-apps add-flow --environment-id <environment-id> --flow-id <flow-guid>

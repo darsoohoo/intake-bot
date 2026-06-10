@@ -84,7 +84,16 @@ const categorySignals: Record<RequestCategory, string[]> = {
   ],
   Automation: [
     "automate",
+    "automatically",
+    "bulk",
+    "combine",
+    "document",
+    "download each",
+    "generate",
+    "merge",
     "manual",
+    "one click",
+    "pdf",
     "workflow",
     "approval",
     "route",
@@ -187,7 +196,7 @@ export function analyzeMessages(messages: IntakeMessage[]): IntakeDraft {
   const first = userTexts[0] ?? "";
   const category = inferCategory(combined);
   const urgency = inferUrgency(combined);
-  const derived: IntakeDraft = {
+  const derived: IntakeDraft = applyContextualAnswers(messages, {
     ...emptyDraft,
     title: makeTitle(first),
     description: summarizeDescription(userTexts),
@@ -205,7 +214,12 @@ export function analyzeMessages(messages: IntakeMessage[]): IntakeDraft {
       "risk",
       "compliance",
       "cannot",
-      "can't"
+      "can't",
+      "separate",
+      "separately",
+      "slow",
+      "tedious",
+      "time"
     ]),
     urgency,
     desiredOutcome: inferDesiredOutcome(combined, category),
@@ -232,7 +246,7 @@ export function analyzeMessages(messages: IntakeMessage[]): IntakeDraft {
       "flow"
     ]),
     acceptanceCriteria: buildAcceptanceCriteria(combined, category)
-  };
+  });
 
   return finalizeDraft(derived);
 }
@@ -588,10 +602,26 @@ function summarizeDescription(userTexts: string[]): string {
 }
 
 function inferAffectedArea(text: string): string {
+  const appBeforeUrl = text.match(
+    /(?:for|in|on)\s+(?:the\s+)?([a-z0-9][a-z0-9\s/&-]{2,64}?)(?:\s+app)?\s+https?:\/\//i
+  );
+
+  if (appBeforeUrl?.[1]) {
+    return normalizeAffectedArea(appBeforeUrl[1]);
+  }
+
+  const namedApp = text.match(
+    /(?:for|in|on|the)\s+(?:the\s+)?([a-z0-9][a-z0-9\s/&-]{2,64}\s+app)\b/i
+  );
+
+  if (namedApp?.[1]) {
+    return normalizeAffectedArea(namedApp[1]);
+  }
+
   const namedCanvasApp = text.match(/([a-z0-9][a-z0-9\s/&-]{2,64}\s+canvas app)/i);
 
   if (namedCanvasApp?.[1]) {
-    return namedCanvasApp[1].trim();
+    return normalizeAffectedArea(namedCanvasApp[1]);
   }
 
   const found = affectedAreaSignals.find((signal) =>
@@ -606,7 +636,15 @@ function inferAffectedArea(text: string): string {
     /(?:app|application|process|workflow|system|form|report|table)\s+(?:called|named|for)?\s*([a-z0-9][a-z0-9\s/&-]{2,48})/i
   );
 
-  return match?.[1]?.trim() ?? "";
+  if (match?.[1]) {
+    return normalizeAffectedArea(match[1]);
+  }
+
+  if (text.toLowerCase().includes("apps.powerapps.com")) {
+    return "Power Apps app";
+  }
+
+  return "";
 }
 
 function inferUsersAffected(text: string): string {
@@ -698,4 +736,167 @@ function pickSentence(text: string, keywords: string[]): string {
 
 function containsAny(text: string, values: string[]): boolean {
   return values.some((value) => text.includes(value));
+}
+
+function applyContextualAnswers(
+  messages: IntakeMessage[],
+  draft: IntakeDraft
+): IntakeDraft {
+  const updated = { ...draft };
+
+  messages.forEach((message, index) => {
+    if (message.role !== "user") {
+      return;
+    }
+
+    const answer = message.content.trim();
+    const prompt = findPreviousAssistantPrompt(messages, index);
+
+    if (!answer || !prompt) {
+      return;
+    }
+
+    if (asksForAffectedArea(prompt)) {
+      const affectedArea = extractAffectedAreaAnswer(answer);
+      if (affectedArea) {
+        updated.affectedArea = affectedArea;
+      }
+    }
+
+    if (asksForCategory(prompt)) {
+      const category = inferCategory(answer);
+      if (category !== "Uncategorized") {
+        updated.category = category;
+      }
+    }
+
+    if (asksForBusinessImpact(prompt)) {
+      updated.businessImpact = normalizeFreeTextAnswer(answer);
+    }
+
+    if (asksForDesiredOutcome(prompt)) {
+      updated.desiredOutcome = normalizeFreeTextAnswer(answer);
+    }
+
+    if (asksForUsersAffected(prompt)) {
+      updated.usersAffected = normalizeFreeTextAnswer(answer);
+    }
+
+    if (asksForAcceptanceCriteria(prompt)) {
+      updated.acceptanceCriteria = normalizeFreeTextAnswer(answer);
+    }
+
+    if (asksForDependencies(prompt)) {
+      updated.dependencies = normalizeFreeTextAnswer(answer);
+    }
+
+    if (asksForConstraints(prompt)) {
+      updated.constraints = normalizeFreeTextAnswer(answer);
+    }
+  });
+
+  return updated;
+}
+
+function findPreviousAssistantPrompt(
+  messages: IntakeMessage[],
+  userMessageIndex: number
+): string {
+  for (let index = userMessageIndex - 1; index >= 0; index -= 1) {
+    const message = messages[index];
+    if (message?.role === "assistant") {
+      return message.content.toLowerCase();
+    }
+  }
+
+  return "";
+}
+
+function asksForAffectedArea(prompt: string): boolean {
+  return containsAny(prompt, [
+    "which app, process, table, report, or data source is affected",
+    "affected app",
+    "affected process",
+    "affected data source",
+    "which app"
+  ]);
+}
+
+function asksForCategory(prompt: string): boolean {
+  return containsAny(prompt, ["what type of request", "bug, enhancement"]);
+}
+
+function asksForBusinessImpact(prompt: string): boolean {
+  return containsAny(prompt, ["business problem", "business impact"]);
+}
+
+function asksForDesiredOutcome(prompt: string): boolean {
+  return containsAny(prompt, ["what should be true", "expected outcome"]);
+}
+
+function asksForUsersAffected(prompt: string): boolean {
+  return containsAny(prompt, ["which users or teams", "who is affected"]);
+}
+
+function asksForAcceptanceCriteria(prompt: string): boolean {
+  return containsAny(prompt, ["what would you check", "confirm the work is done"]);
+}
+
+function asksForDependencies(prompt: string): boolean {
+  return containsAny(prompt, [
+    "are there dependencies",
+    "approvals, integrations",
+    "data migrations"
+  ]);
+}
+
+function asksForConstraints(prompt: string): boolean {
+  return containsAny(prompt, ["is there a deadline", "compliance concern", "release window"]);
+}
+
+function extractAffectedAreaAnswer(answer: string): string {
+  const beforeUrl = answer.split(/https?:\/\//i)[0] ?? answer;
+  const appPhrase =
+    beforeUrl.match(/(?:this is for|for|in|on)\s+(?:the\s+)?(.+)/i)?.[1] ??
+    beforeUrl.match(/(?:the\s+)?([a-z0-9][a-z0-9\s/&-]{2,64}\s+app)\b/i)?.[1] ??
+    beforeUrl;
+
+  const normalized = normalizeAffectedArea(appPhrase);
+
+  if (normalized) {
+    return normalized;
+  }
+
+  if (answer.toLowerCase().includes("apps.powerapps.com")) {
+    return "Power Apps app";
+  }
+
+  return "";
+}
+
+function normalizeAffectedArea(value: string): string {
+  const cleaned = value
+    .replace(/https?:\/\/\S+/gi, "")
+    .replace(/\s+/g, " ")
+    .replace(/[.,;:]+$/g, "")
+    .replace(/^(this is for|for|in|on|the)\s+/i, "")
+    .trim();
+
+  if (!cleaned) {
+    return "";
+  }
+
+  const withoutTrailingNoise = cleaned.replace(
+    /\s+(is affected|is the affected app|is the app)$/i,
+    ""
+  );
+
+  return withoutTrailingNoise.length > 90
+    ? `${withoutTrailingNoise.slice(0, 87).trim()}...`
+    : withoutTrailingNoise;
+}
+
+function normalizeFreeTextAnswer(answer: string): string {
+  const cleaned = answer.replace(/\s+/g, " ").trim();
+  return cleaned.length > 800 ? `${cleaned.slice(0, 797).trim()}...` : cleaned;
 }

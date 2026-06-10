@@ -6,7 +6,7 @@ canvas-current.msapp
 docs/plans/
 .agentworkstream/
 lancedb/
-models/
+/models/
 rag/db/
 rag/models/
 npm-debug.log*

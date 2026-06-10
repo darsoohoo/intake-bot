@@ -7,11 +7,18 @@ flowchart TD
     subgraph Runtime["Runtime experience"]
         ReactApp["Power Apps code app shell<br/>Vite + React + TypeScript"]
         AppTsx["src/App.tsx<br/>conversation UI, form UI, actions"]
-        Engine["src/intakeEngine.ts<br/>analysis, next question, readiness, estimates"]
-        Types["src/types.ts<br/>IntakeDraft, IntakeMessage, status types"]
-        Draft["Inferred intake draft<br/>required fields, size, effort, developer notes"]
+        Engine["src/intakeEngine.ts<br/>local fallback analysis"]
+        AgentAdapter["src/agentFlow.ts<br/>flow adapter and JSON parser"]
+        GeneratedClient["Generated flow client<br/>IntakeCopilot_CanvasRunService.Run"]
+        Draft["Merged intake draft<br/>required fields, size, effort, developer notes"]
         Readiness["Readiness score<br/>ready, needs review, needs intake"]
         Mapper["toPowerPlatformPayload<br/>crb_* Dataverse field shape"]
+    end
+
+    subgraph LiveAgent["Hosted agent path"]
+        Wrapper["Power Automate wrapper flow<br/>IntakeCopilot_CanvasRun"]
+        Copilot["Microsoft 365 Copilot action<br/>Response"]
+        AgentJson["Agent JSON response<br/>draft fields and next question"]
     end
 
     subgraph LocalActions["Current save and handoff actions"]
@@ -24,21 +31,26 @@ flowchart TD
 
     subgraph Publish["Power Apps code app publish path"]
         Build["npm build<br/>static app bundle"]
-        Config["power.config.json<br/>Power Apps code app metadata"]
+        Config["power.config.json<br/>flow connection reference"]
         Push["Power Apps push<br/>solution-aware deployment"]
         Hosted["Published code app<br/>Power Platform environment"]
     end
 
-    subgraph Future["Future live write integration"]
+    subgraph Future["Future live record write"]
         FlowOrApi["Power Automate flow<br/>or Dataverse API"]
         Requests["Dataverse table<br/>crb_intakerequest / Request Intakes"]
     end
 
     User --> ReactApp
     ReactApp --> AppTsx
-    AppTsx --> Engine
-    Engine --> Types
-    Engine --> Draft
+    AppTsx --> AgentAdapter
+    AgentAdapter --> GeneratedClient
+    GeneratedClient --> Wrapper
+    Wrapper --> Copilot
+    Copilot --> AgentJson
+    AgentJson --> Draft
+    AgentAdapter -. local fallback .-> Engine
+    Engine -. fallback draft .-> Draft
     Draft --> Readiness
     Draft --> Mapper
     Mapper --> DraftLocal
@@ -61,7 +73,7 @@ flowchart TD
     classDef write fill:#fff7ed,stroke:#ea580c,stroke-width:1px,color:#0f172a
 
     class User user
-    class ReactApp,AppTsx,Engine,Types,Build,Config,Push,Hosted app
-    class Draft,Readiness,Mapper agent
-    class DraftLocal,SubmitLocal,CopyPayload,FlowOrApi write
+    class ReactApp,AppTsx,Engine,AgentAdapter,GeneratedClient,Build,Config,Push,Hosted app
+    class Wrapper,Copilot,AgentJson,Draft,Readiness agent
+    class DraftLocal,SubmitLocal,CopyPayload,FlowOrApi,Mapper write
     class BrowserStorage,Clipboard,Requests storage

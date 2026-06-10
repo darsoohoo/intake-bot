@@ -13,6 +13,7 @@ import {
   Sparkles
 } from "lucide-react";
 import { useMemo, useState } from "react";
+import { runIntakeAgentFlow } from "./agentFlow";
 import "./App.css";
 import {
   analyzeMessages,
@@ -36,7 +37,9 @@ function App() {
     createMessage("assistant", firstQuestion)
   ]);
   const [input, setInput] = useState("");
+  const [isSending, setIsSending] = useState(false);
   const [overrides, setOverrides] = useState<Partial<IntakeDraft>>({});
+  const [agentStatus, setAgentStatus] = useState("Live flow when hosted; local fallback ready");
   const [submitState, setSubmitState] = useState("Draft not saved");
 
   const inferredDraft = useMemo(() => analyzeMessages(messages), [messages]);
@@ -58,7 +61,11 @@ function App() {
     [draft, messages]
   );
 
-  const sendMessage = () => {
+  const sendMessage = async () => {
+    if (isSending) {
+      return;
+    }
+
     const trimmed = input.trim();
     if (!trimmed) {
       return;
@@ -66,15 +73,58 @@ function App() {
 
     const userMessage = createMessage("user", trimmed);
     const nextMessages = [...messages, userMessage];
-    const nextDraft = finalizeDraft({
+    const localDraft = finalizeDraft({
       ...analyzeMessages(nextMessages),
       ...overrides
     }, { preserveEstimate: hasEstimateOverride });
-    const assistantMessage = createMessage("assistant", getNextQuestion(nextDraft));
+    const thinkingMessage = createMessage("assistant", "Reviewing that detail and updating the draft...");
 
-    setMessages([...nextMessages, assistantMessage]);
+    setMessages([...nextMessages, thinkingMessage]);
     setInput("");
-    setSubmitState("Conversation updated");
+    setIsSending(true);
+    setSubmitState("Asking intake agent...");
+
+    try {
+      const agentResult = await runIntakeAgentFlow({
+        lastUserMessage: trimmed,
+        currentDraft: localDraft,
+        messages: nextMessages
+      });
+      const mergedDraft = finalizeDraft(
+        {
+          ...localDraft,
+          ...agentResult.draft
+        },
+        {
+          preserveEstimate:
+            hasEstimateOverride ||
+            agentResult.draft.size !== undefined ||
+            agentResult.draft.estimatedEffort !== undefined ||
+            agentResult.draft.estimatedDuration !== undefined
+        }
+      );
+      const assistantMessage = createMessage(
+        "assistant",
+        agentResult.nextQuestion ?? getNextQuestion(mergedDraft)
+      );
+
+      setOverrides((current) => ({
+        ...current,
+        ...agentResult.draft
+      }));
+      setMessages([...nextMessages, assistantMessage]);
+      setAgentStatus("Live agent flow");
+      setSubmitState("Live agent response captured");
+    } catch (error) {
+      const assistantMessage = createMessage("assistant", getNextQuestion(localDraft));
+
+      console.warn("Falling back to the local intake engine.", error);
+      setMessages([...nextMessages, assistantMessage]);
+      setAgentStatus("Local fallback");
+      setSubmitState("Local intake response captured");
+    } finally {
+      setIsSending(false);
+    }
   };
 
   const addFollowUp = () => {
@@ -137,7 +187,8 @@ function App() {
               <span className="section-label">Copilot</span>
               <h2>Guided intake</h2>
             </div>
-            <button className="icon-button" type="button" onClick={addFollowUp} title="Ask next question">
+            <span className="status-text">{agentStatus}</span>
+            <button className="icon-button" type="button" onClick={addFollowUp} disabled={isSending} title="Ask next question">
               <MessageSquarePlus size={18} />
             </button>
           </div>
@@ -160,14 +211,15 @@ function App() {
               onChange={(event) => setInput(event.target.value)}
               onKeyDown={(event) => {
                 if (event.key === "Enter" && (event.ctrlKey || event.metaKey)) {
-                  sendMessage();
+                  void sendMessage();
                 }
               }}
+              disabled={isSending}
               placeholder="Example: The Sales intake canvas app fails when managers approve requests over $10k..."
             />
-            <button className="primary-button" type="button" onClick={sendMessage}>
+            <button className="primary-button" type="button" onClick={() => void sendMessage()} disabled={isSending}>
               <Send size={17} />
-              Send
+              {isSending ? "Sending" : "Send"}
             </button>
           </div>
         </section>

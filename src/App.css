@@ -171,6 +171,14 @@
   transform: translateY(-1px);
 }
 
+.icon-button:disabled,
+.primary-button:disabled,
+.secondary-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.62;
+  transform: none;
+}
+
 .primary-button:hover {
   background: var(--blue-dark);
 }
@@ -457,4 +465,3 @@ textarea:focus {
     width: 100%;
   }
 }
-

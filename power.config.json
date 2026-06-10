@@ -9,6 +9,19 @@
   "buildEntryPoint": "index.html",
   "localAppUrl": "http://127.0.0.1:5173",
   "logoPath": "Default",
-  "connectionReferences": {},
+  "connectionReferences": {
+    "01fa76cc-bf14-47cb-9460-69ce670118ab": {
+      "id": "/providers/Microsoft.PowerApps/apis/shared_logicflows",
+      "displayName": "Logic flows",
+      "dataSources": [
+        "intakecopilot_canvasrun"
+      ],
+      "workflowDetails": {
+        "workflowEntityId": "337338cd-9d63-f111-ab0c-7c1e521c7ea3",
+        "workflowDisplayName": "IntakeCopilot_CanvasRun",
+        "workflowName": "337338cd-9d63-f111-ab0c-7c1e521c7ea3"
+      }
+    }
+  },
   "databaseReferences": {}
 }

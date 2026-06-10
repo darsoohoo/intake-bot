@@ -40,7 +40,7 @@ Visual files: [PNG](./visuals/model-driven-app-data-flow.png), [SVG](./visuals/m
 
 ## Code App
 
-The code app is the React and TypeScript version of the intake experience. It currently runs the intake reasoning locally in `src/intakeEngine.ts`, stages draft and submitted payloads in browser storage, and produces a Dataverse-friendly JSON shape for a future direct flow or Dataverse write.
+The code app is the React and TypeScript version of the intake experience. When hosted in Power Apps, the chat calls the `IntakeCopilot_CanvasRun` wrapper flow and merges the returned agent JSON into the form. When running locally without connector context, it falls back to `src/intakeEngine.ts`. Save and submit still stage Dataverse-friendly payloads in browser storage.
 
 ![Code app visual data flow](./visuals/code-app-data-flow.png)
 
@@ -49,10 +49,11 @@ Visual files: [PNG](./visuals/code-app-data-flow.png), [SVG](./visuals/code-app-
 ### Code App Data Flow
 
 1. The requester chats with the React UI in `src/App.tsx`.
-2. `src/intakeEngine.ts` infers category, urgency, size, effort, missing requirements, readiness, and developer notes.
-3. `toPowerPlatformPayload` maps the draft into `crb_*` fields that match the Dataverse request table.
-4. Save and submit actions currently stage payloads in browser `localStorage`; copy JSON supports inspection and handoff.
-5. The published code app path builds the React bundle and pushes it to the Power Platform solution.
+2. Hosted sends call the generated `IntakeCopilot_CanvasRunService.Run(...)` client; local development falls back to `src/intakeEngine.ts`.
+3. The returned or inferred draft updates category, urgency, size, effort, missing requirements, readiness, and developer notes.
+4. `toPowerPlatformPayload` maps the draft into `crb_*` fields that match the Dataverse request table.
+5. Save and submit actions currently stage payloads in browser `localStorage`; copy JSON supports inspection and handoff.
+6. The published code app path builds the React bundle and pushes it to the Power Platform solution.
 
 ## Shared Data Contract
 
