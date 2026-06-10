@@ -12,96 +12,100 @@ Screens:
       - lblHeader:
           Control: ModernText@1.0.0
           Properties:
+            AutoHeight: =true
             Height: =42
             Size: =28
             Text: ="Request Intake Copilot"
-            Width: =640
+            Width: =620
             X: =48
-            Y: =24
+            Y: =11
       - lblSubHeader:
           Control: ModernText@1.0.0
           Properties:
             Height: =30
             Size: =14
             Text: ="Agent-guided canvas intake that turns a rough request into triage-ready fields."
-            Width: =820
+            Width: =600
             X: =50
-            Y: =68
+            Y: =55
       - lblRequestTitle:
           Control: ModernText@1.0.0
           Properties:
+            AutoHeight: =true
             Height: =26
             Text: ="Request title"
             Width: =300
             X: =48
-            Y: =112
+            Y: =86
       - txtRequestTitle:
           Control: ModernTextInput@1.1.0
           Properties:
             Default: =Coalesce(varRequestTitle, "")
             Height: =44
             Placeholder: ="Short title for the request"
-            Type: =TextInputType.SingleLine
             Width: =570
             X: =48
-            Y: =132
+            Y: =120
       - lblProblem:
           Control: ModernText@1.0.0
           Properties:
+            AutoHeight: =true
             Height: =26
             Text: ="Problem or request"
             Width: =300
             X: =48
-            Y: =198
+            Y: =181
       - txtProblem:
           Control: ModernTextInput@1.1.0
           Properties:
             Default: =Coalesce(varProblemDescription, "")
-            Height: =144
+            Height: =58
             Placeholder: ="Describe what is happening, what you need, or what changed."
             Type: =TextInputType.Multiline
             Width: =570
             X: =48
-            Y: =214
+            Y: =215
       - lblBusinessImpact:
           Control: ModernText@1.0.0
           Properties:
+            AutoHeight: =true
             Height: =26
             Text: ="Business impact"
             Width: =300
             X: =48
-            Y: =374
+            Y: =279
       - txtBusinessImpact:
           Control: ModernTextInput@1.1.0
           Properties:
             Default: =Coalesce(varBusinessImpact, "")
-            Height: =94
+            Height: =54
             Placeholder: ="Who is affected, how often, and what is blocked?"
             Type: =TextInputType.Multiline
             Width: =570
             X: =48
-            Y: =402
+            Y: =310
       - lblAdditionalInfo:
           Control: ModernText@1.0.0
           Properties:
+            AutoHeight: =true
             Height: =26
             Text: ="Additional context"
             Width: =300
             X: =48
-            Y: =512
+            Y: =374
       - txtAdditionalInfo:
           Control: ModernTextInput@1.1.0
           Properties:
-            Height: =82
+            Height: =52
             Placeholder: ="Systems, URLs, screenshots, deadlines, examples, or constraints."
             Type: =TextInputType.Multiline
             Width: =570
             X: =48
-            Y: =540
+            Y: =405
       - btnAnalyze:
           Control: ModernButton@1.0.0
           Properties:
-            Height: =44
+            Height: =35
             OnSelect: |
               =Set(varInputText, Lower(txtProblem.Text & " " & txtBusinessImpact.Text & " " & txtAdditionalInfo.Text));
               Set(varCategory, If(IsBlank(Trim(txtProblem.Text)), "Needs problem statement", If(Or("login" in varInputText, "access" in varInputText, "permission" in varInputText, "role" in varInputText), "Access / permissions", If(Or("bug" in varInputText, "error" in varInputText, "broken" in varInputText, "fail" in varInputText), "Bug / defect", If(Or("report" in varInputText, "dashboard" in varInputText, "data" in varInputText), "Reporting / data", If(Or("automation" in varInputText, "workflow" in varInputText, "approval" in varInputText), "Automation / workflow", "Enhancement / discovery"))))));
@@ -114,13 +118,13 @@ Screens:
               Reset(txtTimeline);
               Reset(txtDeveloperNotes)
             Text: ="Analyze request"
-            Width: =170
+            Width: =144
             X: =48
-            Y: =636
+            Y: =663
       - btnClear:
           Control: ModernButton@1.0.0
           Properties:
-            Height: =44
+            Height: =35
             OnSelect: |
               =Set(varCategory, "");
               Set(varEffort, "");
@@ -139,115 +143,117 @@ Screens:
               Reset(txtTimeline);
               Reset(txtDeveloperNotes)
             Text: ="Clear"
-            Width: =120
+            Width: =77
             X: =230
-            Y: =636
+            Y: =663
       - lblAgentQuestion:
           Control: ModernText@1.0.0
           Properties:
-            Height: =56
+            Height: =31
             Size: =14
             Text: |
               ="Agent prompt: " & Coalesce(varQuestion, "Describe the request, then use Analyze request to generate triage fields.")
             Width: =570
             X: =48
-            Y: =696
+            Y: =733
       - lblAutoFields:
           Control: ModernText@1.0.0
           Properties:
+            AutoHeight: =true
             Height: =34
             Size: =20
             Text: ="Auto-filled request fields"
             Width: =520
             X: =680
-            Y: =82
+            Y: =22
       - lblCategory:
           Control: ModernText@1.0.0
           Properties:
+            AutoHeight: =true
             Height: =24
             Text: ="Category"
             Width: =260
-            X: =680
-            Y: =132
+            X: =50
+            Y: =479
       - txtCategory:
           Control: ModernTextInput@1.1.0
           Properties:
             Default: =Coalesce(varCategory, "")
             Height: =44
             Placeholder: ="Generated category"
-            Type: =TextInputType.SingleLine
-            Width: =285
-            X: =680
-            Y: =152
+            Width: =257
+            X: =50
+            Y: =506
       - lblEffort:
           Control: ModernText@1.0.0
           Properties:
+            AutoHeight: =true
             Height: =24
             Text: ="Estimated effort"
             Width: =260
-            X: =995
-            Y: =132
+            X: =365
+            Y: =479
       - txtEffort:
           Control: ModernTextInput@1.1.0
           Properties:
             Default: =Coalesce(varEffort, "")
             Height: =44
             Placeholder: ="Generated effort"
-            Type: =TextInputType.SingleLine
-            Width: =280
-            X: =995
-            Y: =152
+            Width: =253
+            X: =365
+            Y: =506
       - lblTimeline:
           Control: ModernText@1.0.0
           Properties:
+            AutoHeight: =true
             Height: =24
             Text: ="Likely timeline"
             Width: =260
-            X: =680
-            Y: =228
+            X: =50
+            Y: =565
       - txtTimeline:
           Control: ModernTextInput@1.1.0
           Properties:
             Default: =Coalesce(varTimeline, "")
-            Height: =44
+            Height: =51
             Placeholder: ="Generated timeline"
-            Type: =TextInputType.SingleLine
-            Width: =595
-            X: =680
-            Y: =244
+            Width: =568
+            X: =50
+            Y: =593
       - lblDeveloperNotes:
           Control: ModernText@1.0.0
           Properties:
+            AutoHeight: =true
             Height: =24
             Text: ="Additional developer notes"
             Width: =420
             X: =680
-            Y: =308
+            Y: =565
       - txtDeveloperNotes:
           Control: ModernTextInput@1.1.0
           Properties:
             Default: =Coalesce(varDeveloperNotes, "")
-            Height: =158
+            Height: =51
             Placeholder: ="Generated notes for developers"
             Type: =TextInputType.Multiline
             Width: =595
             X: =680
-            Y: =336
+            Y: =593
       - lblChecklist:
           Control: ModernText@1.0.0
           Properties:
-            Height: =176
+            Height: =114
             Size: =14
             Text: |
               ="Developer handoff checklist" & Char(10) & "- Problem statement" & Char(10) & "- Affected users or roles" & Char(10) & "- Business impact and urgency" & Char(10) & "- Expected outcome" & Char(10) & "- Evidence, screenshots, links, or repro steps"
             Visible: =false
             Width: =595
             X: =680
-            Y: =520
+            Y: =644
       - btnSaveDraft:
           Control: ModernButton@1.0.0
           Properties:
-            Height: =44
+            Height: =35
             OnSelect: |-
               =Set(varSaveCategory, If(IsBlank(Lower(Coalesce(varCategory, txtCategory.Text, ""))), "Uncategorized", If("bug" in Lower(Coalesce(varCategory, txtCategory.Text, "")), "Bug", If("access" in Lower(Coalesce(varCategory, txtCategory.Text, "")), "Access", If("report" in Lower(Coalesce(varCategory, txtCategory.Text, "")), "Reporting", If("data" in Lower(Coalesce(varCategory, txtCategory.Text, "")), "Data", If("automation" in Lower(Coalesce(varCategory, txtCategory.Text, "")), "Automation", If("workflow" in Lower(Coalesce(varCategory, txtCategory.Text, "")), "Process", If("integration" in Lower(Coalesce(varCategory, txtCategory.Text, "")), "Integration", If("enhancement" in Lower(Coalesce(varCategory, txtCategory.Text, "")), "Enhancement", "Uncategorized"))))))))));
               Set(varSaveUrgency, If(Or("urgent" in Lower(txtProblem.Text & " " & txtBusinessImpact.Text), "blocked" in Lower(txtProblem.Text & " " & txtBusinessImpact.Text), "outage" in Lower(txtProblem.Text & " " & txtBusinessImpact.Text)), "Critical", "Medium"));
@@ -279,13 +285,23 @@ Screens:
               );
               Notify("Request draft saved to Dataverse.", NotificationType.Success)
             Text: ="Save request draft"
-            Width: =180
+            Width: =154
             X: =362
-            Y: =636
+            Y: =663
+      - lblConversation:
+          Control: ModernText@1.0.0
+          Properties:
+            AutoHeight: =true
+            Height: =24
+            Size: =14
+            Text: ="Copilot messages"
+            Width: =300
+            X: =680
+            Y: =65
       - btnSubmitRequest:
           Control: ModernButton@1.0.0
           Properties:
-            Height: =44
+            Height: =35
             OnSelect: |-
               =Set(varSaveCategory, If(IsBlank(Lower(Coalesce(varCategory, txtCategory.Text, ""))), "Uncategorized", If("bug" in Lower(Coalesce(varCategory, txtCategory.Text, "")), "Bug", If("access" in Lower(Coalesce(varCategory, txtCategory.Text, "")), "Access", If("report" in Lower(Coalesce(varCategory, txtCategory.Text, "")), "Reporting", If("data" in Lower(Coalesce(varCategory, txtCategory.Text, "")), "Data", If("automation" in Lower(Coalesce(varCategory, txtCategory.Text, "")), "Automation", If("workflow" in Lower(Coalesce(varCategory, txtCategory.Text, "")), "Process", If("integration" in Lower(Coalesce(varCategory, txtCategory.Text, "")), "Integration", If("enhancement" in Lower(Coalesce(varCategory, txtCategory.Text, "")), "Enhancement", "Uncategorized"))))))))));
               Set(varSaveUrgency, If(Or("urgent" in Lower(txtProblem.Text & " " & txtBusinessImpact.Text), "blocked" in Lower(txtProblem.Text & " " & txtBusinessImpact.Text), "outage" in Lower(txtProblem.Text & " " & txtBusinessImpact.Text)), "Critical", "Medium"));
@@ -317,44 +333,35 @@ Screens:
               );
               Notify("Request submitted to Dataverse.", NotificationType.Success)
             Text: ="Submit"
-            Width: =84
+            Width: =64
             X: =554
-            Y: =636
-      - lblConversation:
-          Control: ModernText@1.0.0
-          Properties:
-            Height: =24
-            Size: =14
-            Text: ="Copilot messages"
-            Width: =300
-            X: =680
-            Y: =514
+            Y: =663
       - txtAgentTranscript:
           Control: ModernTextInput@1.1.0
           Properties:
             Default: |
               =Coalesce(varConversationLog, "Agent: Tell me what the requester needs. I will ask follow-up questions and fill the intake fields as we go.")
             DisplayMode: =DisplayMode.View
-            Height: =156
+            Height: =337
             Type: =TextInputType.Multiline
             Width: =595
             X: =680
-            Y: =540
+            Y: =120
       - txtAgentMessage:
           Control: ModernTextInput@1.1.0
           Properties:
             DisplayMode: =If(varAgentBusy, DisplayMode.View, DisplayMode.Edit)
-            Height: =56
+            Height: =47
             Placeholder: =If(varAgentBusy, "Waiting for the agent...", "Reply to the intake agent")
             Type: =TextInputType.Multiline
-            Width: =405
+            Width: =596
             X: =680
-            Y: =708
+            Y: =479
       - btnSendAgentMessage:
           Control: ModernButton@1.0.0
           Properties:
             DisplayMode: =If(varAgentBusy, DisplayMode.Disabled, DisplayMode.Edit)
-            Height: =44
+            Height: =35
             OnSelect: |
               =If(varAgentBusy,
                   false,
@@ -373,13 +380,27 @@ Screens:
             Text: =If(varAgentBusy, "Sending...", "Send to agent")
             Width: =175
             X: =1100
-            Y: =714
+            Y: =535
       - tmrRunAgent:
           Control: Timer@2.1.0
           Properties:
+            Align: =%Align.RESERVED%.Center
             AutoStart: =varRunAgentTimer
+            BorderColor: =ColorFade(Self.Fill, -15%)
+            BorderStyle: =%BorderStyle.RESERVED%.Solid
+            Color: =RGBA(255, 255, 255, 1)
+            DisabledBorderColor: =ColorFade(Self.BorderColor, 70%)
+            DisabledColor: =ColorFade(Self.Fill, 90%)
+            DisabledFill: =ColorFade(Self.Fill, 70%)
+            DisplayMode: =%DisplayMode.RESERVED%.Edit
             Duration: =100
+            Fill: =RGBA(35, 31, 32, 1)
+            Font: =%Font.RESERVED%.'Open Sans'
+            FontWeight: =%FontWeight.RESERVED%.Normal
             Height: =1
+            HoverBorderColor: =ColorFade(Self.BorderColor, 20%)
+            HoverColor: =Self.Color
+            HoverFill: =ColorFade(Self.Fill, 20%)
             OnTimerEnd: |
               =Set(varRunAgentTimer, false);
                   Set(
@@ -439,8 +460,11 @@ Screens:
                   Reset(txtAgentTranscript);
                   Set(varAgentBusy, false);
                   Reset(tmrRunAgent)
-            Repeat: =false
+            PressedBorderColor: =Self.Fill
+            PressedColor: =Self.Fill
+            PressedFill: =Self.Color
             Start: =varRunAgentTimer
+            VerticalAlign: =%VerticalAlign.RESERVED%.Middle
             Visible: =false
             Width: =1
             X: =1275
