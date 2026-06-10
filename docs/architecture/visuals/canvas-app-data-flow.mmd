@@ -1,0 +1,56 @@
+---
+title: Canvas App Data Flow
+---
+flowchart TD
+    Requester["Requester"]
+
+    subgraph Canvas["Canvas app: Request Intake Copilot Canvas"]
+        Screen["Screen1"]
+        Chat["Agent chat panel<br/>txtAgentMessage, transcript, send"]
+        Timer["Hidden timer<br/>tmrRunAgent"]
+        Form["Auto-filled request form<br/>title, problem, impact, category, effort, timeline"]
+        Actions["Save Draft / Submit"]
+    end
+
+    subgraph AgentPath["Agent reasoning path"]
+        FlowInput["Flow inputs<br/>lastUserMessage, currentDraftJson, conversationJson"]
+        Wrapper["Power Automate wrapper<br/>IntakeCopilot_CanvasRun"]
+        Copilot["Microsoft 365 Copilot action<br/>Response"]
+        AgentResponse["Structured response<br/>field suggestions, follow-up question, developer notes"]
+        Parser["Canvas response parser<br/>updates variables and transcript"]
+    end
+
+    subgraph DataversePath["Dataverse write path"]
+        DraftWrite["Patch Draft row<br/>crb_status = Draft"]
+        SubmitWrite["Patch Submitted row<br/>crb_status = Submitted"]
+        Requests["Dataverse table<br/>crb_intakerequest / Request Intakes"]
+        Review["Makers and developers<br/>review and triage"]
+    end
+
+    Requester --> Screen
+    Screen --> Chat
+    Chat --> Timer
+    Timer --> FlowInput
+    FlowInput --> Wrapper
+    Wrapper --> Copilot
+    Copilot --> AgentResponse
+    AgentResponse --> Parser
+    Parser --> Form
+    Form --> Actions
+    Actions --> DraftWrite
+    Actions --> SubmitWrite
+    DraftWrite --> Requests
+    SubmitWrite --> Requests
+    Requests --> Review
+
+    classDef user fill:#f8fafc,stroke:#334155,stroke-width:1px,color:#0f172a
+    classDef app fill:#eef6ff,stroke:#2563eb,stroke-width:1px,color:#0f172a
+    classDef agent fill:#f0fdf4,stroke:#16a34a,stroke-width:1px,color:#0f172a
+    classDef storage fill:#fdf2f8,stroke:#db2777,stroke-width:1px,color:#0f172a
+    classDef write fill:#fff7ed,stroke:#ea580c,stroke-width:1px,color:#0f172a
+
+    class Requester user
+    class Screen,Chat,Timer,Form,Actions app
+    class FlowInput,Wrapper,Copilot,AgentResponse,Parser agent
+    class DraftWrite,SubmitWrite write
+    class Requests,Review storage

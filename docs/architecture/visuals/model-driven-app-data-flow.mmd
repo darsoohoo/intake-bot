@@ -1,0 +1,63 @@
+---
+title: Model-Driven App Data Flow
+---
+flowchart TD
+    User["Requester or triage user"]
+
+    subgraph ModelApp["Model-driven app: Request Intake Model App"]
+        App["App shell and sitemap"]
+        Form["Request Intake main form"]
+        Fields["Dataverse form fields<br/>title, description, impact, size, effort, notes"]
+        Conversation["Conversation JSON column<br/>crb_conversationjson"]
+        PCF["Embedded PCF control<br/>RequestIntakeAgentChatV8"]
+    end
+
+    subgraph AgentPath["App assistant path"]
+        Prompt["Prompt builder<br/>record context + transcript + latest message"]
+        AgentApi["Model-driven Agent API<br/>context.copilot.executePrompt"]
+        Assistant["App assistant agent<br/>Copilot in Power Apps - Request Intake"]
+        Suggestions["Suggested values<br/>category, urgency, size, effort, missing requirements"]
+        Review["PCF review panel<br/>user reviews before applying"]
+    end
+
+    subgraph SavePath["Record update path"]
+        Apply["Apply to form"]
+        Xrm["Xrm form attributes<br/>setValue on visible fields"]
+        Outputs["PCF bound outputs<br/>conversation and suggested fields"]
+        Fallback["Web API update fallback<br/>for saved records"]
+        Save["User saves record"]
+        Requests["Dataverse table<br/>crb_intakerequest / Request Intakes"]
+        Views["Views, forms, triage, reporting"]
+    end
+
+    User --> App
+    App --> Form
+    Form --> Fields
+    Form --> Conversation
+    Conversation --> PCF
+    PCF --> Prompt
+    Prompt --> AgentApi
+    AgentApi --> Assistant
+    Assistant --> Suggestions
+    Suggestions --> Review
+    Review --> Apply
+    Apply --> Xrm
+    Apply --> Outputs
+    Apply --> Fallback
+    Xrm --> Save
+    Outputs --> Save
+    Fallback --> Requests
+    Save --> Requests
+    Requests --> Views
+
+    classDef user fill:#f8fafc,stroke:#334155,stroke-width:1px,color:#0f172a
+    classDef app fill:#eef6ff,stroke:#2563eb,stroke-width:1px,color:#0f172a
+    classDef agent fill:#f0fdf4,stroke:#16a34a,stroke-width:1px,color:#0f172a
+    classDef storage fill:#fdf2f8,stroke:#db2777,stroke-width:1px,color:#0f172a
+    classDef write fill:#fff7ed,stroke:#ea580c,stroke-width:1px,color:#0f172a
+
+    class User user
+    class App,Form,Fields,Conversation,PCF app
+    class Prompt,AgentApi,Assistant,Suggestions,Review agent
+    class Apply,Xrm,Outputs,Fallback,Save write
+    class Requests,Views storage

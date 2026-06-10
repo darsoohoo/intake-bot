@@ -10,35 +10,9 @@ These diagrams show how the request intake solution is split across three Power 
 
 The Canvas app is the main citizen-developer intake experience. It collects a request through a chat-style interface, calls the Canvas wrapper flow for agent reasoning, fills visible form fields, and saves or submits rows to the Dataverse `Request Intakes` table.
 
-```mermaid
-flowchart LR
-    Requester["Requester"] --> CanvasUi["Canvas app screen\nRequest Intake Copilot Canvas"]
+![Canvas app visual data flow](./visuals/canvas-app-data-flow.png)
 
-    subgraph Canvas["Canvas app components"]
-        CanvasUi --> ChatControls["Agent chat controls\ntxtAgentMessage, transcript, send button"]
-        CanvasUi --> FormControls["Structured intake fields\ntitle, problem, impact, category, effort, timeline"]
-        CanvasUi --> Timer["Hidden timer\ntmrRunAgent"]
-        CanvasUi --> SaveButtons["Save Draft and Submit buttons"]
-    end
-
-    ChatControls --> Timer
-    Timer --> WrapperFlow["Power Automate wrapper flow\nIntakeCopilot_CanvasRun"]
-    WrapperFlow --> CopilotAction["Microsoft 365 Copilot action\nResponse"]
-    CopilotAction --> WrapperFlow
-    WrapperFlow --> AgentJson["Agent JSON response\nfield suggestions, follow-up, notes"]
-
-    AgentJson --> ParseResponse["Canvas formulas parse response\nSet variables and reset controls"]
-    ParseResponse --> FormControls
-    ParseResponse --> Transcript["Conversation context JSON"]
-    Transcript --> ChatControls
-
-    SaveButtons --> PatchDraft["Patch row with status Draft"]
-    SaveButtons --> PatchSubmit["Patch row with status Submitted"]
-    PatchDraft --> Dataverse["Dataverse table\ncrb_intakerequest / Request Intakes"]
-    PatchSubmit --> Dataverse
-
-    Dataverse --> Makers["Makers and developers review requests"]
-```
+Visual files: [PNG](./visuals/canvas-app-data-flow.png), [SVG](./visuals/canvas-app-data-flow.svg), [Mermaid source](./visuals/canvas-app-data-flow.mmd).
 
 ### Canvas Data Flow
 
@@ -52,35 +26,9 @@ flowchart LR
 
 The model-driven app is the Dataverse-first experience. The request form owns the record, and the PCF control acts as the embedded agent chat surface. The active control is `cr3d3_WorkManagement.RequestIntakeAgentChatV8`.
 
-```mermaid
-flowchart LR
-    Maker["Requester or triage user"] --> ModelApp["Model-driven app\nRequest Intake Model App"]
+![Model-driven app visual data flow](./visuals/model-driven-app-data-flow.png)
 
-    subgraph Form["Request Intake main form"]
-        ModelApp --> DataverseFields["Dataverse form fields\ntitle, description, impact, size, effort, notes"]
-        ModelApp --> ConversationField["Conversation JSON column\ncrb_conversationjson"]
-        ConversationField --> PcfControl["PCF agent chat control\nRequestIntakeAgentChatV8"]
-    end
-
-    PcfControl --> PromptBuilder["Prompt builder\ncurrent record + transcript"]
-    PromptBuilder --> AgentApi["Model-driven Agent API\ncontext.copilot.executePrompt"]
-    AgentApi --> AppAssistant["App assistant agent\nCopilot in Power Apps - Request Intake"]
-    AppAssistant --> AgentApi
-    AgentApi --> Suggestions["Suggested field values\ncategory, urgency, size, effort, missing requirements"]
-
-    Suggestions --> ReviewPanel["PCF review panel\nuser reviews suggestions"]
-    ReviewPanel --> ApplyButton["Apply to form"]
-    ApplyButton --> XrmForm["Xrm form attributes\nsetValue on visible fields"]
-    ApplyButton --> BoundOutputs["PCF bound outputs\nconversation and suggested fields"]
-    ApplyButton --> WebApiFallback["Web API update fallback\nfor saved records"]
-
-    XrmForm --> SaveRecord["User saves record"]
-    BoundOutputs --> SaveRecord
-    WebApiFallback --> Dataverse["Dataverse table\ncrb_intakerequest / Request Intakes"]
-    SaveRecord --> Dataverse
-
-    Dataverse --> Views["Model-driven views, forms, and triage workflows"]
-```
+Visual files: [PNG](./visuals/model-driven-app-data-flow.png), [SVG](./visuals/model-driven-app-data-flow.svg), [Mermaid source](./visuals/model-driven-app-data-flow.mmd).
 
 ### Model-Driven Data Flow
 
@@ -94,41 +42,9 @@ flowchart LR
 
 The code app is the React and TypeScript version of the intake experience. It currently runs the intake reasoning locally in `src/intakeEngine.ts`, stages draft and submitted payloads in browser storage, and produces a Dataverse-friendly JSON shape for a future direct flow or Dataverse write.
 
-```mermaid
-flowchart LR
-    User["Requester"] --> ReactApp["Power Apps code app shell\nVite + React + TypeScript"]
+![Code app visual data flow](./visuals/code-app-data-flow.png)
 
-    subgraph Source["Code app source"]
-        ReactApp --> AppTsx["src/App.tsx\nconversation UI, form UI, actions"]
-        AppTsx --> IntakeEngine["src/intakeEngine.ts\nanalysis, next question, readiness, estimates"]
-        IntakeEngine --> Types["src/types.ts\nIntakeDraft, IntakeMessage, status types"]
-        AppTsx --> Css["App.css and index.css\napplication styling"]
-    end
-
-    AppTsx --> Messages["Conversation state\nassistant and user messages"]
-    Messages --> IntakeEngine
-    IntakeEngine --> Draft["Inferred intake draft\nrequired fields, size, effort, notes"]
-    Draft --> Readiness["Readiness score\nready, needs review, needs intake"]
-    Draft --> PayloadMapper["toPowerPlatformPayload\ncrb_* Dataverse field shape"]
-
-    PayloadMapper --> SaveLocal["Save Draft\nlocalStorage draft payload"]
-    PayloadMapper --> SubmitLocal["Submit Request\nlocalStorage submitted payload"]
-    PayloadMapper --> CopyJson["Copy JSON payload\nfor inspection or handoff"]
-
-    SaveLocal --> BrowserStorage["Browser localStorage"]
-    SubmitLocal --> BrowserStorage
-    CopyJson --> Clipboard["Clipboard"]
-
-    subgraph Publish["Power Apps code app publish path"]
-        ReactApp --> Build["npm build\nstatic app bundle"]
-        Build --> PowerConfig["power.config.json\nPower Apps code app metadata"]
-        PowerConfig --> Push["Power Apps push\nsolution-aware deployment"]
-        Push --> HostedCodeApp["Published code app\nPower Platform environment"]
-    end
-
-    PayloadMapper -. "Future integration point" .-> FlowOrDataverse["Power Automate flow or Dataverse API"]
-    FlowOrDataverse -.-> Dataverse["Dataverse table\ncrb_intakerequest / Request Intakes"]
-```
+Visual files: [PNG](./visuals/code-app-data-flow.png), [SVG](./visuals/code-app-data-flow.svg), [Mermaid source](./visuals/code-app-data-flow.mmd).
 
 ### Code App Data Flow
 
