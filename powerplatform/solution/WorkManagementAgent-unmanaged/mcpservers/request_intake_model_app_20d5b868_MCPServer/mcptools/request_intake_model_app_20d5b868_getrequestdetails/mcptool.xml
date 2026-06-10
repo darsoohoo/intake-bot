@@ -1,0 +1,17 @@
+<mcptool name="request_intake_model_app_20d5b868_getrequestdetails">
+  <annotations>{"readOnlyHint":true}</annotations>
+  <backendtooltype>0</backendtooltype>
+  <customapiid>
+    <uniquename>msdyn_PrettyPredict</uniquename>
+  </customapiid>
+  <description>Retrieves the requester’s submitted project or issue details from the Power App, including fields such as Title, Description, Problem Statement, Business Need, and other context captured in the intake form.</description>
+  <httpmethod>1</httpmethod>
+  <inputschema>{"type":"object","properties":{"Target":{"type":"string","description":"Target entity reference. Format: 'msdyn_aimodel(0fb6ab1f-1c3c-4061-ba15-2a8b3965ce90)'. Bound to 'msdyn_aimodel'.","x-ms-bound-entity":"msdyn_aimodel","x-ms-customapi-paramtype":"entityReference"},"version":{"type":"string","description":"Required request parameter for msdyn_PrettyPredict.","default":"2.0"},"request":{"type":"string","description":"Serialized JSON request payload. Expected shape: {\"type\":\"object\",\"properties\":{},\"required\":[]}","x-ms-customapi-paramtype":"entity"},"source":{"type":"string","description":"JSON string with shape: { \"consumptionSource\": string, \"partnerSource\": string, \"consumptionSourceVersion\": string }. Serialized source metadata identifying the caller.","default":"{\"consumptionSource\":\"PowerApps\",\"partnerSource\":\"PowerApps.CustomMcpTool\",\"consumptionSourceVersion\":\"1.0\"}"}},"required":["Target","version","request","source"]}</inputschema>
+  <iscustom>0</iscustom>
+  <iscustomizable>1</iscustomizable>
+  <Meta>{"aibuilder/type":"prompt","aibuilder/aimodel":"0fb6ab1f-1c3c-4061-ba15-2a8b3965ce90"}</Meta>
+  <outputschema>{"type":"object","properties":{"toolPurpose":{"type":"string"},"usageInstructions":{"type":"string"},"returnedFields":{"type":"array","items":{"type":"object","properties":{"item":{"type":"string"}},"required":["item"]}},"postCallAction":{"type":"string"},"ifIncomplete":{"type":"string"}}}</outputschema>
+  <statecode>0</statecode>
+  <statuscode>1</statuscode>
+  <title>GetRequestDetails</title>
+</mcptool>

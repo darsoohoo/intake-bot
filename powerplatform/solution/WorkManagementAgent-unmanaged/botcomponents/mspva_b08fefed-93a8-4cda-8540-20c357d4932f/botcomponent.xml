@@ -1,0 +1,15 @@
+<botcomponent schemaname="mspva_b08fefed-93a8-4cda-8540-20c357d4932f">
+  <category>Testing</category>
+  <componenttype>19</componenttype>
+  <description>How do I report a bug affecting the approval workflow in our app?</description>
+  <iscustomizable>0</iscustomizable>
+  <name>How do I report a bug affecting the approval workflow in our app?</name>
+  <parentbotcomponentid>
+    <schemaname>mspva_1516b656-0934-43bf-a8fa-a4ffd07591f0</schemaname>
+  </parentbotcomponentid>
+  <parentbotid>
+    <schemaname>cr3d3_bot486100</schemaname>
+  </parentbotid>
+  <statecode>0</statecode>
+  <statuscode>1</statuscode>
+</botcomponent>

@@ -1,0 +1,15 @@
+<botcomponent schemaname="mspva_ef6d9d4b-2b54-4960-9fb6-a67bb8c0b175">
+  <category>Testing</category>
+  <componenttype>19</componenttype>
+  <description>I need to request access to a specific Power Platform app—what information do you need?</description>
+  <iscustomizable>0</iscustomizable>
+  <name>I need to request access to a specific Power Platform app—what information do you need?</name>
+  <parentbotcomponentid>
+    <schemaname>mspva_1516b656-0934-43bf-a8fa-a4ffd07591f0</schemaname>
+  </parentbotcomponentid>
+  <parentbotid>
+    <schemaname>cr3d3_bot486100</schemaname>
+  </parentbotid>
+  <statecode>0</statecode>
+  <statuscode>1</statuscode>
+</botcomponent>

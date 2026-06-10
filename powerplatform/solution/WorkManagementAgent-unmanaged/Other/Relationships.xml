@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<EntityRelationships xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <EntityRelationship Name="business_unit_crb_intakerequest" />
+  <EntityRelationship Name="lk_crb_intakerequest_createdby" />
+  <EntityRelationship Name="lk_crb_intakerequest_modifiedby" />
+  <EntityRelationship Name="owner_crb_intakerequest" />
+  <EntityRelationship Name="team_crb_intakerequest" />
+  <EntityRelationship Name="user_crb_intakerequest" />
+</EntityRelationships>

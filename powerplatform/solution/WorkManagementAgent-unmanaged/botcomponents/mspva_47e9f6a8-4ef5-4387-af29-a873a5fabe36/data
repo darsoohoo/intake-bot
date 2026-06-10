@@ -1,0 +1,7 @@
+kind: EvaluationData
+rows:
+  - source: Manual
+    input: Can you summarize the details of a record for me?
+
+extensionData:
+  displayOrder: "1781086697819"

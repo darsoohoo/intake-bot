@@ -1,0 +1,15 @@
+<botcomponent schemaname="mspva_ab35baa5-5a99-461f-ab01-97d71775e5e3">
+  <category>Testing</category>
+  <componenttype>19</componenttype>
+  <description>How can I request a new report to track sales data in Power BI?</description>
+  <iscustomizable>0</iscustomizable>
+  <name>How can I request a new report to track sales data in Power BI?</name>
+  <parentbotcomponentid>
+    <schemaname>mspva_1516b656-0934-43bf-a8fa-a4ffd07591f0</schemaname>
+  </parentbotcomponentid>
+  <parentbotid>
+    <schemaname>cr3d3_bot486100</schemaname>
+  </parentbotid>
+  <statecode>0</statecode>
+  <statuscode>1</statuscode>
+</botcomponent>

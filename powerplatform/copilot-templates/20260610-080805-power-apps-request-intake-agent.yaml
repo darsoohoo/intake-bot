@@ -1,0 +1,10 @@
+kind: BotDefinition
+entity:
+  accessControlPolicy: GroupMembership
+  authenticationMode: Integrated
+  authenticationTrigger: Always
+  configuration:
+    settings:
+      GenerativeActionsEnabled: true
+
+  template: PowerAppsRequestIntakeAgent-1.0.0

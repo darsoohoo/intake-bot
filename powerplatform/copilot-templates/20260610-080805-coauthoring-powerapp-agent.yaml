@@ -1,0 +1,805 @@
+kind: BotDefinition
+entity:
+  accessControlPolicy: GroupMembership
+  authenticationMode: Integrated
+  authenticationTrigger: Always
+  configuration:
+    settings:
+      GenerativeActionsEnabled: true
+
+  template: CoauthoringPowerAppAgent-1.0.0
+
+components:
+  - kind: DialogComponent
+    managedProperties:
+      isCustomizable: false
+
+    displayName: Greeting
+    parentBotId: 14dd7ea0-b8a7-4639-b785-6a01b3e8d1d9
+    description: This topic is triggered when the user greets the agent.
+    shareContext: {}
+    state: Active
+    status: Active
+    publisherUniqueName: DefaultPublisherspdevdev2
+    schemaName: template-content.topic.Greeting
+    dialog:
+      beginDialog:
+        kind: OnRecognizedIntent
+        id: main
+        intent:
+          displayName: Greeting
+          includeInOnSelectIntent: false
+          triggerQueries:
+            - Good afternoon
+            - Good morning
+            - Hello
+            - Hey
+            - Hi
+
+        actions:
+          - kind: SendActivity
+            id: sendMessage_abmysR
+            activity:
+              text:
+                - Hello, how can I help you today?
+              speak:
+                - Hello, <break strength="medium" /> how can I help?
+
+          - kind: CancelAllDialogs
+            id: cancelAllDialogs_01At22
+
+  - kind: DialogComponent
+    managedProperties:
+      isCustomizable: false
+
+    displayName: Reset Conversation
+    parentBotId: 14dd7ea0-b8a7-4639-b785-6a01b3e8d1d9
+    shareContext: {}
+    state: Active
+    status: Active
+    publisherUniqueName: DefaultPublisherspdevdev2
+    schemaName: template-content.topic.ResetConversation
+    dialog:
+      startBehavior: UseLatestPublishedContentAndCancelOtherTopics
+      beginDialog:
+        kind: OnSystemRedirect
+        id: main
+        actions:
+          - kind: SendActivity
+            id: sendMessage_OPsT1O
+            activity: What can I help you with?
+
+          - kind: ClearAllVariables
+            id: clearAllVariables_73bTFR
+            variables: ConversationScopedVariables
+
+          - kind: CancelAllDialogs
+            id: cancelAllDialogs_12Gt21
+
+  - kind: DialogComponent
+    managedProperties:
+      isCustomizable: false
+
+    displayName: Goodbye
+    parentBotId: 14dd7ea0-b8a7-4639-b785-6a01b3e8d1d9
+    description: This topic triggers when the user says goodbye. By default, it does not end the conversation. If you would like to end the conversation when the user says goodbye, you can add an "End of Conversation" action to this topic, or redirect to the "End of Conversation" system topic.
+    shareContext: {}
+    state: Active
+    status: Active
+    publisherUniqueName: DefaultPublisherspdevdev2
+    schemaName: template-content.topic.Goodbye
+    dialog:
+      startBehavior: CancelOtherTopics
+      beginDialog:
+        kind: OnRecognizedIntent
+        id: main
+        intent:
+          displayName: Goodbye
+          includeInOnSelectIntent: false
+          triggerQueries:
+            - Bye
+            - Bye for now
+            - Bye now
+            - Good bye
+            - No thank you. Goodbye.
+            - See you later
+
+        actions:
+          - kind: Question
+            id: question_zf2HhP
+            variable: Topic.EndConversation
+            prompt: Would you like to end our conversation?
+            entity: BooleanPrebuiltEntity
+
+          - kind: ConditionGroup
+            id: condition_DGc1Wy
+            conditions:
+              - id: condition_DGc1Wy-item-0
+                condition: =Topic.EndConversation = true
+                actions:
+                  - kind: BeginDialog
+                    id: dn94DC
+                    dialog: template-content.topic.EndofConversation
+
+              - id: condition_DGc1Wy-item-1
+                condition: =Topic.EndConversation = false
+                actions:
+                  - kind: SendActivity
+                    id: sendMessage_LdLhmf
+                    activity: Go ahead. I'm listening.
+
+  - kind: DialogComponent
+    managedProperties:
+      isCustomizable: false
+
+    displayName: Conversation Start
+    parentBotId: 14dd7ea0-b8a7-4639-b785-6a01b3e8d1d9
+    description: This system topic triggers when the agent receives an Activity indicating the beginning of a new conversation. If you do not want the agent to initiate the conversation, disable this topic.
+    shareContext: {}
+    state: Active
+    status: Active
+    publisherUniqueName: DefaultPublisherspdevdev2
+    schemaName: template-content.topic.ConversationStart
+    dialog:
+      beginDialog:
+        kind: OnConversationStart
+        id: main
+        actions:
+          - kind: SendActivity
+            id: sendMessage_M0LuhV
+            activity:
+              text:
+                - Hello, I'm {System.Bot.Name}. How can I help?
+              speak:
+                - Hello and thank you for calling {System.Bot.Name}, powered by generative AI. How may I help you today?
+
+  - kind: DialogComponent
+    managedProperties:
+      isCustomizable: false
+
+    displayName: End of Conversation
+    parentBotId: 14dd7ea0-b8a7-4639-b785-6a01b3e8d1d9
+    description: |-
+      This system topic is only triggered by a redirect action,
+      and guides the user through rating their conversation with the agent.
+    shareContext: {}
+    state: Active
+    status: Active
+    publisherUniqueName: DefaultPublisherspdevdev2
+    schemaName: template-content.topic.EndofConversation
+    dialog:
+      startBehavior: CancelOtherTopics
+      beginDialog:
+        kind: OnSystemRedirect
+        id: main
+        actions:
+          - kind: Question
+            id: 41d42054-d4cb-4e90-b922-2b16b37fe379
+            conversationOutcome: ResolvedImplied
+            alwaysPrompt: true
+            variable: init:Topic.SurveyResponse
+            prompt: Did that answer your question?
+            entity: BooleanPrebuiltEntity
+
+          - kind: ConditionGroup
+            id: condition-0
+            conditions:
+              - id: condition-0-item-0
+                condition: =Topic.SurveyResponse = true
+                actions:
+                  - kind: CSATQuestion
+                    id: csat_1
+                    conversationOutcome: ResolvedConfirmed
+
+                  - kind: SendActivity
+                    id: sendMessage_8r29O0
+                    activity: Thanks for your feedback.
+
+                  - kind: Question
+                    id: question_1
+                    alwaysPrompt: true
+                    variable: init:Topic.Continue
+                    prompt: Can I help with anything else?
+                    entity: BooleanPrebuiltEntity
+
+                  - kind: ConditionGroup
+                    id: condition-1
+                    conditions:
+                      - id: condition-1-item-0
+                        condition: =Topic.Continue = true
+                        actions:
+                          - kind: SendActivity
+                            id: sendMessage_4eOE6h
+                            activity: Go ahead. I'm listening.
+
+                    elseActions:
+                      - kind: SendActivity
+                        id: yHBz55
+                        activity: Ok, goodbye.
+
+                      - kind: EndConversation
+                        id: jh1GMT
+
+            elseActions:
+              - kind: Question
+                id: PM68ot
+                alwaysPrompt: true
+                variable: init:Topic.TryAgain
+                prompt: Sorry I wasn't able to help better. Would you like to try again?
+                entity: BooleanPrebuiltEntity
+
+              - kind: ConditionGroup
+                id: KNxYBf
+                conditions:
+                  - id: DPveFP
+                    condition: =Topic.TryAgain = false
+                    actions:
+                      - kind: BeginDialog
+                        id: cngqi4
+                        dialog: template-content.topic.Escalate
+
+                elseActions:
+                  - kind: SendActivity
+                    id: GrVHEW
+                    activity: Go ahead. I'm listening.
+
+  - kind: DialogComponent
+    managedProperties:
+      isCustomizable: false
+
+    displayName: Escalate
+    parentBotId: 14dd7ea0-b8a7-4639-b785-6a01b3e8d1d9
+    description: |-
+      This system topic is triggered when the user indicates they would like to speak to a representative.
+      You can configure how the agent will handle human hand-off scenarios in the agent settings..
+      If your agent does not handle escalations, this topic should be disabled.
+    shareContext: {}
+    state: Active
+    status: Active
+    publisherUniqueName: DefaultPublisherspdevdev2
+    schemaName: template-content.topic.Escalate
+    dialog:
+      startBehavior: CancelOtherTopics
+      beginDialog:
+        kind: OnEscalate
+        id: main
+        intent:
+          displayName: Escalate
+          includeInOnSelectIntent: false
+          triggerQueries:
+            - Talk to agent
+            - Talk to a person
+            - Talk to someone
+            - Call back
+            - Call customer service
+            - Call me please
+            - Call support
+            - Call technical support
+            - Can an agent call me
+            - Can I call
+            - Can I get in touch with someone else
+            - Can I get real agent support
+            - Can I get transferred to a person to call
+            - Can I have a call in number Or can I be called
+            - Can I have a representative call me
+            - Can I schedule a call
+            - Can I speak to a representative
+            - Can I talk to a human
+            - Can I talk to a human assistant
+            - Can someone call me
+            - Chat with a human
+            - Chat with a representative
+            - Chat with agent
+            - Chat with someone please
+            - Connect me to a live agent
+            - Connect me to a person
+            - Could some one contact me by phone
+            - Customer agent
+            - Customer representative
+            - Customer service
+            - I need a manager to contact me
+            - I need customer service
+            - I need help from a person
+            - I need to speak with a live argent
+            - I need to talk to a specialist please
+            - I want to talk to customer service
+            - I want to proceed with live support
+            - I want to speak with a consultant
+            - I want to speak with a live tech
+            - I would like to speak with an associate
+            - I would like to talk to a technician
+            - Talk with tech support member
+
+        actions:
+          - kind: SendActivity
+            id: sendMessage_s39DCt
+            conversationOutcome: Escalated
+            activity: |-
+              Escalating to a representative is not currently configured for this agent, however this is where the agent could provide information about how to get in touch with someone another way.
+
+              Is there anything else I can help you with?
+
+  - kind: DialogComponent
+    managedProperties:
+      isCustomizable: false
+
+    displayName: Computer use - Computer use
+    parentBotId: 14dd7ea0-b8a7-4639-b785-6a01b3e8d1d9
+    shareContext: {}
+    state: Active
+    status: Active
+    publisherUniqueName: DefaultPublisherspdevdev2
+    schemaName: template-content.action.ComputeruseComputeruse
+    dialog:
+      kind: TaskDialog
+      inputs:
+        - kind: AutomaticTaskInput
+          propertyName: request
+          name: request
+          description: The user’s request or requirement describing what needs to be changed in the Power App or Power Automate flow.
+
+      modelDisplayName: ApplyRequestRequirements
+      modelDescription: Allows the agent to open the Power App or Power Automate flow in edit mode and make changes required to meet the user’s request. The agent can navigate screens, controls, formulas, and flow steps, update properties, modify logic, and apply the requested edits using Computer Use actions.
+      action:
+        kind: InvokeComputerUsingAgentTaskAction
+        connectionReference: template-content.connectionreference.ca_agent.shared_computeroperator.df5ba5a1b6e14c7996eadd244c2f86
+        connectionProperties:
+          name: template-content.connectionreference.ca_agent.shared_computeroperator.df5ba5a1b6e14c7996eadd244c2f86
+          mode: Maker
+
+        operationId: ComputerOperatorInvokeMcpCua
+        instructions: |-
+          **You are the Coauthoring Power App Agent. Your role is to help the user modify and complete the requirements of their Power App and Power Automate flows.
+          You assist the user by: – opening the Power App in edit mode – opening Power Automate flows in edit mode – navigating screens, controls, and formulas – updating properties, labels, fields, and logic – adding or removing controls – editing Power Fx formulas – modifying steps inside Power Automate flows – inserting new actions, conditions, or connectors – renaming variables, screens, or components – validating that the changes meet the user’s requirements
+          When the user describes a change they want to make, ask clarifying questions if needed, then use the appropriate Computer Use action to perform the edit directly in the app or flow editor.
+          When using Computer Use actions: – interpret the user’s intent – navigate to the correct screen, control, or flow step – make the requested modification – confirm the change visually – notify the user when the change is complete
+          If the user’s request requires multiple edits, guide them through the steps and perform each change in sequence.
+          If the user asks for something not possible in Power Apps or Power Automate, explain the limitation and offer the closest supported alternative.
+          Your goal is to act as a hands‑on co‑developer that helps the user complete their Power App and Power Automate requirements quickly and accurately.**
+        inputType:
+          properties:
+            request:
+              displayName: request
+              description: The user’s request or requirement describing what needs to be changed in the Power App or Power Automate flow.
+              isRequired: true
+              type: String
+
+        model:
+          modelNameHint: sonnet4-5
+
+        initializeContext:
+          enforceHttps: true
+          requestForInformationInput:
+            assignedTo:
+              59ad8b0d-e4d7-42a3-826f-feeaffc7f886:
+                email: darsoohoo@spdevdarren.onmicrosoft.com
+                id: 59ad8b0d-e4d7-42a3-826f-feeaffc7f886
+
+            timeToCompleteInMinutes: 60
+            version: 2
+
+  - kind: DialogComponent
+    managedProperties:
+      isCustomizable: false
+
+    displayName: Thank you
+    parentBotId: 14dd7ea0-b8a7-4639-b785-6a01b3e8d1d9
+    description: This topic triggers when the user says thank you.
+    shareContext: {}
+    state: Active
+    status: Active
+    publisherUniqueName: DefaultPublisherspdevdev2
+    schemaName: template-content.topic.Thankyou
+    dialog:
+      beginDialog:
+        kind: OnRecognizedIntent
+        id: main
+        intent:
+          displayName: Thank you
+          includeInOnSelectIntent: false
+          triggerQueries:
+            - thanks
+            - thank you
+            - thanks so much
+            - ty
+
+        actions:
+          - kind: SendActivity
+            id: sendMessage_9iz6v7
+            activity: You're welcome.
+
+  - kind: DialogComponent
+    managedProperties:
+      isCustomizable: false
+
+    displayName: Microsoft Power Apps - Power Apps MCP Server
+    parentBotId: 14dd7ea0-b8a7-4639-b785-6a01b3e8d1d9
+    shareContext: {}
+    state: Active
+    status: Active
+    publisherUniqueName: DefaultPublisherspdevdev2
+    schemaName: template-content.action.MicrosoftPowerAppsPowerAppsMCPServer
+    dialog:
+      kind: TaskDialog
+      modelDisplayName: Power Apps MCP Server
+      modelDescription: Power Apps MCP Server
+      action:
+        kind: InvokeExternalAgentTaskAction
+        connectionReference: template-content.connectionreference.ca_agent.shared_powertools.c0a19cb45f8c4670938951c0513546d8
+        connectionProperties:
+          name: template-content.connectionreference.ca_agent.shared_powertools.c0a19cb45f8c4670938951c0513546d8
+          mode: Invoker
+
+        operationDetails:
+          kind: ModelContextProtocolMetadata
+          operationId: InvokeMCP
+
+  - kind: DialogComponent
+    managedProperties:
+      isCustomizable: false
+
+    displayName: Multiple Topics Matched
+    parentBotId: 14dd7ea0-b8a7-4639-b785-6a01b3e8d1d9
+    description: This system topic triggers when the agent matches multiple Topics with the incoming message and needs to clarify which one should be triggered.
+    shareContext: {}
+    state: Active
+    status: Active
+    publisherUniqueName: DefaultPublisherspdevdev2
+    schemaName: template-content.topic.MultipleTopicsMatched
+    dialog:
+      beginDialog:
+        kind: OnSelectIntent
+        id: main
+        triggerBehavior: Always
+        actions:
+          - kind: SetVariable
+            id: setVariable_M6434i
+            variable: init:Topic.IntentOptions
+            value: =System.Recognizer.IntentOptions
+
+          - kind: SetTextVariable
+            id: setTextVariable_0
+            variable: Topic.NoneOfTheseDisplayName
+            value: None of these
+
+          - kind: EditTable
+            id: sendMessage_g5Ls09
+            changeType: Add
+            itemsVariable: Topic.IntentOptions
+            value: "={ DisplayName: Topic.NoneOfTheseDisplayName, TopicId: \"NoTopic\", TriggerId: \"NoTrigger\", Score: 1.0 }"
+
+          - kind: Question
+            id: question_zf2HhP
+            interruptionPolicy:
+              allowInterruption: false
+
+            alwaysPrompt: true
+            variable: System.Recognizer.SelectedIntent
+            prompt: "To clarify, did you mean:"
+            entity:
+              kind: DynamicClosedListEntity
+              items: =Topic.IntentOptions
+
+          - kind: ConditionGroup
+            id: conditionGroup_60PuXb
+            conditions:
+              - id: conditionItem_rs7GgM
+                condition: =System.Recognizer.SelectedIntent.TopicId = "NoTopic"
+                actions:
+                  - kind: ReplaceDialog
+                    id: YZXRDb
+                    dialog: template-content.topic.Fallback
+
+  - kind: DialogComponent
+    managedProperties:
+      isCustomizable: false
+
+    displayName: Conversational boosting
+    parentBotId: 14dd7ea0-b8a7-4639-b785-6a01b3e8d1d9
+    description: Create generative answers from knowledge sources.
+    shareContext: {}
+    state: Active
+    status: Active
+    publisherUniqueName: DefaultPublisherspdevdev2
+    schemaName: template-content.topic.Conversationalboosting
+    dialog:
+      beginDialog:
+        kind: OnUnknownIntent
+        id: main
+        priority: -1
+        actions:
+          - kind: SearchAndSummarizeContent
+            id: search-content
+            variable: Topic.Answer
+            userInput: =System.Activity.Text
+
+          - kind: ConditionGroup
+            id: has-answer-conditions
+            conditions:
+              - id: has-answer
+                condition: =!IsBlank(Topic.Answer)
+                actions:
+                  - kind: EndDialog
+                    id: end-topic
+                    clearTopicQueue: true
+
+  - kind: DialogComponent
+    managedProperties:
+      isCustomizable: false
+
+    displayName: Start Over
+    parentBotId: 14dd7ea0-b8a7-4639-b785-6a01b3e8d1d9
+    shareContext: {}
+    state: Active
+    status: Active
+    publisherUniqueName: DefaultPublisherspdevdev2
+    schemaName: template-content.topic.StartOver
+    dialog:
+      beginDialog:
+        kind: OnRecognizedIntent
+        id: main
+        intent:
+          displayName: Start Over
+          includeInOnSelectIntent: false
+          triggerQueries:
+            - let's begin again
+            - start over
+            - start again
+            - restart
+
+        actions:
+          - kind: Question
+            id: question_zguoVV
+            alwaysPrompt: false
+            variable: init:Topic.Confirm
+            prompt: Are you sure you want to restart the conversation?
+            entity: BooleanPrebuiltEntity
+
+          - kind: ConditionGroup
+            id: conditionGroup_lvx2zV
+            conditions:
+              - id: conditionItem_sVQtHa
+                condition: =Topic.Confirm = true
+                actions:
+                  - kind: BeginDialog
+                    id: 0YKYsy
+                    dialog: template-content.topic.ResetConversation
+
+            elseActions:
+              - kind: SendActivity
+                id: sendMessage_lk2CyQ
+                activity: Ok. Let's carry on.
+
+  - kind: DialogComponent
+    managedProperties:
+      isCustomizable: false
+
+    displayName: Work IQ Copilot (Preview)
+    parentBotId: 14dd7ea0-b8a7-4639-b785-6a01b3e8d1d9
+    shareContext: {}
+    state: Active
+    status: Active
+    publisherUniqueName: DefaultPublisherspdevdev2
+    schemaName: template-content.action.WorkIQCopilotPreview
+    dialog:
+      kind: TaskDialog
+      modelDisplayName: Work IQ Copilot (Preview)
+      action:
+        kind: InvokeExternalAgentTaskAction
+        connectionReference: template-content.connectionreference.ca_agent.shared_a365copilotchatmcp.shareda365copilotch8d5d741a8
+        connectionProperties:
+          name: template-content.connectionreference.ca_agent.shared_a365copilotchatmcp.shareda365copilotch8d5d741a8
+          mode: Invoker
+
+        operationDetails:
+          kind: ModelContextProtocolMetadata
+          operationId: mcp_m365copilot
+
+  - kind: DialogComponent
+    managedProperties:
+      isCustomizable: false
+
+    displayName: Work IQ User (Preview)
+    parentBotId: 14dd7ea0-b8a7-4639-b785-6a01b3e8d1d9
+    shareContext: {}
+    state: Active
+    status: Active
+    publisherUniqueName: DefaultPublisherspdevdev2
+    schemaName: template-content.action.WorkIQUserPreview
+    dialog:
+      kind: TaskDialog
+      modelDisplayName: Work IQ User (Preview)
+      action:
+        kind: InvokeExternalAgentTaskAction
+        connectionReference: template-content.connectionreference.ca_agent.shared_a365memcp.shareda365memcp40b0fa469e4440c698b028
+        connectionProperties:
+          name: template-content.connectionreference.ca_agent.shared_a365memcp.shareda365memcp40b0fa469e4440c698b028
+          mode: Invoker
+
+        operationDetails:
+          kind: ModelContextProtocolMetadata
+          operationId: mcp_MeServer
+
+  - kind: ExternalTriggerComponent
+    managedProperties:
+      isCustomizable: false
+
+    displayName: When an intake request is added complete the request
+    parentBotId: 14dd7ea0-b8a7-4639-b785-6a01b3e8d1d9
+    description: "Trigger your agent with certain message upon event: When a row is added, modified or deleted."
+    shareContext:
+      iconUri: https://static.powerapps.com/resource/ppcr/releases/v1.0.1811/1.0.1811.4743/commondataserviceforapps/icon.png
+
+    state: Active
+    status: Active
+    publisherUniqueName: DefaultPublisherspdevdev2
+    schemaName: template-content.externaltrigger.Whenanintakerequestisaddedcompletetherequest
+    configuration:
+      externalTriggerSource:
+        kind: WorkflowExternalTrigger
+        flowId: cca41320-d664-f111-ab0c-7c1e521c7ea3
+
+      extensionData:
+        flowName: 6f3b8f15-731c-6fae-5908-0eda108a0723
+        flowUrl: /providers/Microsoft.ProcessSimple/environments/543d442f-0b4a-e67b-89eb-1e32c0622907/flows/6f3b8f15-731c-6fae-5908-0eda108a0723
+        triggerConnectionType: Microsoft Dataverse
+
+  - kind: DialogComponent
+    managedProperties:
+      isCustomizable: false
+
+    displayName: "Sign in "
+    parentBotId: 14dd7ea0-b8a7-4639-b785-6a01b3e8d1d9
+    description: This system topic triggers when the agent needs to sign in the user or require the user to sign in
+    shareContext: {}
+    state: Active
+    status: Active
+    publisherUniqueName: DefaultPublisherspdevdev2
+    schemaName: template-content.topic.Signin
+    dialog:
+      beginDialog:
+        kind: OnSignIn
+        id: main
+        actions:
+          - kind: ConditionGroup
+            id: conditionGroup_ypjGKL
+            conditions:
+              - id: conditionItem_7XYIIR
+                condition: =System.SignInReason = SignInReason.SignInRequired
+                actions:
+                  - kind: SendActivity
+                    id: sendMessage_1jHUNO
+                    activity: Hello! To be able to help you, I'll need you to sign in.
+
+          - kind: OAuthInput
+            id: gOjhZA
+            title: Login
+            text: To continue, please login
+
+  - kind: DialogComponent
+    managedProperties:
+      isCustomizable: false
+
+    displayName: Fallback
+    parentBotId: 14dd7ea0-b8a7-4639-b785-6a01b3e8d1d9
+    description: This system topic triggers when the user's utterance does not match any existing topics.
+    shareContext: {}
+    state: Active
+    status: Active
+    publisherUniqueName: DefaultPublisherspdevdev2
+    schemaName: template-content.topic.Fallback
+    dialog:
+      beginDialog:
+        kind: OnUnknownIntent
+        id: main
+        actions:
+          - kind: ConditionGroup
+            id: conditionGroup_LktzXw
+            conditions:
+              - id: conditionItem_tlGIVo
+                condition: =System.FallbackCount < 3
+                actions:
+                  - kind: SendActivity
+                    id: sendMessage_QZreqo
+                    activity: I'm sorry, I'm not sure how to help with that. Can you try rephrasing?
+
+            elseActions:
+              - kind: BeginDialog
+                id: 5aXj5M
+                dialog: template-content.topic.Escalate
+
+  - kind: DialogComponent
+    managedProperties:
+      isCustomizable: false
+
+    displayName: On Error
+    parentBotId: 14dd7ea0-b8a7-4639-b785-6a01b3e8d1d9
+    description: This system topic triggers when the agent encounters an error. When using the test chat pane, the full error description is displayed.
+    shareContext: {}
+    state: Active
+    status: Active
+    publisherUniqueName: DefaultPublisherspdevdev2
+    schemaName: template-content.topic.OnError
+    dialog:
+      startBehavior: UseLatestPublishedContentAndCancelOtherTopics
+      beginDialog:
+        kind: OnError
+        id: main
+        actions:
+          - kind: SetVariable
+            id: setVariable_timestamp
+            variable: init:Topic.CurrentTime
+            value: =Text(Now(), DateTimeFormat.UTC)
+
+          - kind: ConditionGroup
+            id: condition_1
+            conditions:
+              - id: bL4wmY
+                condition: =System.Conversation.InTestMode = true
+                actions:
+                  - kind: SendActivity
+                    id: sendMessage_XJBYMo
+                    activity: |-
+                      Error Message: {System.Error.Message}
+                      Error Code: {System.Error.Code}
+                      Conversation Id: {System.Conversation.Id}
+                      Time (UTC): {Topic.CurrentTime}
+
+            elseActions:
+              - kind: SendActivity
+                id: sendMessage_dZ0gaF
+                activity:
+                  text:
+                    - |-
+                      An error has occurred.
+                      Error code: {System.Error.Code}
+                      Conversation Id: {System.Conversation.Id}
+                      Time (UTC): {Topic.CurrentTime}.
+                  speak:
+                    - An error has occurred, please try again.
+
+          - kind: LogCustomTelemetryEvent
+            id: 9KwEAn
+            eventName: OnErrorLog
+            properties: "={ErrorMessage: System.Error.Message, ErrorCode: System.Error.Code, TimeUTC: Topic.CurrentTime, ConversationId: System.Conversation.Id}"
+
+          - kind: CancelAllDialogs
+            id: NW7NyY
+
+connectionReferences:
+  - managedProperties:
+      isCustomizable: false
+
+    connectorId: /providers/Microsoft.PowerApps/apis/shared_computeroperator
+    connectionReferenceLogicalName: template-content.connectionreference.ca_agent.shared_computeroperator.df5ba5a1b6e14c7996eadd244c2f86
+    displayName: ca_agent.shared_computeroperator.df5ba5a1b6e14c7996eadd244c2f8604
+
+  - managedProperties:
+      isCustomizable: false
+
+    connectorId: /providers/Microsoft.PowerApps/apis/shared_powertools
+    connectionReferenceLogicalName: template-content.connectionreference.ca_agent.shared_powertools.c0a19cb45f8c4670938951c0513546d8
+    displayName: ca_agent.shared_powertools.c0a19cb45f8c4670938951c0513546d8
+
+  - managedProperties:
+      isCustomizable: false
+
+    connectorId: /providers/Microsoft.PowerApps/apis/shared_a365memcp
+    connectionReferenceLogicalName: template-content.connectionreference.ca_agent.shared_a365memcp.shareda365memcp40b0fa469e4440c698b028
+    displayName: ca_agent.shared_a365memcp.shared-a365memcp-40b0fa46-9e44-40c6-98b0-28c9614d4131
+
+  - managedProperties:
+      isCustomizable: false
+
+    connectorId: /providers/Microsoft.PowerApps/apis/shared_a365copilotchatmcp
+    connectionReferenceLogicalName: template-content.connectionreference.ca_agent.shared_a365copilotchatmcp.shareda365copilotch8d5d741a8
+    displayName: ca_agent.shared_a365copilotchatmcp.shared-a365copilotch-8d5d741a-88be-45b6-a47c-525b6dd0b87e
+
+connectorDefinitions:
+  - connectorId: /providers/Microsoft.PowerApps/apis/shared_a365copilotchatmcp
+
+  - connectorId: /providers/Microsoft.PowerApps/apis/shared_a365memcp
+
+  - connectorId: /providers/Microsoft.PowerApps/apis/shared_computeroperator
+
+  - connectorId: /providers/Microsoft.PowerApps/apis/shared_powertools

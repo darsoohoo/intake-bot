@@ -236,6 +236,17 @@ Download latest Canvas package:
 pac canvas download --environment 543d442f-0b4a-e67b-89eb-1e32c0622907 --name b524aff3-cb3e-4baa-bedc-8e006b7bae74 --file-name "canvas\RequestIntakeCopilotCanvas.msapp" --overwrite
 ```
 
+Latest full cloud export:
+
+```powershell
+pac solution export --environment 543d442f-0b4a-e67b-89eb-1e32c0622907 --name WorkManagementAgent --path "powerplatform\solution-exports\20260610-080805-WorkManagementAgent-unmanaged.zip" --managed false --overwrite
+pac solution export --environment 543d442f-0b4a-e67b-89eb-1e32c0622907 --name crb_RequestIntakeCopilot --path "powerplatform\solution-exports\20260610-080805-crb_RequestIntakeCopilot-unmanaged.zip" --managed false --overwrite
+```
+
+Latest export manifest:
+
+- `powerplatform/export-manifest-20260610-080805.md`
+
 Open the copied Canvas app for comparison:
 
 ```powershell
@@ -255,5 +266,6 @@ Start-Process "https://apps.powerapps.com/play/e/543d442f-0b4a-e67b-89eb-1e32c06
 - Because `IntakeCopilot_Run` did not appear in the Canvas Add data picker, the Canvas app uses `IntakeCopilot_CanvasRun` from the Power Automate pane/flow context instead.
 - For future package edits through Experimental layout, update both `Src/*.fx.yaml` and `Other/Src/*.pa.yaml` before packing. Updating only `Src/*.fx.yaml` packs but does not change the package returned by `pac canvas download`.
 - The older Power Apps app PUT/publish flow requires a readable document URI; the current API response only exposes read/list SAS for the existing package and does not provide write permissions.
-- This folder is now a Git repo with a dirty working tree from the Power Platform/code app work. Do not revert unrelated changes.
+- Latest cloud snapshot from `SPDEV-Dev2` was exported on 2026-06-10 at 08:08 local time. It includes unmanaged solution zips, unpacked solution folders, two downloadable Canvas `.msapp` packages plus source exports, and Copilot template exports for the three unmanaged copilots. See `powerplatform/export-manifest-20260610-080805.md`.
+- The code app CLI does not currently provide a source pull command. The local source remains in `src/`; the published cloud bundle is captured in the unpacked solution under `powerplatform/solution/WorkManagementAgent-unmanaged/CanvasApps/cr3d3_requestintakecopilot_61127_CodeAppPackages`.
 

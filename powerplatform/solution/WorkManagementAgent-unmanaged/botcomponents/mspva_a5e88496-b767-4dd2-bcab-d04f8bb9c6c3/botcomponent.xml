@@ -1,0 +1,15 @@
+<botcomponent schemaname="mspva_a5e88496-b767-4dd2-bcab-d04f8bb9c6c3">
+  <category>Testing</category>
+  <componenttype>19</componenttype>
+  <description>I want to integrate our app with SharePoint—what steps should I follow?</description>
+  <iscustomizable>0</iscustomizable>
+  <name>I want to integrate our app with SharePoint—what steps should I follow?</name>
+  <parentbotcomponentid>
+    <schemaname>mspva_1516b656-0934-43bf-a8fa-a4ffd07591f0</schemaname>
+  </parentbotcomponentid>
+  <parentbotid>
+    <schemaname>cr3d3_bot486100</schemaname>
+  </parentbotid>
+  <statecode>0</statecode>
+  <statuscode>1</statuscode>
+</botcomponent>

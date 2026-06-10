@@ -1,0 +1,15 @@
+<botcomponent schemaname="mspva_08c314e3-3b05-418b-9467-c95d3cb9c5dc">
+  <category>Testing</category>
+  <componenttype>19</componenttype>
+  <description>I need to request a change to the onboarding process in our app—what details should I provide?</description>
+  <iscustomizable>0</iscustomizable>
+  <name>I need to request a change to the onboarding process in our app—what details should I provide?</name>
+  <parentbotcomponentid>
+    <schemaname>mspva_1516b656-0934-43bf-a8fa-a4ffd07591f0</schemaname>
+  </parentbotcomponentid>
+  <parentbotid>
+    <schemaname>cr3d3_bot486100</schemaname>
+  </parentbotid>
+  <statecode>0</statecode>
+  <statuscode>1</statuscode>
+</botcomponent>

@@ -1,0 +1,73 @@
+{
+  "version": "1.0.0",
+  "_version.comment": "{locked}",
+  "metadata": {
+    "templateName": "RequestIntakeCopilot",
+    "_templateName.comment": "{locked}",
+    "templateVersion": "1.0.0",
+    "_templateVersion.comment": "{locked}",
+    "name": "Agent Name",
+    "description": "A basic agent.",
+    "source": "CopilotStudio",
+    "_source.comment": "{locked}",
+    "quality": "PrivatePreview",
+    "_quality.comment": "{locked}",
+    "iconBase64": null,
+    "_iconBase64.comment": "{locked}",
+    "iconAltText": null,
+    "isGpt": false,
+    "_isGpt.comment": "{locked}",
+    "documentationUri": null,
+    "_documentationUri.comment": "{locked}",
+    "supportedLanguages": [],
+    "_supportedLanguages.comment": "{locked}",
+    "industries": [],
+    "_industries.comment": "{locked}",
+    "categories": [],
+    "_categories.comment": "{locked}"
+  },
+  "content": {
+    "displayName": "Copilot",
+    "description": null,
+    "instructions": "You are a request-intake analyst for a Power Platform development team.\n\nHelp users describe bugs, enhancements, automations, reporting needs, access issues, integrations, data work, and process changes.\n\nAsk one concise follow-up question at a time. Do not ask for every missing field at once.\n\nAssume requests are for the Power Platform team and should be implemented as new or existing Power Platform solutions such as Power Apps, Power Automate flows, Dataverse, Power BI, Copilot Studio, Power Pages, or Microsoft 365 connectors unless the requester explicitly names a non-Power Platform system. Do not ask which platform to use when the request can reasonably be handled in Power Platform; record the likely Power Platform implementation assumption in additionalInformation.\n\nDo not invent facts. You may infer category, urgency, size, estimated effort, and estimated duration when the user\u0027s wording gives enough signal. Put assumptions, risks, dependencies, and open questions in additionalInformation.\n\nKeep field values aligned to the allowed Dataverse choices:\n- category: Bug, Enhancement, Automation, Reporting, Access, Integration, Data, Process, Uncategorized\n- urgency: Low, Medium, High, Critical\n- size: Small, Medium, Large, Extra Large\n- status: Draft, Needs Review, Submitted, Accepted, Rejected\n\nThe target Dataverse table is Request Intake with logical name crb_intakerequest. Capture enough information to populate: title, description, category, affected area, users affected, business impact, urgency, desired outcome, constraints, dependencies, acceptance criteria, size, estimated effort, estimated duration, confidence, missing requirements, additional information, conversation JSON, and status.\n\nWhen the requester has provided enough detail, tell them the draft is ready to review and save.",
+    "conversationStarters": []
+  },
+  "customizations": {
+    "schema": {
+      "type": "object",
+      "_type.comment": "{locked}",
+      "properties": {
+        "Property1": {
+          "type": "string",
+          "_type.comment": "{locked}",
+          "title": "An overridable property",
+          "description": "This is a property that can be added anywhere in the content.yml as {{Property1}}. If a value is provided at runtime, that is used, else the default value is used. The description and title are localizable, and depending on the default value, that may also be localizable.",
+          "default": "Default value. If this is something the user can input like a string, it should be localizable. If its to replace a number or a boolean toggle, then no.",
+          "_default.comment": "{locked}"
+        }
+      }
+    }
+  },
+  "spec": {
+    "connectors": [
+      {
+        "connectionReference": "connectionreference.crb_RequestIntakeCopilot.shared_powertools.c0a19cb45f8c46709389",
+        "_connectionReference.comment": "{locked}",
+        "connectorId": "/providers/Microsoft.PowerApps/apis/shared_powertools",
+        "_connectorId.comment": "{locked}"
+      },
+      {
+        "connectionReference": "connectionreference.crb_RequestIntakeCopilot.shared_microsoftcopilotstudio.3784ce68",
+        "_connectionReference.comment": "{locked}",
+        "connectorId": "/providers/Microsoft.PowerApps/apis/shared_microsoftcopilotstudio",
+        "_connectorId.comment": "{locked}"
+      },
+      {
+        "connectionReference": "connectionreference.crb_RequestIntakeCopilot.shared_computeroperator.df5ba5a1b6e14c",
+        "_connectionReference.comment": "{locked}",
+        "connectorId": "/providers/Microsoft.PowerApps/apis/shared_computeroperator",
+        "_connectorId.comment": "{locked}"
+      }
+    ]
+  }
+}

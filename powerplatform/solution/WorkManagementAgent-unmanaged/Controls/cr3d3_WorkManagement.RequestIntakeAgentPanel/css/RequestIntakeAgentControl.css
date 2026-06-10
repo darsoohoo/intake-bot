@@ -1,0 +1,151 @@
+.ri-agent {
+    background: #ffffff;
+    border: 1px solid #d0d7de;
+    border-radius: 6px;
+    color: #24292f;
+    display: flex;
+    flex-direction: column;
+    font-family: "Segoe UI", Arial, sans-serif;
+    min-height: 360px;
+    overflow: hidden;
+}
+
+.ri-agent__header {
+    align-items: center;
+    border-bottom: 1px solid #e5e7eb;
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 14px;
+}
+
+.ri-agent__eyebrow {
+    color: #57606a;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0;
+    text-transform: uppercase;
+}
+
+.ri-agent__title {
+    font-size: 16px;
+    font-weight: 600;
+    margin-top: 2px;
+}
+
+.ri-agent__status {
+    border: 1px solid #d0d7de;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 4px 9px;
+}
+
+.ri-agent__status[data-state="ready"] {
+    background: #dafbe1;
+    border-color: #82c91e;
+    color: #116329;
+}
+
+.ri-agent__status[data-state="busy"] {
+    background: #fff8c5;
+    border-color: #d4a72c;
+    color: #7d4e00;
+}
+
+.ri-agent__status[data-state="warning"] {
+    background: #ffebe9;
+    border-color: #ff8182;
+    color: #82071e;
+}
+
+.ri-agent__messages {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: 10px;
+    max-height: 420px;
+    min-height: 220px;
+    overflow-y: auto;
+    padding: 14px;
+}
+
+.ri-agent__message {
+    display: grid;
+    gap: 4px;
+    max-width: 92%;
+}
+
+.ri-agent__message--user {
+    align-self: flex-end;
+}
+
+.ri-agent__message-label {
+    color: #57606a;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.ri-agent__message--user .ri-agent__message-label {
+    text-align: right;
+}
+
+.ri-agent__message-body {
+    background: #f6f8fa;
+    border: 1px solid #d0d7de;
+    border-radius: 6px;
+    line-height: 1.4;
+    padding: 9px 10px;
+    white-space: pre-wrap;
+}
+
+.ri-agent__message--user .ri-agent__message-body {
+    background: #0969da;
+    border-color: #0969da;
+    color: #ffffff;
+}
+
+.ri-agent__message--system .ri-agent__message-body {
+    background: #fff8c5;
+    border-color: #d4a72c;
+}
+
+.ri-agent__composer {
+    border-top: 1px solid #e5e7eb;
+    display: grid;
+    gap: 10px;
+    grid-template-columns: 1fr auto;
+    padding: 12px;
+}
+
+.ri-agent__input {
+    border: 1px solid #d0d7de;
+    border-radius: 6px;
+    font: inherit;
+    min-height: 76px;
+    padding: 9px 10px;
+    resize: vertical;
+}
+
+.ri-agent__input:disabled {
+    background: #f6f8fa;
+    color: #57606a;
+}
+
+.ri-agent__send {
+    align-self: end;
+    background: #0969da;
+    border: 1px solid #0969da;
+    border-radius: 6px;
+    color: #ffffff;
+    cursor: pointer;
+    font: inherit;
+    font-weight: 600;
+    min-width: 92px;
+    padding: 10px 14px;
+}
+
+.ri-agent__send:disabled {
+    background: #8c959f;
+    border-color: #8c959f;
+    cursor: progress;
+}

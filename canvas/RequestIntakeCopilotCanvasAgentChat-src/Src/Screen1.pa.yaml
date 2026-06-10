@@ -1,0 +1,419 @@
+# ************************************************************************************************
+# Warning: YAML source code for Canvas Apps should only be used to review changes made within Power Apps Studio and for minor edits (Preview).
+# Use the maker portal to create and edit your Power Apps.
+# 
+# The schema file for Canvas Apps is available at https://go.microsoft.com/fwlink/?linkid=2304907
+# 
+# For more information, visit https://go.microsoft.com/fwlink/?linkid=2292623
+# ************************************************************************************************
+Screens:
+  Screen1:
+    Children:
+      - lblHeader:
+          Control: ModernText@1.0.0
+          Properties:
+            Height: =42
+            Size: =28
+            Text: ="Request Intake Copilot"
+            Width: =640
+            X: =48
+            Y: =24
+      - lblSubHeader:
+          Control: ModernText@1.0.0
+          Properties:
+            Height: =30
+            Size: =14
+            Text: ="Agent-guided canvas intake that turns a rough request into triage-ready fields."
+            Width: =820
+            X: =50
+            Y: =68
+      - lblRequestTitle:
+          Control: ModernText@1.0.0
+          Properties:
+            Height: =26
+            Text: ="Request title"
+            Width: =300
+            X: =48
+            Y: =112
+      - txtRequestTitle:
+          Control: ModernTextInput@1.1.0
+          Properties:
+            Default: =Coalesce(varRequestTitle, "")
+            Height: =44
+            Placeholder: ="Short title for the request"
+            Type: =TextInputType.SingleLine
+            Width: =570
+            X: =48
+            Y: =132
+      - lblProblem:
+          Control: ModernText@1.0.0
+          Properties:
+            Height: =26
+            Text: ="Problem or request"
+            Width: =300
+            X: =48
+            Y: =198
+      - txtProblem:
+          Control: ModernTextInput@1.1.0
+          Properties:
+            Default: =Coalesce(varProblemDescription, "")
+            Height: =144
+            Placeholder: ="Describe what is happening, what you need, or what changed."
+            Type: =TextInputType.Multiline
+            Width: =570
+            X: =48
+            Y: =214
+      - lblBusinessImpact:
+          Control: ModernText@1.0.0
+          Properties:
+            Height: =26
+            Text: ="Business impact"
+            Width: =300
+            X: =48
+            Y: =374
+      - txtBusinessImpact:
+          Control: ModernTextInput@1.1.0
+          Properties:
+            Default: =Coalesce(varBusinessImpact, "")
+            Height: =94
+            Placeholder: ="Who is affected, how often, and what is blocked?"
+            Type: =TextInputType.Multiline
+            Width: =570
+            X: =48
+            Y: =402
+      - lblAdditionalInfo:
+          Control: ModernText@1.0.0
+          Properties:
+            Height: =26
+            Text: ="Additional context"
+            Width: =300
+            X: =48
+            Y: =512
+      - txtAdditionalInfo:
+          Control: ModernTextInput@1.1.0
+          Properties:
+            Height: =82
+            Placeholder: ="Systems, URLs, screenshots, deadlines, examples, or constraints."
+            Type: =TextInputType.Multiline
+            Width: =570
+            X: =48
+            Y: =540
+      - btnAnalyze:
+          Control: ModernButton@1.0.0
+          Properties:
+            Height: =44
+            OnSelect: |
+              =Set(varInputText, Lower(txtProblem.Text & " " & txtBusinessImpact.Text & " " & txtAdditionalInfo.Text));
+              Set(varCategory, If(IsBlank(Trim(txtProblem.Text)), "Needs problem statement", If(Or("login" in varInputText, "access" in varInputText, "permission" in varInputText, "role" in varInputText), "Access / permissions", If(Or("bug" in varInputText, "error" in varInputText, "broken" in varInputText, "fail" in varInputText), "Bug / defect", If(Or("report" in varInputText, "dashboard" in varInputText, "data" in varInputText), "Reporting / data", If(Or("automation" in varInputText, "workflow" in varInputText, "approval" in varInputText), "Automation / workflow", "Enhancement / discovery"))))));
+              Set(varEffort, If(IsBlank(Trim(txtProblem.Text)), "", If(Or("outage" in varInputText, "blocked" in varInputText, "urgent" in varInputText, "security" in varInputText), "Large / urgent triage", If(Len(varInputText) > 450, "Medium: 3-5 days", "Small: 1-2 days"))));
+              Set(varTimeline, If(IsBlank(Trim(txtProblem.Text)), "", If(Or("urgent" in varInputText, "outage" in varInputText, "blocked" in varInputText), "Start today", If(Len(varInputText) > 450, "This sprint after discovery", "Next available triage slot"))));
+              Set(varQuestion, If(IsBlank(Trim(txtProblem.Text)), "Start by describing the problem in one or two sentences.", "Follow-up: who is affected, what happens today, and what would a good result look like?"));
+              Set(varDeveloperNotes, If(IsBlank(Trim(txtProblem.Text)), "Ask the requester for the core problem, affected users, business impact, and desired outcome before triage.", "Developer notes: confirm affected users, repro steps, priority, target system, desired outcome, and deadline. Signals found: " & varCategory & "; " & varEffort & "; " & varTimeline & ". Extra context: " & txtAdditionalInfo.Text));
+              Reset(txtCategory);
+              Reset(txtEffort);
+              Reset(txtTimeline);
+              Reset(txtDeveloperNotes)
+            Text: ="Analyze request"
+            Width: =170
+            X: =48
+            Y: =636
+      - btnClear:
+          Control: ModernButton@1.0.0
+          Properties:
+            Height: =44
+            OnSelect: |
+              =Set(varCategory, "");
+              Set(varEffort, "");
+              Set(varTimeline, "");
+              Set(varQuestion, "");
+              Set(varDeveloperNotes, "");
+              Set(varRequestTitle, "");
+              Set(varProblemDescription, "");
+              Set(varBusinessImpact, "");
+              Reset(txtRequestTitle);
+              Reset(txtProblem);
+              Reset(txtBusinessImpact);
+              Reset(txtAdditionalInfo);
+              Reset(txtCategory);
+              Reset(txtEffort);
+              Reset(txtTimeline);
+              Reset(txtDeveloperNotes)
+            Text: ="Clear"
+            Width: =120
+            X: =230
+            Y: =636
+      - lblAgentQuestion:
+          Control: ModernText@1.0.0
+          Properties:
+            Height: =56
+            Size: =14
+            Text: |
+              ="Agent prompt: " & Coalesce(varQuestion, "Describe the request, then use Analyze request to generate triage fields.")
+            Width: =570
+            X: =48
+            Y: =696
+      - lblAutoFields:
+          Control: ModernText@1.0.0
+          Properties:
+            Height: =34
+            Size: =20
+            Text: ="Auto-filled request fields"
+            Width: =520
+            X: =680
+            Y: =82
+      - lblCategory:
+          Control: ModernText@1.0.0
+          Properties:
+            Height: =24
+            Text: ="Category"
+            Width: =260
+            X: =680
+            Y: =132
+      - txtCategory:
+          Control: ModernTextInput@1.1.0
+          Properties:
+            Default: =Coalesce(varCategory, "")
+            Height: =44
+            Placeholder: ="Generated category"
+            Type: =TextInputType.SingleLine
+            Width: =285
+            X: =680
+            Y: =152
+      - lblEffort:
+          Control: ModernText@1.0.0
+          Properties:
+            Height: =24
+            Text: ="Estimated effort"
+            Width: =260
+            X: =995
+            Y: =132
+      - txtEffort:
+          Control: ModernTextInput@1.1.0
+          Properties:
+            Default: =Coalesce(varEffort, "")
+            Height: =44
+            Placeholder: ="Generated effort"
+            Type: =TextInputType.SingleLine
+            Width: =280
+            X: =995
+            Y: =152
+      - lblTimeline:
+          Control: ModernText@1.0.0
+          Properties:
+            Height: =24
+            Text: ="Likely timeline"
+            Width: =260
+            X: =680
+            Y: =228
+      - txtTimeline:
+          Control: ModernTextInput@1.1.0
+          Properties:
+            Default: =Coalesce(varTimeline, "")
+            Height: =44
+            Placeholder: ="Generated timeline"
+            Type: =TextInputType.SingleLine
+            Width: =595
+            X: =680
+            Y: =244
+      - lblDeveloperNotes:
+          Control: ModernText@1.0.0
+          Properties:
+            Height: =24
+            Text: ="Additional developer notes"
+            Width: =420
+            X: =680
+            Y: =308
+      - txtDeveloperNotes:
+          Control: ModernTextInput@1.1.0
+          Properties:
+            Default: =Coalesce(varDeveloperNotes, "")
+            Height: =158
+            Placeholder: ="Generated notes for developers"
+            Type: =TextInputType.Multiline
+            Width: =595
+            X: =680
+            Y: =336
+      - lblChecklist:
+          Control: ModernText@1.0.0
+          Properties:
+            Height: =176
+            Size: =14
+            Text: |
+              ="Developer handoff checklist" & Char(10) & "- Problem statement" & Char(10) & "- Affected users or roles" & Char(10) & "- Business impact and urgency" & Char(10) & "- Expected outcome" & Char(10) & "- Evidence, screenshots, links, or repro steps"
+            Visible: =false
+            Width: =595
+            X: =680
+            Y: =520
+      - btnSaveDraft:
+          Control: ModernButton@1.0.0
+          Properties:
+            Height: =44
+            OnSelect: |-
+              =Set(varSaveCategory, If(IsBlank(Lower(Coalesce(varCategory, txtCategory.Text, ""))), "Uncategorized", If("bug" in Lower(Coalesce(varCategory, txtCategory.Text, "")), "Bug", If("access" in Lower(Coalesce(varCategory, txtCategory.Text, "")), "Access", If("report" in Lower(Coalesce(varCategory, txtCategory.Text, "")), "Reporting", If("data" in Lower(Coalesce(varCategory, txtCategory.Text, "")), "Data", If("automation" in Lower(Coalesce(varCategory, txtCategory.Text, "")), "Automation", If("workflow" in Lower(Coalesce(varCategory, txtCategory.Text, "")), "Process", If("integration" in Lower(Coalesce(varCategory, txtCategory.Text, "")), "Integration", If("enhancement" in Lower(Coalesce(varCategory, txtCategory.Text, "")), "Enhancement", "Uncategorized"))))))))));
+              Set(varSaveUrgency, If(Or("urgent" in Lower(txtProblem.Text & " " & txtBusinessImpact.Text), "blocked" in Lower(txtProblem.Text & " " & txtBusinessImpact.Text), "outage" in Lower(txtProblem.Text & " " & txtBusinessImpact.Text)), "Critical", "Medium"));
+              Set(varSaveSize, If("large" in Lower(Coalesce(varEffort, txtEffort.Text, "")), "Large", If("medium" in Lower(Coalesce(varEffort, txtEffort.Text, "")), "Medium", "Small")));
+              Patch(
+                  'Request Intakes',
+                  Defaults('Request Intakes'),
+                  {
+                      'Request Title': If(IsBlank(Trim(txtRequestTitle.Text)), Left(Trim(txtProblem.Text), 80), Trim(txtRequestTitle.Text)),
+                      Description: If(IsBlank(Trim(txtProblem.Text)), "No description provided.", Trim(txtProblem.Text)),
+                      'Status (crb_status)': 'Status (Request Intakes)'.Draft,
+                      Category: Switch(varSaveCategory, "Bug", 'Category (Request Intakes)'.Bug, "Enhancement", 'Category (Request Intakes)'.Enhancement, "Automation", 'Category (Request Intakes)'.Automation, "Reporting", 'Category (Request Intakes)'.Reporting, "Access", 'Category (Request Intakes)'.Access, "Integration", 'Category (Request Intakes)'.Integration, "Data", 'Category (Request Intakes)'.Data, "Process", 'Category (Request Intakes)'.Process, 'Category (Request Intakes)'.Uncategorized),
+                      'Affected Area': varSaveCategory,
+                      'Users Affected': "",
+                      'Business Impact': If(IsBlank(Trim(txtBusinessImpact.Text)), "Not provided.", Trim(txtBusinessImpact.Text)),
+                      Urgency: Switch(varSaveUrgency, "Critical", 'Urgency (Request Intakes)'.Critical, "High", 'Urgency (Request Intakes)'.High, "Low", 'Urgency (Request Intakes)'.Low, 'Urgency (Request Intakes)'.Medium),
+                      'Desired Outcome': Coalesce(varQuestion, "Review and triage the intake request."),
+                      Constraints: txtAdditionalInfo.Text,
+                      Dependencies: "",
+                      'Acceptance Criteria': "",
+                      Size: Switch(varSaveSize, "Large", 'Size (Request Intakes)'.Large, "Medium", 'Size (Request Intakes)'.Medium, "Extra Large", 'Size (Request Intakes)'.'Extra Large', 'Size (Request Intakes)'.Small),
+                      'Estimated Effort': Coalesce(varEffort, txtEffort.Text, ""),
+                      'Estimated Duration': Coalesce(varTimeline, txtTimeline.Text, ""),
+                      Confidence: 0,
+                      'Missing Requirements': Coalesce(varQuestion, ""),
+                      'Additional Information': Coalesce(varDeveloperNotes, txtDeveloperNotes.Text, ""),
+                      'Conversation JSON': Coalesce(varConversationLog, "")
+                  }
+              );
+              Notify("Request draft saved to Dataverse.", NotificationType.Success)
+            Text: ="Save request draft"
+            Width: =180
+            X: =362
+            Y: =636
+      - btnSubmitRequest:
+          Control: ModernButton@1.0.0
+          Properties:
+            Height: =44
+            OnSelect: |-
+              =Set(varSaveCategory, If(IsBlank(Lower(Coalesce(varCategory, txtCategory.Text, ""))), "Uncategorized", If("bug" in Lower(Coalesce(varCategory, txtCategory.Text, "")), "Bug", If("access" in Lower(Coalesce(varCategory, txtCategory.Text, "")), "Access", If("report" in Lower(Coalesce(varCategory, txtCategory.Text, "")), "Reporting", If("data" in Lower(Coalesce(varCategory, txtCategory.Text, "")), "Data", If("automation" in Lower(Coalesce(varCategory, txtCategory.Text, "")), "Automation", If("workflow" in Lower(Coalesce(varCategory, txtCategory.Text, "")), "Process", If("integration" in Lower(Coalesce(varCategory, txtCategory.Text, "")), "Integration", If("enhancement" in Lower(Coalesce(varCategory, txtCategory.Text, "")), "Enhancement", "Uncategorized"))))))))));
+              Set(varSaveUrgency, If(Or("urgent" in Lower(txtProblem.Text & " " & txtBusinessImpact.Text), "blocked" in Lower(txtProblem.Text & " " & txtBusinessImpact.Text), "outage" in Lower(txtProblem.Text & " " & txtBusinessImpact.Text)), "Critical", "Medium"));
+              Set(varSaveSize, If("large" in Lower(Coalesce(varEffort, txtEffort.Text, "")), "Large", If("medium" in Lower(Coalesce(varEffort, txtEffort.Text, "")), "Medium", "Small")));
+              Patch(
+                  'Request Intakes',
+                  Defaults('Request Intakes'),
+                  {
+                      'Request Title': If(IsBlank(Trim(txtRequestTitle.Text)), Left(Trim(txtProblem.Text), 80), Trim(txtRequestTitle.Text)),
+                      Description: If(IsBlank(Trim(txtProblem.Text)), "No description provided.", Trim(txtProblem.Text)),
+                      'Status (crb_status)': 'Status (Request Intakes)'.Submitted,
+                      Category: Switch(varSaveCategory, "Bug", 'Category (Request Intakes)'.Bug, "Enhancement", 'Category (Request Intakes)'.Enhancement, "Automation", 'Category (Request Intakes)'.Automation, "Reporting", 'Category (Request Intakes)'.Reporting, "Access", 'Category (Request Intakes)'.Access, "Integration", 'Category (Request Intakes)'.Integration, "Data", 'Category (Request Intakes)'.Data, "Process", 'Category (Request Intakes)'.Process, 'Category (Request Intakes)'.Uncategorized),
+                      'Affected Area': varSaveCategory,
+                      'Users Affected': "",
+                      'Business Impact': If(IsBlank(Trim(txtBusinessImpact.Text)), "Not provided.", Trim(txtBusinessImpact.Text)),
+                      Urgency: Switch(varSaveUrgency, "Critical", 'Urgency (Request Intakes)'.Critical, "High", 'Urgency (Request Intakes)'.High, "Low", 'Urgency (Request Intakes)'.Low, 'Urgency (Request Intakes)'.Medium),
+                      'Desired Outcome': Coalesce(varQuestion, "Review and triage the intake request."),
+                      Constraints: txtAdditionalInfo.Text,
+                      Dependencies: "",
+                      'Acceptance Criteria': "",
+                      Size: Switch(varSaveSize, "Large", 'Size (Request Intakes)'.Large, "Medium", 'Size (Request Intakes)'.Medium, "Extra Large", 'Size (Request Intakes)'.'Extra Large', 'Size (Request Intakes)'.Small),
+                      'Estimated Effort': Coalesce(varEffort, txtEffort.Text, ""),
+                      'Estimated Duration': Coalesce(varTimeline, txtTimeline.Text, ""),
+                      Confidence: 0,
+                      'Missing Requirements': Coalesce(varQuestion, ""),
+                      'Additional Information': Coalesce(varDeveloperNotes, txtDeveloperNotes.Text, ""),
+                      'Conversation JSON': Coalesce(varConversationLog, "")
+                  }
+              );
+              Notify("Request submitted to Dataverse.", NotificationType.Success)
+            Text: ="Submit"
+            Width: =84
+            X: =554
+            Y: =636
+      - lblConversation:
+          Control: ModernText@1.0.0
+          Properties:
+            Height: =24
+            Size: =14
+            Text: ="Copilot messages"
+            Width: =300
+            X: =680
+            Y: =514
+      - txtAgentTranscript:
+          Control: ModernTextInput@1.1.0
+          Properties:
+            Default: |
+              =Coalesce(varConversationLog, "Agent: Tell me what the requester needs. I will ask follow-up questions and fill the intake fields as we go.")
+            DisplayMode: =DisplayMode.View
+            Height: =156
+            Type: =TextInputType.Multiline
+            Width: =595
+            X: =680
+            Y: =540
+      - txtAgentMessage:
+          Control: ModernTextInput@1.1.0
+          Properties:
+            Height: =56
+            Placeholder: ="Reply to the intake agent"
+            Type: =TextInputType.Multiline
+            Width: =405
+            X: =680
+            Y: =708
+      - btnSendAgentMessage:
+          Control: ModernButton@1.0.0
+          Properties:
+            Height: =44
+            OnSelect: |
+              =If(IsBlank(Trim(txtAgentMessage.Text)),
+                  Notify("Type a message for the intake agent first.", NotificationType.Warning),
+                  Set(varChatText, Trim(txtAgentMessage.Text));
+                  Set(
+                      varAgentResponse,
+                      IntakeCopilot_CanvasRun.Run(
+                          varChatText,
+                          JSON(
+                              {
+                                  title: Coalesce(txtRequestTitle.Text, varRequestTitle, ""),
+                                  description: Coalesce(txtProblem.Text, varProblemDescription, ""),
+                                  category: Coalesce(varCategory, "Uncategorized"),
+                                  businessImpact: Coalesce(txtBusinessImpact.Text, varBusinessImpact, ""),
+                                  estimatedEffort: Coalesce(varEffort, ""),
+                                  estimatedDuration: Coalesce(varTimeline, ""),
+                                  additionalInformation: Coalesce(txtAdditionalInfo.Text, "")
+                              },
+                              JSONFormat.Compact
+                          ),
+                          JSON(
+                              Table(
+                                  {
+                                      role: "context",
+                                      content: Coalesce(varConversationLog, ""),
+                                      createdAt: Text(Now(), DateTimeFormat.UTC)
+                                  },
+                                  {
+                                      role: "user",
+                                      content: varChatText,
+                                      createdAt: Text(Now(), DateTimeFormat.UTC)
+                                  }
+                              ),
+                              JSONFormat.Compact
+                          )
+                      )
+                  );
+                  IfError(
+                      Set(varParsedDraft, ParseJSON(varAgentResponse.response));
+                      Set(varRequestTitle, If(IsBlank(Text(varParsedDraft.title)), txtRequestTitle.Text, Text(varParsedDraft.title)));
+                      Set(varProblemDescription, If(IsBlank(Text(varParsedDraft.description)), txtProblem.Text, Text(varParsedDraft.description)));
+                      Set(varBusinessImpact, If(IsBlank(Text(varParsedDraft.businessImpact)), txtBusinessImpact.Text, Text(varParsedDraft.businessImpact)));
+                      Set(varCategory, Coalesce(Text(varParsedDraft.category), "Uncategorized"));
+                      Set(varEffort, Coalesce(Text(varParsedDraft.estimatedEffort), ""));
+                      Set(varTimeline, Coalesce(Text(varParsedDraft.estimatedDuration), ""));
+                      Set(varQuestion, Coalesce(Text(varParsedDraft.nextQuestion), "I captured the latest message. Review the auto-filled fields and save the draft."));
+                      Set(varDeveloperNotes, "Developer notes: " & Coalesce(Text(varParsedDraft.additionalInformation), ""));
+                      Set(varConversationLog, Coalesce(varConversationLog, "Agent: Tell me what the requester needs. I will ask follow-up questions and fill the intake fields as we go.") & Char(10) & Char(10) & "You: " & varChatText & Char(10) & "Agent: " & varQuestion),
+                      Notify("The intake agent did not return a usable response. Please try again.", NotificationType.Error)
+                  );
+                  Reset(txtRequestTitle);
+                  Reset(txtProblem);
+                  Reset(txtBusinessImpact);
+                  Reset(txtCategory);
+                  Reset(txtEffort);
+                  Reset(txtTimeline);
+                  Reset(txtDeveloperNotes);
+                  Reset(txtAgentTranscript);
+                  Reset(txtAgentMessage)
+              )
+            Text: ="Send to agent"
+            Width: =175
+            X: =1100
+            Y: =714

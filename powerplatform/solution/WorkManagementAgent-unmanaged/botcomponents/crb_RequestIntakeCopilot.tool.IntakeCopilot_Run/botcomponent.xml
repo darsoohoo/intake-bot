@@ -1,0 +1,10 @@
+<botcomponent schemaname="crb_RequestIntakeCopilot.tool.IntakeCopilot_Run">
+  <componenttype>9</componenttype>
+  <iscustomizable>0</iscustomizable>
+  <name>IntakeCopilot_Run</name>
+  <parentbotid>
+    <schemaname>crb_RequestIntakeCopilot</schemaname>
+  </parentbotid>
+  <statecode>0</statecode>
+  <statuscode>1</statuscode>
+</botcomponent>

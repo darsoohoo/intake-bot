@@ -1,0 +1,125 @@
+{
+  "properties": {
+    "connectionReferences": {
+      "shared_m365copilotv2": {
+        "api": {
+          "name": "shared_m365copilotv2"
+        },
+        "connection": {
+          "connectionReferenceLogicalName": "new_sharedm365copilotv2_f419eb6c"
+        },
+        "runtimeSource": "embedded",
+        "connectionName": "7a31815a629c4e2582c361977834c969"
+      }
+    },
+    "definition": {
+      "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+      "contentVersion": "1.0.0.0",
+      "parameters": {
+        "$authentication": {
+          "defaultValue": {},
+          "type": "SecureObject"
+        },
+        "$connections": {
+          "defaultValue": {},
+          "type": "Object"
+        }
+      },
+      "triggers": {
+        "manual": {
+          "type": "Request",
+          "kind": "PowerAppV2",
+          "inputs": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "text": {
+                  "title": "lastUserMessage",
+                  "type": "string",
+                  "x-ms-content-hint": "TEXT",
+                  "x-ms-dynamically-added": true,
+                  "description": "Latest user message"
+                },
+                "text_1": {
+                  "title": "currentDraftJson",
+                  "type": "string",
+                  "x-ms-content-hint": "TEXT",
+                  "x-ms-dynamically-added": true,
+                  "description": "Current draft JSON"
+                },
+                "text_2": {
+                  "title": "conversationJson",
+                  "type": "string",
+                  "x-ms-content-hint": "TEXT",
+                  "x-ms-dynamically-added": true,
+                  "description": "Conversation JSON"
+                }
+              },
+              "required": [
+                "text",
+                "text_1",
+                "text_2"
+              ]
+            }
+          },
+          "metadata": {
+            "operationMetadataId": "bc2a4314-5b86-4a4c-901f-be57601386fa"
+          }
+        }
+      },
+      "actions": {
+        "M365_Copilot": {
+          "type": "OpenApiConnection",
+          "inputs": {
+            "parameters": {
+              "body/timezone": "America/New_York",
+              "body/preferAsync": false,
+              "body/message": "You are a request-intake analyst for a Power Platform development team.\n\nReturn only valid JSON. Do not wrap it in markdown.\n\nConversation JSON:\n@{triggerOutputs()?['body/text_2']}\n\nCurrent draft JSON:\n@{triggerOutputs()?['body/text_1']}\n\nLatest user message:\n@{triggerOutputs()?['body/text']}\n\nExtract or update these fields and return JSON only: title, description, category, affectedArea, usersAffected, businessImpact, urgency, desiredOutcome, constraints, dependencies, acceptanceCriteria, size, estimatedEffort, estimatedDuration, confidence, missingRequirements, additionalInformation, nextQuestion.\n\nRules:\n- Assume requests are for the Power Platform team and should be implemented as new or existing Power Platform solutions such as Power Apps, Power Automate flows, Dataverse, Power BI, Copilot Studio, Power Pages, or Microsoft 365 connectors unless the requester explicitly names a non-Power Platform system. Do not ask which platform to use when the request can reasonably be handled in Power Platform; record the likely Power Platform implementation assumption in additionalInformation.\n- Treat the full conversation and current draft as source of truth. Do not ask for information the requester already provided or clearly implied.\n- If the latest user message is a short answer to the previous question, interpret it as that answer in context. Do not turn the short answer into a new topic.\n- If the latest user message provides a new useful detail but does not answer the previous question, incorporate the detail and avoid repeating the exact same wording. Ask the next high-value missing detail, or restate the still-needed question with the new detail acknowledged in additionalInformation.\n- If the latest user message describes business value, pain, or purpose, such as \"save time\" or \"better documentation\", record it as businessImpact/desiredOutcome. Do not ask what documentation area should be improved, and do not repeat the prior question unless that answer is truly blocking initial triage.\n- For personal productivity requests using wording like \"my meeting\", \"my home\", \"for myself\", or \"my reimbursement\", infer the requester is the primary user. Do not ask whether it should support multiple users unless the requester mentions a team or organization.\n- For the travel reimbursement screenshot scenario, once the request describes calendar/meeting screenshot, map or mileage screenshot, reimbursement documentation purpose, and storage/destination, treat it as enough for initial triage. Do not ask about calendar-source automation, manual entry, multi-user support, or documentation systems; list those as open implementation questions in additionalInformation.\n- Hard override: if the conversation mentions mileage reimbursement documentation, calendar or meeting screenshots, and map or distance screenshots, and the latest user message selects OneDrive or SharePoint as storage, nextQuestion must be exactly: \"I have enough for initial triage. Review the generated fields, then save or submit the draft.\"\n- If the previous question asks whether to pull meeting location automatically from Outlook/calendar or enter/select it manually, and the latest user answer says automatic would be nice, manual is okay, or both are acceptable, record this as: \"Prefer Outlook calendar lookup with manual entry/override fallback.\" Do not ask what data or process they want to automate.\n- Hard override: if the conversation mentions mileage reimbursement documentation, calendar or meeting screenshots, and map or distance screenshots, and the latest user message answers the Outlook/calendar automation versus manual-entry preference, nextQuestion must be exactly: \"I have enough for initial triage. Review the generated fields, then save or submit the draft.\"\n- The goal is a triage-ready high-level request, not a full requirements workshop. Ask only for the single most important missing detail a developer would need to understand the request.\n- Prefer summarizing and confirming inferred intent over drilling into generic questions. For example, if the requester says they need a Bing Maps mileage screenshot for reimbursement, infer that the map should show point A to point B distance for documentation.\n- If the user selects a tool or platform such as Bing Maps or Power Apps after describing the business need, do not ask what they want to do with that tool. Use the earlier business need to infer the tool's role.\n- If the user selects a storage destination such as OneDrive or SharePoint after describing the business need, record it as a constraint or dependency. Do not ask what they want to achieve with that storage product.\n- For Power Platform requests that mention emailing output, assume Microsoft 365 Outlook is the default email service unless the requester names another service or asks for external email integration. Do not ask what email service to use. If recipient behavior matters, ask only a high-level question such as whether recipients are manually entered, selected from users, or defaulted from the record.\n- For PDF merge or print-to-PDF requests, once the requester has described the source documents, file type, merge/print output, sort/order behavior, and download/email sharing goal, treat it as enough for initial triage. Do not ask about PDF libraries, email service, connector selection, size limits, or implementation architecture; record those as implementation questions in additionalInformation.\n- Hard override: if the conversation mentions merging selected PDFs into one PDF, sort order/default display order, and download or email sharing, nextQuestion must be exactly: \"I have enough for initial triage. Review the generated fields, then save or submit the draft.\"\n- Never ask broad generic product or service questions such as \"What do you want to achieve with OneDrive?\", \"What do you want to do with Bing Maps?\", \"What specific data or process do you want to automate?\", \"Which documentation system should be improved?\", or \"What email service should be used?\" These are not intake questions.\n- Do not ask for personal or sensitive concrete values such as a home address, credentials, invite contents, or private URLs during intake. Capture those as future configuration or runtime inputs. If needed, ask a high-level source question instead, such as whether the app should pull the meeting location from Outlook or let the user enter/select it.\n- If the request already has a clear purpose, user, desired output, storage/destination when relevant, and enough acceptance criteria for initial triage, do not ask another question. Set nextQuestion to this exact completion statement: \"I have enough for initial triage. Review the generated fields, then save or submit the draft.\" Nonblocking implementation choices should go in additionalInformation instead of nextQuestion.\n- If a required field is missing, nextQuestion should target the most important missing field.\n- Do not invent facts that the requester did not provide. You may make reasonable assumptions from the conversation, but label them in additionalInformation.\n- You may infer category, urgency, size, estimatedEffort, and estimatedDuration, but explain the sizing rationale in additionalInformation.\n- Put developer-useful details, risks, dependencies, and open questions in additionalInformation.\n- Use category values only from: Bug, Enhancement, Automation, Reporting, Access, Integration, Data, Process, Uncategorized.\n- Use urgency values only from: Low, Medium, High, Critical.\n- Use size values only from: Small, Medium, Large, Extra Large.\n- confidence must be a whole number from 0 to 100.\n- missingRequirements must be an array of strings.\n- Every other field must be a string, including acceptanceCriteria. Do not return arrays or objects for any field except missingRequirements.\n- Return JSON only."
+            },
+            "host": {
+              "apiId": "/providers/Microsoft.PowerApps/apis/shared_m365copilotv2",
+              "connectionName": "shared_m365copilotv2",
+              "operationId": "StartChat"
+            }
+          },
+          "runAfter": {}
+        },
+        "Respond_to_a_PowerApp_or_flow": {
+          "type": "Response",
+          "kind": "PowerApp",
+          "inputs": {
+            "statusCode": 200,
+            "body": {
+              "response": "@outputs('M365_Copilot')?['body/response']"
+            },
+            "schema": {
+              "type": "object",
+              "properties": {
+                "response": {
+                  "title": "Response",
+                  "type": "string",
+                  "x-ms-content-hint": "TEXT",
+                  "x-ms-dynamically-added": true
+                }
+              }
+            }
+          },
+          "runAfter": {
+            "M365_Copilot": [
+              "Succeeded"
+            ]
+          }
+        }
+      },
+      "outputs": {},
+      "metadata": {
+        "telemetryMetadata": {
+          "creationSource": "Codex",
+          "modifiedSources": "Codex"
+        }
+      }
+    },
+    "templateName": null
+  },
+  "schemaVersion": "1.0.0.0"
+}

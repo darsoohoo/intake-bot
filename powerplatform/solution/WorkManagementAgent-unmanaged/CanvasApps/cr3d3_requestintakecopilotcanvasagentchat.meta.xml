@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CanvasApp xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Name>cr3d3_requestintakecopilotcanvasagentchat</Name>
+  <AppVersion>2026-06-09T23:27:00Z</AppVersion>
+  <Status>Ready</Status>
+  <CreatedByClientVersion>3.26062.2.0</CreatedByClientVersion>
+  <MinClientVersion>3.26062.2.0</MinClientVersion>
+  <Tags>{"primaryDeviceWidth":"1366","primaryDeviceHeight":"768","supportsPortrait":"true","supportsLandscape":"true","primaryFormFactor":"Tablet","showStatusBar":"false","publisherVersion":"3.26062.2","minimumRequiredApiVersion":"2.2.0","hasComponent":"false","hasUnlockedComponent":"false","isUnifiedRootApp":"false","m365CopilotSettingValue":"0","sienaVersion":"20260609T040918Z-3.26061.9.0","coauthoringEnabled":"true","multipleWritersEnabled":"true","acceptedCoauthoringTerms":"true"}</Tags>
+  <IsCdsUpgraded>0</IsCdsUpgraded>
+  <GalleryItemId xsi:nil="true"></GalleryItemId>
+  <BackgroundColor>RGBA(0,176,240,1)</BackgroundColor>
+  <DisplayName>Request Intake Copilot Canvas - Agent Chat</DisplayName>
+  <Description></Description>
+  <CommitMessage></CommitMessage>
+  <Publisher></Publisher>
+  <AuthorizationReferences>[]</AuthorizationReferences>
+  <ConnectionReferences>{"e321679e-be6c-4743-8187-5a8663e30ae1":{"id":"/providers/microsoft.powerapps/apis/shared_logicflows","displayName":"Logic flows","iconUri":"https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/v1.0.1774/1.0.1774.4397/logicflows/icon.png","dataSources":["IntakeCopilot_CanvasRun"],"dependencies":[],"dependents":[],"parameterHints":{"workflowName":{"value":"581e63f1-6925-4c07-90ce-129cd0e1548b"},"workflowEntityId":{"value":"337338cd-9d63-f111-ab0c-7c1e521c7ea3"},"workflowDisplayName":{"value":"IntakeCopilot_CanvasRun"}},"parameterHintsV2":{"workflowName":{"value":"581e63f1-6925-4c07-90ce-129cd0e1548b"},"workflowEntityId":{"value":"337338cd-9d63-f111-ab0c-7c1e521c7ea3"},"workflowDisplayName":{"value":"IntakeCopilot_CanvasRun"}},"isOnPremiseConnection":false,"bypassConsent":false,"dataSets":{},"apiTier":"Standard","actions":["Run"]}}</ConnectionReferences>
+  <DatabaseReferences>{"default.cds":{"databaseDetails":{"referenceType":"Environmental","environmentName":"default.cds","overrideValues":{"status":"NotSpecified","environmentVariableName":""}},"dataSources":{"Request Intakes":{"entitySetName":"crb_intakerequests","logicalName":"crb_intakerequest"}}}}</DatabaseReferences>
+  <AppComponents>[]</AppComponents>
+  <AppComponentDependencies>[]</AppComponentDependencies>
+  <CanConsumeAppPass>1</CanConsumeAppPass>
+  <CanvasAppType>0</CanvasAppType>
+  <BypassConsent>0</BypassConsent>
+  <EmbeddedApp xsi:nil="true"></EmbeddedApp>
+  <IntroducedVersion>1.0</IntroducedVersion>
+  <CdsDependencies>{"cdsdependencies":[{"componenttype":29,"dependencyid":"337338cd-9d63-f111-ab0c-7c1e521c7ea3","componenttypeplatformname":"Workflow"},{"componenttype":1,"logicalname":"crb_intakerequest"}]}</CdsDependencies>
+  <IsCustomizable>1</IsCustomizable>
+  <BackgroundImageUri>/CanvasApps/cr3d3_requestintakecopilotcanvasagentchat_BackgroundImageUri</BackgroundImageUri>
+  <DocumentUri>/CanvasApps/cr3d3_requestintakecopilotcanvasagentchat_DocumentUri.msapp</DocumentUri>
+  <AdditionalUris>
+    <AdditionalUri>/CanvasApps/cr3d3_requestintakecopilotcanvasagentchat_AdditionalUris0_identity.json</AdditionalUri>
+  </AdditionalUris>
+</CanvasApp>

@@ -1,0 +1,12 @@
+<botcomponent schemaname="mspva_1516b656-0934-43bf-a8fa-a4ffd07591f0">
+  <category>Testing</category>
+  <componenttype>19</componenttype>
+  <description>Evaluate Copilot in Power Apps - Request Intake ...</description>
+  <iscustomizable>0</iscustomizable>
+  <name>Evaluate Copilot in Power Apps - Request Intake ...</name>
+  <parentbotid>
+    <schemaname>cr3d3_bot486100</schemaname>
+  </parentbotid>
+  <statecode>0</statecode>
+  <statuscode>1</statuscode>
+</botcomponent>

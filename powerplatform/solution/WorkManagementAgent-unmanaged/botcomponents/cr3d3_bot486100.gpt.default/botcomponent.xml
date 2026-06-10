@@ -1,0 +1,10 @@
+<botcomponent schemaname="cr3d3_bot486100.gpt.default">
+  <componenttype>15</componenttype>
+  <iscustomizable>0</iscustomizable>
+  <name>Copilot in Power Apps - Request Intake ...</name>
+  <parentbotid>
+    <schemaname>cr3d3_bot486100</schemaname>
+  </parentbotid>
+  <statecode>0</statecode>
+  <statuscode>1</statuscode>
+</botcomponent>

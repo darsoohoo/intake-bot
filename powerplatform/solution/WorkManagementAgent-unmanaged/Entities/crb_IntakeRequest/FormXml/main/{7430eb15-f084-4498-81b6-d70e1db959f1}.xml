@@ -1,0 +1,258 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<forms xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <systemform>
+    <formid>{7430eb15-f084-4498-81b6-d70e1db959f1}</formid>
+    <IntroducedVersion>1.0.0.18</IntroducedVersion>
+    <FormPresentation>1</FormPresentation>
+    <FormActivationState>1</FormActivationState>
+    <form headerdensity="HighWithControls">
+      <tabs>
+        <tab verticallayout="true" id="{87a71c8f-c8a0-4be5-9164-3b48dc1ddba1}" IsUserDefined="1">
+          <labels>
+            <label description="General" languagecode="1033" />
+          </labels>
+          <columns>
+            <column width="100%">
+              <sections>
+                <section showlabel="false" showbar="false" IsUserDefined="0" id="{e9cd418c-8299-4ee0-89c8-7115283114b9}">
+                  <labels>
+                    <label description="General" languagecode="1033" />
+                  </labels>
+                  <rows>
+                    <row>
+                      <cell id="{236dcbae-9442-4092-ac00-19725d0b4753}">
+                        <labels>
+                          <label description="Request Title" languagecode="1033" />
+                        </labels>
+                        <control id="crb_title" classid="{4273EDBD-AC1D-40d3-9FB2-095C621B552D}" datafieldname="crb_title" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{0e1c81c1-4957-4f18-bd84-b38d259713d1}" rowspan="3">
+                        <labels>
+                          <label description="Problem or Request" languagecode="1033" />
+                        </labels>
+                        <control id="crb_description" classid="{E0DECE4B-6FC8-4A8F-A065-082708572369}" datafieldname="crb_description" />
+                      </cell>
+                    </row>
+                    <row />
+                    <row />
+                    <row>
+                      <cell id="{2b22a1c4-e30a-401a-b5b0-96858eb11a92}" rowspan="2">
+                        <labels>
+                          <label description="Business Impact" languagecode="1033" />
+                        </labels>
+                        <control id="crb_businessimpact" classid="{E0DECE4B-6FC8-4A8F-A065-082708572369}" datafieldname="crb_businessimpact" />
+                      </cell>
+                    </row>
+                    <row />
+                    <row>
+                      <cell id="{c2a8ace4-e35f-4016-b808-68742e5df4a0}">
+                        <labels>
+                          <label description="Category" languagecode="1033" />
+                        </labels>
+                        <control id="crb_category" classid="{3EF39988-22BB-4f0b-BBBE-64B5A3748AEE}" datafieldname="crb_category" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{2657ec59-a9ee-4427-8f94-2d3aeb54c7e5}">
+                        <labels>
+                          <label description="Urgency" languagecode="1033" />
+                        </labels>
+                        <control id="crb_urgency" classid="{3EF39988-22BB-4f0b-BBBE-64B5A3748AEE}" datafieldname="crb_urgency" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{23605ce2-e9f0-4d8a-a895-1db917083ff0}">
+                        <labels>
+                          <label description="Size" languagecode="1033" />
+                        </labels>
+                        <control id="crb_size" classid="{3EF39988-22BB-4f0b-BBBE-64B5A3748AEE}" datafieldname="crb_size" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{6129251b-6daa-4e0f-8acd-22d6f3423f6d}">
+                        <labels>
+                          <label description="Affected Area" languagecode="1033" />
+                        </labels>
+                        <control id="crb_affectedarea" classid="{4273EDBD-AC1D-40d3-9FB2-095C621B552D}" datafieldname="crb_affectedarea" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{a4ab43ad-3145-4ef8-9a9a-f315c90872e5}" rowspan="2">
+                        <labels>
+                          <label description="Desired Outcome" languagecode="1033" />
+                        </labels>
+                        <control id="crb_desiredoutcome" classid="{E0DECE4B-6FC8-4A8F-A065-082708572369}" datafieldname="crb_desiredoutcome" />
+                      </cell>
+                    </row>
+                    <row />
+                    <row>
+                      <cell id="{ef3fd1df-797d-4769-b6e3-97bb38cb7f74}">
+                        <labels>
+                          <label description="Estimated Effort" languagecode="1033" />
+                        </labels>
+                        <control id="crb_estimatedeffort" classid="{4273EDBD-AC1D-40d3-9FB2-095C621B552D}" datafieldname="crb_estimatedeffort" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{c75f9263-1f7f-4cb7-8fcf-32dd694dcf5f}">
+                        <labels>
+                          <label description="Estimated Duration" languagecode="1033" />
+                        </labels>
+                        <control id="crb_estimatedduration" classid="{4273EDBD-AC1D-40d3-9FB2-095C621B552D}" datafieldname="crb_estimatedduration" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{1e13e909-b692-4192-a848-b0762f383423}" rowspan="2">
+                        <labels>
+                          <label description="Missing Requirements" languagecode="1033" />
+                        </labels>
+                        <control id="crb_missingrequirements" classid="{E0DECE4B-6FC8-4A8F-A065-082708572369}" datafieldname="crb_missingrequirements" />
+                      </cell>
+                    </row>
+                    <row />
+                    <row>
+                      <cell id="{0857387f-4e73-402f-ab38-6a492abff64e}" rowspan="2">
+                        <labels>
+                          <label description="Additional Information" languagecode="1033" />
+                        </labels>
+                        <control id="crb_additionalinformation" classid="{E0DECE4B-6FC8-4A8F-A065-082708572369}" datafieldname="crb_additionalinformation" />
+                      </cell>
+                    </row>
+                    <row />
+                    <row>
+                      <cell id="{6687e8a7-d8a6-4c09-b525-3e8e2b042921}">
+                        <labels>
+                          <label description="Owner" languagecode="1033" />
+                        </labels>
+                        <control id="ownerid" classid="{270BD3DB-D9AF-4782-9025-509E298DEC0A}" datafieldname="ownerid" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{d6cbe1b4-c99d-4be5-a200-54329c81158a}" locklevel="0" colspan="1" rowspan="6">
+                        <labels>
+                          <label description="Intake Agent Chat" languagecode="1033" />
+                        </labels>
+                        <control id="crb_conversationjson" classid="{F9A8A302-114E-466A-B582-6771B2AE0D92}" datafieldname="crb_conversationjson" disabled="false" uniqueid="{8208eae0-942a-435f-8e64-d835ce6eeee2}" />
+                      </cell>
+                    </row>
+                    <row />
+                    <row />
+                    <row />
+                    <row />
+                    <row />
+                  </rows>
+                </section>
+              </sections>
+            </column>
+          </columns>
+        </tab>
+      </tabs>
+      <header id="{02000d62-2780-4393-8ba2-d4b46ca4bcaa}" celllabelposition="Top" columns="111" labelwidth="115" celllabelalignment="Left">
+        <rows>
+          <row>
+            <cell id="{d6da5a9e-37df-4243-8925-27c791e55bf4}" showlabel="false">
+              <labels>
+                <label description="" languagecode="1033" />
+              </labels>
+            </cell>
+            <cell id="{7cad2a3d-c550-4266-99fc-76809491937e}" showlabel="false">
+              <labels>
+                <label description="" languagecode="1033" />
+              </labels>
+            </cell>
+            <cell id="{addb9bd0-17f7-427c-9b16-7638cc50a332}" showlabel="false">
+              <labels>
+                <label description="" languagecode="1033" />
+              </labels>
+            </cell>
+          </row>
+        </rows>
+      </header>
+      <footer id="{bd8ac9c7-e189-45c0-9cee-c62e15f96d6f}" celllabelposition="Top" columns="111" labelwidth="115" celllabelalignment="Left">
+        <rows>
+          <row>
+            <cell id="{1c6ba835-2938-4699-9638-4aea86833c84}" showlabel="false">
+              <labels>
+                <label description="" languagecode="1033" />
+              </labels>
+            </cell>
+            <cell id="{f7badc0f-2611-4e80-9e56-c64605140860}" showlabel="false">
+              <labels>
+                <label description="" languagecode="1033" />
+              </labels>
+            </cell>
+            <cell id="{0b66d0b0-8f34-4de3-bdf6-fee2e1f02d04}" showlabel="false">
+              <labels>
+                <label description="" languagecode="1033" />
+              </labels>
+            </cell>
+          </row>
+        </rows>
+      </footer>
+      <DisplayConditions Order="0" FallbackForm="true">
+        <Everyone />
+      </DisplayConditions>
+      <controlDescriptions>
+        <controlDescription forControl="{8208eae0-942a-435f-8e64-d835ce6eeee2}">
+          <customControl id="{E0DECE4B-6FC8-4A8F-A065-082708572369}">
+            <parameters>
+              <datafieldname>crb_conversationjson</datafieldname>
+            </parameters>
+          </customControl>
+          <customControl formFactor="0" name="cr3d3_WorkManagement.RequestIntakeAgentChatV8">
+            <parameters>
+              <conversationJson type="Multiple">crb_conversationjson</conversationJson>
+              <requestTitle type="SingleLine.Text">crb_title</requestTitle>
+              <description type="Multiple">crb_description</description>
+              <businessImpact type="Multiple">crb_businessimpact</businessImpact>
+              <affectedArea type="SingleLine.Text">crb_affectedarea</affectedArea>
+              <desiredOutcome type="Multiple">crb_desiredoutcome</desiredOutcome>
+              <estimatedEffort type="SingleLine.Text">crb_estimatedeffort</estimatedEffort>
+              <estimatedDuration type="SingleLine.Text">crb_estimatedduration</estimatedDuration>
+              <missingRequirements type="Multiple">crb_missingrequirements</missingRequirements>
+              <additionalInformation type="Multiple">crb_additionalinformation</additionalInformation>
+            </parameters>
+          </customControl>
+          <customControl formFactor="2" name="cr3d3_WorkManagement.RequestIntakeAgentChatV8">
+            <parameters>
+              <conversationJson type="Multiple">crb_conversationjson</conversationJson>
+              <requestTitle type="SingleLine.Text">crb_title</requestTitle>
+              <description type="Multiple">crb_description</description>
+              <businessImpact type="Multiple">crb_businessimpact</businessImpact>
+              <affectedArea type="SingleLine.Text">crb_affectedarea</affectedArea>
+              <desiredOutcome type="Multiple">crb_desiredoutcome</desiredOutcome>
+              <estimatedEffort type="SingleLine.Text">crb_estimatedeffort</estimatedEffort>
+              <estimatedDuration type="SingleLine.Text">crb_estimatedduration</estimatedDuration>
+              <missingRequirements type="Multiple">crb_missingrequirements</missingRequirements>
+              <additionalInformation type="Multiple">crb_additionalinformation</additionalInformation>
+            </parameters>
+          </customControl>
+          <customControl formFactor="1" name="cr3d3_WorkManagement.RequestIntakeAgentChatV8">
+            <parameters>
+              <conversationJson type="Multiple">crb_conversationjson</conversationJson>
+              <requestTitle type="SingleLine.Text">crb_title</requestTitle>
+              <description type="Multiple">crb_description</description>
+              <businessImpact type="Multiple">crb_businessimpact</businessImpact>
+              <affectedArea type="SingleLine.Text">crb_affectedarea</affectedArea>
+              <desiredOutcome type="Multiple">crb_desiredoutcome</desiredOutcome>
+              <estimatedEffort type="SingleLine.Text">crb_estimatedeffort</estimatedEffort>
+              <estimatedDuration type="SingleLine.Text">crb_estimatedduration</estimatedDuration>
+              <missingRequirements type="Multiple">crb_missingrequirements</missingRequirements>
+              <additionalInformation type="Multiple">crb_additionalinformation</additionalInformation>
+            </parameters>
+          </customControl>
+        </controlDescription>
+      </controlDescriptions>
+    </form>
+    <IsCustomizable>1</IsCustomizable>
+    <CanBeDeleted>1</CanBeDeleted>
+    <LocalizedNames>
+      <LocalizedName description="Information" languagecode="1033" />
+    </LocalizedNames>
+    <Descriptions>
+      <Description description="A form for this entity." languagecode="1033" />
+    </Descriptions>
+  </systemform>
+</forms>

@@ -1,0 +1,15 @@
+<botcomponent schemaname="mspva_68748d1c-dae6-4871-93f4-6d5e9cb4366e">
+  <category>Testing</category>
+  <componenttype>19</componenttype>
+  <description>Is it possible to automate sending weekly status updates by email?</description>
+  <iscustomizable>0</iscustomizable>
+  <name>Is it possible to automate sending weekly status updates by email?</name>
+  <parentbotcomponentid>
+    <schemaname>mspva_1516b656-0934-43bf-a8fa-a4ffd07591f0</schemaname>
+  </parentbotcomponentid>
+  <parentbotid>
+    <schemaname>cr3d3_bot486100</schemaname>
+  </parentbotid>
+  <statecode>0</statecode>
+  <statuscode>1</statuscode>
+</botcomponent>

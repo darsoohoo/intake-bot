@@ -1,0 +1,15 @@
+<botcomponent schemaname="mspva_47e9f6a8-4ef5-4387-af29-a873a5fabe36">
+  <category>Testing</category>
+  <componenttype>19</componenttype>
+  <description>Can you summarize the details of a record for me?</description>
+  <iscustomizable>0</iscustomizable>
+  <name>Can you summarize the details of a record for me?</name>
+  <parentbotcomponentid>
+    <schemaname>mspva_1516b656-0934-43bf-a8fa-a4ffd07591f0</schemaname>
+  </parentbotcomponentid>
+  <parentbotid>
+    <schemaname>cr3d3_bot486100</schemaname>
+  </parentbotid>
+  <statecode>0</statecode>
+  <statuscode>1</statuscode>
+</botcomponent>

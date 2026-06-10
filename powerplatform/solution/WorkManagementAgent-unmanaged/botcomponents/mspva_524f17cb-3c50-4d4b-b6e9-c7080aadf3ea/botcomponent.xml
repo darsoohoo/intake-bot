@@ -1,0 +1,15 @@
+<botcomponent schemaname="mspva_524f17cb-3c50-4d4b-b6e9-c7080aadf3ea">
+  <category>Testing</category>
+  <componenttype>19</componenttype>
+  <description>Can you generate a chart based on the latest project data?</description>
+  <iscustomizable>0</iscustomizable>
+  <name>Can you generate a chart based on the latest project data?</name>
+  <parentbotcomponentid>
+    <schemaname>mspva_1516b656-0934-43bf-a8fa-a4ffd07591f0</schemaname>
+  </parentbotcomponentid>
+  <parentbotid>
+    <schemaname>cr3d3_bot486100</schemaname>
+  </parentbotid>
+  <statecode>0</statecode>
+  <statuscode>1</statuscode>
+</botcomponent>

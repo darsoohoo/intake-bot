@@ -1,0 +1,7 @@
+kind: EvaluationData
+rows:
+  - source: Manual
+    input: Can you help me submit a request for a new automation in Power Apps?
+
+extensionData:
+  displayOrder: "1781086697822"

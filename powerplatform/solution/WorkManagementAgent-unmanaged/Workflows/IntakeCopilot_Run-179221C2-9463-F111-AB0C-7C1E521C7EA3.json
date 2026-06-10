@@ -1,0 +1,439 @@
+{
+  "properties": {
+    "connectionReferences": {
+      "shared_m365copilotv2": {
+        "api": {
+          "name": "shared_m365copilotv2"
+        },
+        "connection": {
+          "connectionReferenceLogicalName": "new_sharedm365copilotv2_f419eb6c"
+        },
+        "runtimeSource": "embedded",
+        "connectionName": "7a31815a629c4e2582c361977834c969"
+      }
+    },
+    "definition": {
+      "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+      "contentVersion": "1.0.0.0",
+      "parameters": {
+        "$authentication": {
+          "defaultValue": {},
+          "type": "SecureObject"
+        },
+        "$connections": {
+          "defaultValue": {},
+          "type": "Object"
+        }
+      },
+      "triggers": {
+        "manual": {
+          "type": "Request",
+          "kind": "Button",
+          "inputs": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "text": {
+                  "title": "lastUserMessage",
+                  "type": "string",
+                  "x-ms-content-hint": "TEXT",
+                  "x-ms-dynamically-added": true,
+                  "description": "Please enter your input"
+                },
+                "text_1": {
+                  "title": "currentDraftJson",
+                  "type": "string",
+                  "x-ms-content-hint": "TEXT",
+                  "x-ms-dynamically-added": true,
+                  "description": "Please enter your input"
+                },
+                "text_2": {
+                  "title": "conversationJson",
+                  "type": "string",
+                  "x-ms-content-hint": "TEXT",
+                  "x-ms-dynamically-added": true,
+                  "description": "Please enter your input"
+                }
+              },
+              "required": [
+                "text",
+                "text_1",
+                "text_2"
+              ]
+            }
+          },
+          "metadata": {
+            "associatedData": {
+              "graph": {
+                "name": "IntakeCopilot_Run",
+                "nodes": [
+                  {
+                    "id": "start-7dccca33-53d2-4606-8ccf-0e2d6abf3616",
+                    "name": "Start",
+                    "type": "start",
+                    "version": 1,
+                    "position": {
+                      "x": 250,
+                      "y": 331.14288330078125
+                    },
+                    "data": {
+                      "config": {
+                        "triggerType": "manual",
+                        "manual": {
+                          "inputsSchema": {
+                            "type": "object",
+                            "properties": {
+                              "text": {
+                                "title": "lastUserMessage",
+                                "type": "string",
+                                "x-ms-content-hint": "TEXT",
+                                "x-ms-dynamically-added": true,
+                                "description": "Please enter your input"
+                              },
+                              "text_1": {
+                                "title": "currentDraftJson",
+                                "type": "string",
+                                "x-ms-content-hint": "TEXT",
+                                "x-ms-dynamically-added": true,
+                                "description": "Please enter your input"
+                              },
+                              "text_2": {
+                                "title": "conversationJson",
+                                "type": "string",
+                                "x-ms-content-hint": "TEXT",
+                                "x-ms-dynamically-added": true,
+                                "description": "Please enter your input"
+                              }
+                            },
+                            "required": [
+                              "text",
+                              "text_1",
+                              "text_2"
+                            ]
+                          }
+                        }
+                      },
+                      "outcomes": [
+                        {
+                          "id": "default",
+                          "label": "Default",
+                          "outcomeSchema": {
+                            "type": "object",
+                            "properties": {
+                              "text": {
+                                "title": "lastUserMessage",
+                                "type": "string",
+                                "x-ms-content-hint": "TEXT",
+                                "x-ms-dynamically-added": true,
+                                "description": "Please enter your input"
+                              },
+                              "text_1": {
+                                "title": "currentDraftJson",
+                                "type": "string",
+                                "x-ms-content-hint": "TEXT",
+                                "x-ms-dynamically-added": true,
+                                "description": "Please enter your input"
+                              },
+                              "text_2": {
+                                "title": "conversationJson",
+                                "type": "string",
+                                "x-ms-content-hint": "TEXT",
+                                "x-ms-dynamically-added": true,
+                                "description": "Please enter your input"
+                              }
+                            },
+                            "required": [
+                              "text",
+                              "text_1",
+                              "text_2"
+                            ]
+                          }
+                        }
+                      ]
+                    },
+                    "measured": {
+                      "width": 240,
+                      "height": 66
+                    },
+                    "selected": true
+                  },
+                  {
+                    "id": "m365Copilot-19032d4d-c0e1-41d1-9dde-54f255a70810",
+                    "name": "M365 Copilot",
+                    "type": "m365Copilot",
+                    "version": 1,
+                    "position": {
+                      "x": 566,
+                      "y": 331
+                    },
+                    "data": {
+                      "config": {
+                        "apiName": "shared_m365copilotv2",
+                        "displayName": "M365 Copilot",
+                        "operationName": "StartChat",
+                        "parameters": {
+                          "body/timezone": "America/New_York",
+                          "body/preferAsync": false,
+                          "body/message": "You are a request-intake analyst for a Power Platform development team. Return only valid JSON. Do not wrap it in markdown.\n\nConversation JSON@{triggerOutputs()?['body/text_2']}:\n\n\nCurrent draft JSON:@{triggerOutputs()?['body/text_1']}\n\n\nLatest user message:@{triggerOutputs()?['body/text']}\n\n\nExtract or update these fields and return JSON only: title, description, category, affectedArea, usersAffected, businessImpact, urgency, desiredOutcome, constraints, dependencies, acceptanceCriteria, size, estimatedEffort, estimatedDuration, confidence, missingRequirements, additionalInformation, nextQuestion.\n\nRules: ask one concise follow-up question at a time; Assume requests are for the Power Platform team and should be implemented as new or existing Power Platform solutions such as Power Apps, Power Automate flows, Dataverse, Power BI, Copilot Studio, Power Pages, or Microsoft 365 connectors unless the requester explicitly names a non-Power Platform system. Do not ask which platform to use when the request can reasonably be handled in Power Platform; record the likely Power Platform implementation assumption in additionalInformation.; do not invent facts; use category values only Bug, Enhancement, Automation, Reporting, Access, Integration, Data, Process, Uncategorized; urgency only Low, Medium, High, Critical; size only Small, Medium, Large, Extra Large; confidence is a whole number 0 to 100; missingRequirements is an array of strings. Return valid JSON only."
+                        },
+                        "connectionName": "shared_m365copilotv2",
+                        "operationType": "OpenApiConnection",
+                        "iconUri": "https://static.powerapps.com/resource/ppcr/releases/v1.0.1811/1.0.1811.4721/m365copilotv2/icon.png",
+                        "parametersSchema": {
+                          "type": "object",
+                          "properties": {
+                            "body": {
+                              "type": "object",
+                              "properties": {
+                                "message": {
+                                  "type": "string",
+                                  "title": "Message",
+                                  "description": "What would you like M365 Copilot to do?",
+                                  "x-ms-property-name-alias": "body/message"
+                                },
+                                "timezone": {
+                                  "type": "string",
+                                  "title": "Time Zone",
+                                  "description": "The IANA time zone identifier for the user's location (e.g. America/New_York, Europe/London, Asia/Tokyo)",
+                                  "default": "America/New_York",
+                                  "enum": [
+                                    "Etc/GMT+12",
+                                    "Etc/GMT+11",
+                                    "Pacific/Pago_Pago",
+                                    "Pacific/Honolulu",
+                                    "Pacific/Marquesas",
+                                    "America/Anchorage",
+                                    "America/Los_Angeles",
+                                    "America/Tijuana",
+                                    "America/Denver",
+                                    "America/Phoenix",
+                                    "America/Chicago",
+                                    "America/Mexico_City",
+                                    "America/Regina",
+                                    "America/New_York",
+                                    "America/Toronto",
+                                    "America/Bogota",
+                                    "America/Lima",
+                                    "America/Halifax",
+                                    "America/Caracas",
+                                    "America/St_Johns",
+                                    "America/Sao_Paulo",
+                                    "America/Argentina/Buenos_Aires",
+                                    "Atlantic/South_Georgia",
+                                    "Atlantic/Azores",
+                                    "Atlantic/Cape_Verde",
+                                    "UTC",
+                                    "Europe/London",
+                                    "Africa/Lagos",
+                                    "Europe/Berlin",
+                                    "Europe/Paris",
+                                    "Europe/Rome",
+                                    "Europe/Warsaw",
+                                    "Africa/Cairo",
+                                    "Europe/Athens",
+                                    "Europe/Bucharest",
+                                    "Europe/Helsinki",
+                                    "Europe/Istanbul",
+                                    "Africa/Johannesburg",
+                                    "Asia/Jerusalem",
+                                    "Europe/Moscow",
+                                    "Asia/Baghdad",
+                                    "Africa/Nairobi",
+                                    "Asia/Tehran",
+                                    "Asia/Dubai",
+                                    "Asia/Baku",
+                                    "Asia/Kabul",
+                                    "Asia/Karachi",
+                                    "Asia/Tashkent",
+                                    "Asia/Kolkata",
+                                    "Asia/Colombo",
+                                    "Asia/Kathmandu",
+                                    "Asia/Almaty",
+                                    "Asia/Dhaka",
+                                    "Asia/Yangon",
+                                    "Asia/Bangkok",
+                                    "Asia/Jakarta",
+                                    "Asia/Ho_Chi_Minh",
+                                    "Asia/Shanghai",
+                                    "Asia/Hong_Kong",
+                                    "Asia/Singapore",
+                                    "Asia/Taipei",
+                                    "Australia/Perth",
+                                    "Asia/Seoul",
+                                    "Asia/Tokyo",
+                                    "Australia/Darwin",
+                                    "Australia/Adelaide",
+                                    "Australia/Sydney",
+                                    "Australia/Brisbane",
+                                    "Pacific/Guam",
+                                    "Pacific/Noumea",
+                                    "Pacific/Auckland",
+                                    "Pacific/Fiji",
+                                    "Pacific/Tongatapu",
+                                    "Pacific/Apia",
+                                    "Pacific/Kiritimati"
+                                  ],
+                                  "x-ms-property-name-alias": "body/timezone"
+                                },
+                                "agentId": {
+                                  "type": "string",
+                                  "title": "Agent",
+                                  "x-ms-dynamic-list": {
+                                    "operationId": "GetAgents",
+                                    "parameters": {},
+                                    "itemsPath": "agents",
+                                    "itemValuePath": "id",
+                                    "itemTitlePath": "name"
+                                  },
+                                  "description": "The unique identifier of the Copilot agent to chat with",
+                                  "x-ms-property-name-alias": "body/agentId"
+                                },
+                                "preferAsync": {
+                                  "type": "boolean",
+                                  "title": "Prefer Async",
+                                  "description": "Whether to prefer asynchronous processing for the chat request",
+                                  "default": true,
+                                  "x-ms-property-name-alias": "body/preferAsync"
+                                },
+                                "isConversationVisible": {
+                                  "type": "boolean",
+                                  "title": "Is Conversation Visible",
+                                  "description": "Whether the conversation appears in the user's Copilot conversation history. Defaults to false (hidden) when omitted.",
+                                  "x-ms-property-name-alias": "body/isConversationVisible"
+                                }
+                              },
+                              "required": [
+                                "message"
+                              ],
+                              "x-ms-property-name-alias": "body"
+                            }
+                          },
+                          "required": [
+                            "body"
+                          ]
+                        }
+                      },
+                      "outcomes": [
+                        {
+                          "id": "default",
+                          "label": "Default",
+                          "outcomeSchema": {
+                            "type": "object",
+                            "properties": {
+                              "body": {
+                                "type": "object",
+                                "properties": {
+                                  "conversationId": {
+                                    "type": "string",
+                                    "title": "Conversation ID",
+                                    "description": "The unique identifier of the conversation",
+                                    "x-ms-property-name-alias": "body/conversationId"
+                                  },
+                                  "response": {
+                                    "type": "string",
+                                    "title": "Response",
+                                    "description": "The response from the Copilot agent",
+                                    "x-ms-property-name-alias": "body/response"
+                                  },
+                                  "citations": {
+                                    "type": "array",
+                                    "title": "Citations",
+                                    "items": {
+                                      "type": "object",
+                                      "properties": {
+                                        "seeMoreUrl": {
+                                          "type": "string",
+                                          "title": "See More URL",
+                                          "description": "URL to see more information for this citation",
+                                          "x-ms-property-name-alias": "seeMoreUrl"
+                                        },
+                                        "type": {
+                                          "type": "string",
+                                          "title": "Type",
+                                          "description": "The type of citation (e.g. People, Event)",
+                                          "x-ms-property-name-alias": "type"
+                                        }
+                                      },
+                                      "required": []
+                                    },
+                                    "description": "Citations referenced in the response",
+                                    "x-ms-property-name-alias": "body/citations"
+                                  }
+                                },
+                                "additionalProperties": true,
+                                "required": [],
+                                "x-ms-property-name-alias": "body"
+                              }
+                            }
+                          }
+                        }
+                      ]
+                    },
+                    "measured": {
+                      "width": 240,
+                      "height": 66
+                    }
+                  }
+                ],
+                "edges": [
+                  {
+                    "id": "edge-start-7dccca33-53d2-4606-8ccf-0e2d6abf3616-m365Copilot-19032d4d-c0e1-41d1-9dde-54f255a70810",
+                    "source": "start-7dccca33-53d2-4606-8ccf-0e2d6abf3616",
+                    "target": "m365Copilot-19032d4d-c0e1-41d1-9dde-54f255a70810"
+                  }
+                ],
+                "connectionReferences": {
+                  "shared_m365copilotv2": {
+                    "api": {
+                      "name": "shared_m365copilotv2"
+                    },
+                    "connection": {
+                      "connectionReferenceLogicalName": "new_sharedm365copilotv2_f419eb6c"
+                    },
+                    "runtimeSource": "embedded",
+                    "connectionName": "7a31815a629c4e2582c361977834c969"
+                  }
+                }
+              },
+              "nodeActionMapping": {
+                "m365Copilot-19032d4d-c0e1-41d1-9dde-54f255a70810": [
+                  "M365_Copilot"
+                ]
+              }
+            }
+          }
+        }
+      },
+      "actions": {
+        "M365_Copilot": {
+          "type": "OpenApiConnection",
+          "inputs": {
+            "parameters": {
+              "body/timezone": "America/New_York",
+              "body/preferAsync": false,
+              "body/message": "You are a request-intake analyst for a Power Platform development team.\n\nReturn only valid JSON. Do not wrap it in markdown.\n\nConversation JSON:\n@{triggerOutputs()?['body/text_2']}\n\nCurrent draft JSON:\n@{triggerOutputs()?['body/text_1']}\n\nLatest user message:\n@{triggerOutputs()?['body/text']}\n\nExtract or update these fields and return JSON only: title, description, category, affectedArea, usersAffected, businessImpact, urgency, desiredOutcome, constraints, dependencies, acceptanceCriteria, size, estimatedEffort, estimatedDuration, confidence, missingRequirements, additionalInformation, nextQuestion.\n\nRules:\n- Assume requests are for the Power Platform team and should be implemented as new or existing Power Platform solutions such as Power Apps, Power Automate flows, Dataverse, Power BI, Copilot Studio, Power Pages, or Microsoft 365 connectors unless the requester explicitly names a non-Power Platform system. Do not ask which platform to use when the request can reasonably be handled in Power Platform; record the likely Power Platform implementation assumption in additionalInformation.\n- Treat the full conversation and current draft as source of truth. Do not ask for information the requester already provided or clearly implied.\n- If the latest user message is a short answer to the previous question, interpret it as that answer in context. Do not turn the short answer into a new topic.\n- If the latest user message provides a new useful detail but does not answer the previous question, incorporate the detail and avoid repeating the exact same wording. Ask the next high-value missing detail, or restate the still-needed question with the new detail acknowledged in additionalInformation.\n- If the latest user message describes business value, pain, or purpose, such as \"save time\" or \"better documentation\", record it as businessImpact/desiredOutcome. Do not ask what documentation area should be improved, and do not repeat the prior question unless that answer is truly blocking initial triage.\n- For personal productivity requests using wording like \"my meeting\", \"my home\", \"for myself\", or \"my reimbursement\", infer the requester is the primary user. Do not ask whether it should support multiple users unless the requester mentions a team or organization.\n- For the travel reimbursement screenshot scenario, once the request describes calendar/meeting screenshot, map or mileage screenshot, reimbursement documentation purpose, and storage/destination, treat it as enough for initial triage. Do not ask about calendar-source automation, manual entry, multi-user support, or documentation systems; list those as open implementation questions in additionalInformation.\n- Hard override: if the conversation mentions mileage reimbursement documentation, calendar or meeting screenshots, and map or distance screenshots, and the latest user message selects OneDrive or SharePoint as storage, nextQuestion must be exactly: \"I have enough for initial triage. Review the generated fields, then save or submit the draft.\"\n- If the previous question asks whether to pull meeting location automatically from Outlook/calendar or enter/select it manually, and the latest user answer says automatic would be nice, manual is okay, or both are acceptable, record this as: \"Prefer Outlook calendar lookup with manual entry/override fallback.\" Do not ask what data or process they want to automate.\n- Hard override: if the conversation mentions mileage reimbursement documentation, calendar or meeting screenshots, and map or distance screenshots, and the latest user message answers the Outlook/calendar automation versus manual-entry preference, nextQuestion must be exactly: \"I have enough for initial triage. Review the generated fields, then save or submit the draft.\"\n- The goal is a triage-ready high-level request, not a full requirements workshop. Ask only for the single most important missing detail a developer would need to understand the request.\n- Prefer summarizing and confirming inferred intent over drilling into generic questions. For example, if the requester says they need a Bing Maps mileage screenshot for reimbursement, infer that the map should show point A to point B distance for documentation.\n- If the user selects a tool or platform such as Bing Maps or Power Apps after describing the business need, do not ask what they want to do with that tool. Use the earlier business need to infer the tool's role.\n- If the user selects a storage destination such as OneDrive or SharePoint after describing the business need, record it as a constraint or dependency. Do not ask what they want to achieve with that storage product.\n- For Power Platform requests that mention emailing output, assume Microsoft 365 Outlook is the default email service unless the requester names another service or asks for external email integration. Do not ask what email service to use. If recipient behavior matters, ask only a high-level question such as whether recipients are manually entered, selected from users, or defaulted from the record.\n- For PDF merge or print-to-PDF requests, once the requester has described the source documents, file type, merge/print output, sort/order behavior, and download/email sharing goal, treat it as enough for initial triage. Do not ask about PDF libraries, email service, connector selection, size limits, or implementation architecture; record those as implementation questions in additionalInformation.\n- Hard override: if the conversation mentions merging selected PDFs into one PDF, sort order/default display order, and download or email sharing, nextQuestion must be exactly: \"I have enough for initial triage. Review the generated fields, then save or submit the draft.\"\n- Never ask broad generic product or service questions such as \"What do you want to achieve with OneDrive?\", \"What do you want to do with Bing Maps?\", \"What specific data or process do you want to automate?\", \"Which documentation system should be improved?\", or \"What email service should be used?\" These are not intake questions.\n- Do not ask for personal or sensitive concrete values such as a home address, credentials, invite contents, or private URLs during intake. Capture those as future configuration or runtime inputs. If needed, ask a high-level source question instead, such as whether the app should pull the meeting location from Outlook or let the user enter/select it.\n- If the request already has a clear purpose, user, desired output, storage/destination when relevant, and enough acceptance criteria for initial triage, do not ask another question. Set nextQuestion to this exact completion statement: \"I have enough for initial triage. Review the generated fields, then save or submit the draft.\" Nonblocking implementation choices should go in additionalInformation instead of nextQuestion.\n- If a required field is missing, nextQuestion should target the most important missing field.\n- Do not invent facts that the requester did not provide. You may make reasonable assumptions from the conversation, but label them in additionalInformation.\n- You may infer category, urgency, size, estimatedEffort, and estimatedDuration, but explain the sizing rationale in additionalInformation.\n- Put developer-useful details, risks, dependencies, and open questions in additionalInformation.\n- Use category values only from: Bug, Enhancement, Automation, Reporting, Access, Integration, Data, Process, Uncategorized.\n- Use urgency values only from: Low, Medium, High, Critical.\n- Use size values only from: Small, Medium, Large, Extra Large.\n- confidence must be a whole number from 0 to 100.\n- missingRequirements must be an array of strings.\n- Every other field must be a string, including acceptanceCriteria. Do not return arrays or objects for any field except missingRequirements.\n- Return JSON only."
+            },
+            "host": {
+              "apiId": "/providers/Microsoft.PowerApps/apis/shared_m365copilotv2",
+              "connectionName": "shared_m365copilotv2",
+              "operationId": "StartChat"
+            }
+          },
+          "metadata": {
+            "description": "M365 Copilot",
+            "nodeId": "m365Copilot-19032d4d-c0e1-41d1-9dde-54f255a70810"
+          }
+        }
+      },
+      "outputs": {},
+      "metadata": {
+        "telemetryMetadata": {
+          "creationSource": "WorkflowDesigner",
+          "modifiedSources": "WorkflowDesigner"
+        }
+      }
+    },
+    "templateName": null
+  },
+  "schemaVersion": "1.0.0.0"
+}

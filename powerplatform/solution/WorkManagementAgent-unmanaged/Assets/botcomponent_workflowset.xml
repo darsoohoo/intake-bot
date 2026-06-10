@@ -1,0 +1,5 @@
+<botcomponent_workflowset>
+  <botcomponent_workflow botcomponentid.schemaname="crb_RequestIntakeCopilot.tool.IntakeCopilot_Run" workflowid.workflowid="179221c2-9463-f111-ab0c-7c1e521c7ea3">
+    <iscustomizable>1</iscustomizable>
+  </botcomponent_workflow>
+</botcomponent_workflowset>

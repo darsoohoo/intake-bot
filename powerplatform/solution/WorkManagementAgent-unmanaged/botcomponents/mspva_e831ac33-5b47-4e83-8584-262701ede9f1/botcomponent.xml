@@ -1,0 +1,15 @@
+<botcomponent schemaname="mspva_e831ac33-5b47-4e83-8584-262701ede9f1">
+  <category>Testing</category>
+  <componenttype>19</componenttype>
+  <description>Can you help me submit a request for a new automation in Power Apps?</description>
+  <iscustomizable>0</iscustomizable>
+  <name>Can you help me submit a request for a new automation in Power Apps?</name>
+  <parentbotcomponentid>
+    <schemaname>mspva_1516b656-0934-43bf-a8fa-a4ffd07591f0</schemaname>
+  </parentbotcomponentid>
+  <parentbotid>
+    <schemaname>cr3d3_bot486100</schemaname>
+  </parentbotid>
+  <statecode>0</statecode>
+  <statuscode>1</statuscode>
+</botcomponent>

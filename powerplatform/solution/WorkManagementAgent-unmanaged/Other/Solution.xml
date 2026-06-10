@@ -1,0 +1,135 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ImportExportXml version="9.2.26054.132" SolutionPackageVersion="9.2" languagecode="1033" generatedBy="CrmLive" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" OrganizationVersion="9.2.26054.132" OrganizationSchemaType="Standard" CRMServerServiceabilityVersion="9.2.26061.00127">
+  <SolutionManifest>
+    <UniqueName>WorkManagementAgent</UniqueName>
+    <LocalizedNames>
+      <LocalizedName description="Work Management Agent" languagecode="1033" />
+    </LocalizedNames>
+    <Descriptions />
+    <Version>1.0.0.0</Version>
+    <Managed>0</Managed>
+    <Publisher>
+      <UniqueName>Cr3e294</UniqueName>
+      <LocalizedNames>
+        <LocalizedName description="CDS Default Publisher" languagecode="1033" />
+      </LocalizedNames>
+      <Descriptions />
+      <EMailAddress xsi:nil="true"></EMailAddress>
+      <SupportingWebsiteUrl xsi:nil="true"></SupportingWebsiteUrl>
+      <CustomizationPrefix>cr3d3</CustomizationPrefix>
+      <CustomizationOptionValuePrefix>15517</CustomizationOptionValuePrefix>
+      <Addresses>
+        <Address>
+          <AddressNumber>1</AddressNumber>
+          <AddressTypeCode xsi:nil="true"></AddressTypeCode>
+          <City xsi:nil="true"></City>
+          <County xsi:nil="true"></County>
+          <Country xsi:nil="true"></Country>
+          <Fax xsi:nil="true"></Fax>
+          <FreightTermsCode xsi:nil="true"></FreightTermsCode>
+          <ImportSequenceNumber xsi:nil="true"></ImportSequenceNumber>
+          <Latitude xsi:nil="true"></Latitude>
+          <Line1 xsi:nil="true"></Line1>
+          <Line2 xsi:nil="true"></Line2>
+          <Line3 xsi:nil="true"></Line3>
+          <Longitude xsi:nil="true"></Longitude>
+          <Name xsi:nil="true"></Name>
+          <PostalCode xsi:nil="true"></PostalCode>
+          <PostOfficeBox xsi:nil="true"></PostOfficeBox>
+          <PrimaryContactName xsi:nil="true"></PrimaryContactName>
+          <ShippingMethodCode xsi:nil="true"></ShippingMethodCode>
+          <StateOrProvince xsi:nil="true"></StateOrProvince>
+          <Telephone1 xsi:nil="true"></Telephone1>
+          <Telephone2 xsi:nil="true"></Telephone2>
+          <Telephone3 xsi:nil="true"></Telephone3>
+          <TimeZoneRuleVersionNumber xsi:nil="true"></TimeZoneRuleVersionNumber>
+          <UPSZone xsi:nil="true"></UPSZone>
+          <UTCOffset xsi:nil="true"></UTCOffset>
+          <UTCConversionTimeZoneCode xsi:nil="true"></UTCConversionTimeZoneCode>
+        </Address>
+        <Address>
+          <AddressNumber>2</AddressNumber>
+          <AddressTypeCode xsi:nil="true"></AddressTypeCode>
+          <City xsi:nil="true"></City>
+          <County xsi:nil="true"></County>
+          <Country xsi:nil="true"></Country>
+          <Fax xsi:nil="true"></Fax>
+          <FreightTermsCode xsi:nil="true"></FreightTermsCode>
+          <ImportSequenceNumber xsi:nil="true"></ImportSequenceNumber>
+          <Latitude xsi:nil="true"></Latitude>
+          <Line1 xsi:nil="true"></Line1>
+          <Line2 xsi:nil="true"></Line2>
+          <Line3 xsi:nil="true"></Line3>
+          <Longitude xsi:nil="true"></Longitude>
+          <Name xsi:nil="true"></Name>
+          <PostalCode xsi:nil="true"></PostalCode>
+          <PostOfficeBox xsi:nil="true"></PostOfficeBox>
+          <PrimaryContactName xsi:nil="true"></PrimaryContactName>
+          <ShippingMethodCode xsi:nil="true"></ShippingMethodCode>
+          <StateOrProvince xsi:nil="true"></StateOrProvince>
+          <Telephone1 xsi:nil="true"></Telephone1>
+          <Telephone2 xsi:nil="true"></Telephone2>
+          <Telephone3 xsi:nil="true"></Telephone3>
+          <TimeZoneRuleVersionNumber xsi:nil="true"></TimeZoneRuleVersionNumber>
+          <UPSZone xsi:nil="true"></UPSZone>
+          <UTCOffset xsi:nil="true"></UTCOffset>
+          <UTCConversionTimeZoneCode xsi:nil="true"></UTCConversionTimeZoneCode>
+        </Address>
+      </Addresses>
+    </Publisher>
+    <RootComponents>
+      <RootComponent type="1" schemaName="crb_intakerequest" behavior="0" />
+      <RootComponent type="29" id="{179221c2-9463-f111-ab0c-7c1e521c7ea3}" behavior="0" />
+      <RootComponent type="29" id="{337338cd-9d63-f111-ab0c-7c1e521c7ea3}" behavior="0" />
+      <RootComponent type="300" schemaName="cr3d3_requestintakecopilot_61127" behavior="0" />
+      <RootComponent type="300" schemaName="cr3d3_requestintakecopilotcanvas_b14c8" behavior="0" />
+      <RootComponent type="300" schemaName="cr3d3_requestintakecopilotcanvasagentchat" behavior="0" />
+      <RootComponent type="62" schemaName="request_intake_model_app_20d5b868" behavior="0" />
+      <RootComponent type="66" schemaName="cr3d3_WorkManagement.RequestIntakeAgentChatV2" behavior="0" />
+      <RootComponent type="66" schemaName="cr3d3_WorkManagement.RequestIntakeAgentChatV3" behavior="0" />
+      <RootComponent type="66" schemaName="cr3d3_WorkManagement.RequestIntakeAgentChatV4" behavior="0" />
+      <RootComponent type="66" schemaName="cr3d3_WorkManagement.RequestIntakeAgentChatV5" behavior="0" />
+      <RootComponent type="66" schemaName="cr3d3_WorkManagement.RequestIntakeAgentChatV6" behavior="0" />
+      <RootComponent type="66" schemaName="cr3d3_WorkManagement.RequestIntakeAgentChatV7" behavior="0" />
+      <RootComponent type="66" schemaName="cr3d3_WorkManagement.RequestIntakeAgentChatV8" behavior="0" />
+      <RootComponent type="66" schemaName="cr3d3_WorkManagement.RequestIntakeAgentPanel" behavior="0" />
+      <RootComponent type="80" schemaName="request_intake_model_app_20d5b868" behavior="0" />
+    </RootComponents>
+    <MissingDependencies>
+      <MissingDependency>
+        <Required type="61" schemaName="msdyn_/Images/AppModule_Default_Icon.png" displayName="msdyn_/Images/AppModule_Default_Icon.png" solution="AppModuleWebResources (2.5)">
+          <package appName="AppModule Web Resources Package" version="2.5">AppModuleWebResources (2.5)</package>
+        </Required>
+        <Dependent type="80" schemaName="request_intake_model_app_20d5b868" displayName="Request Intake Model App" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="bot" displayName="ca_agent" solution="Active" id.schemaname="ca_agent" />
+        <Dependent type="AppElement" displayName="cr3d3_request_intake_model_app_20d5b868_schemaname_ca_agent" id.uniquename="cr3d3_request_intake_model_app_20d5b868_schemaname_ca_agent" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="botcomponentcollection" displayName="bot_componentcollection_appcopilot_v1" solution="msdyn_AppCopilotPVABotComponentCollection (9.1.2025043.250416150)" id.schemaname="bot_componentcollection_appcopilot_v1">
+          <package appName="PowerAppsAppCopilotPVABotApp Package" version="9.1.2025024.250219137">PowerAppsAppCopilotPVABotApp_Anchor (9.1.2025024.250219137)</package>
+        </Required>
+        <Dependent type="bot_botcomponentcollection" displayName="botcomponentcollectionid.schemaname=bot_componentcollection_appcopilot_v1,botid.schemaname=cr3d3_bot486100" id.botcomponentcollectionid.schemaname="bot_componentcollection_appcopilot_v1" id.botid.schemaname="cr3d3_bot486100" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="CustomAPI" displayName="msdyn_PrettyPredict" solution="msdyn_AISolution (202604.2.7.1)" id.uniquename="msdyn_PrettyPredict">
+          <package appName="PowerAI" version="202604.2.7.1">msdyn_AISolutionAnchor (202604.2.7.1)</package>
+        </Required>
+        <Dependent type="MCPTool" displayName="mcpserverid.name=request_intake_model_app_20d5b868_MCPServer,name=request_intake_model_app_20d5b868_getrequestdetails" id.mcpserverid.name="request_intake_model_app_20d5b868_MCPServer" id.name="request_intake_model_app_20d5b868_getrequestdetails" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="SettingDefinition" displayName="AppChannel" solution="msdyn_AppFrameworkInfraExtensions (1.0.0.17)" id.uniquename="AppChannel">
+          <package appName="PowerAppsAppFramework Package" version="1.0.0.25">PowerAppsAppFramework_Anchor (1.0.0.25)</package>
+        </Required>
+        <Dependent type="AppSetting" displayName="parentappmoduleid.uniquename=request_intake_model_app_20d5b868,settingdefinitionid.uniquename=AppChannel" id.parentappmoduleid.uniquename="request_intake_model_app_20d5b868" id.settingdefinitionid.uniquename="AppChannel" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="SettingDefinition" displayName="m365copilotmodelappenabled" solution="msdyn_M365CopilotAppInfraSettings (9.2.0.5)" id.uniquename="m365copilotmodelappenabled">
+          <package appName="PowerAppsAppCopilotApp Package" version="9.2.0.5">msdyn_M365CopilotAppInfraSettings (9.2.0.5)</package>
+        </Required>
+        <Dependent type="AppSetting" displayName="parentappmoduleid.uniquename=request_intake_model_app_20d5b868,settingdefinitionid.uniquename=m365copilotmodelappenabled" id.parentappmoduleid.uniquename="request_intake_model_app_20d5b868" id.settingdefinitionid.uniquename="m365copilotmodelappenabled" />
+      </MissingDependency>
+    </MissingDependencies>
+  </SolutionManifest>
+</ImportExportXml>

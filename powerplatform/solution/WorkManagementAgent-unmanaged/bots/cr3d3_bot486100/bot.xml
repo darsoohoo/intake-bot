@@ -1,0 +1,10 @@
+<bot schemaname="cr3d3_bot486100">
+  <authenticationmode>2</authenticationmode>
+  <authenticationtrigger>1</authenticationtrigger>
+  <iscustomizable>0</iscustomizable>
+  <language>1033</language>
+  <name>Copilot in Power Apps - Request Intake ...</name>
+  <runtimeprovider>0</runtimeprovider>
+  <template>empty-1.0.0</template>
+  <timezoneruleversionnumber>4</timezoneruleversionnumber>
+</bot>

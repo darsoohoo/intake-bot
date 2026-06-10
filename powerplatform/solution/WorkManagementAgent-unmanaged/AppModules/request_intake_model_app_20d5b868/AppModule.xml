@@ -1,0 +1,70 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AppModule>
+  <UniqueName>request_intake_model_app_20d5b868</UniqueName>
+  <IntroducedVersion>1.0.0.0</IntroducedVersion>
+  <WebResourceId>953b9fac-1e5e-e611-80d6-00155ded156f</WebResourceId>
+  <OptimizedFor></OptimizedFor>
+  <statecode>0</statecode>
+  <statuscode>1</statuscode>
+  <FormFactor>1</FormFactor>
+  <ClientType>4</ClientType>
+  <NavigationType>0</NavigationType>
+  <AppModuleComponents>
+    <AppModuleComponent type="1" schemaName="crb_intakerequest" />
+    <AppModuleComponent type="62" schemaName="request_intake_model_app_20d5b868" />
+  </AppModuleComponents>
+  <AppModuleRoleMaps>
+    <Role id="{627090ff-40a3-4053-8790-584edc5be201}" />
+    <Role id="{119f245c-3cc8-4b62-b31c-d1a046ced15d}" />
+  </AppModuleRoleMaps>
+  <LocalizedNames>
+    <LocalizedName description="Request Intake Model App" languagecode="1033" />
+  </LocalizedNames>
+  <Descriptions>
+    <Description description="Model-driven request intake app for Dataverse-backed triage and Copilot Studio agent experiments." languagecode="1033" />
+  </Descriptions>
+  <appelements>
+    <appelement uniquename="cr3d3_request_intake_model_app_20d5b868_name_request_intake_model_app_20d5b868_MCPServer">
+      <iscustomizable>1</iscustomizable>
+      <name>Request Intake Model App MCP Server</name>
+      <objectid>
+        <name>request_intake_model_app_20d5b868_MCPServer</name>
+      </objectid>
+      <objectidtype>mcpserver</objectidtype>
+    </appelement>
+    <appelement uniquename="cr3d3_request_intake_model_app_20d5b868_schemaname_ca_agent">
+      <iscustomizable>1</iscustomizable>
+      <name>ca_agent</name>
+      <objectid>
+        <schemaname>ca_agent</schemaname>
+      </objectid>
+      <objectidtype>bot</objectidtype>
+    </appelement>
+    <appelement uniquename="cr3d3_request_intake_model_app_20d5b868_schemaname_cr3d3_bot486100">
+      <iscustomizable>1</iscustomizable>
+      <name>cr3d3_bot486100</name>
+      <objectid>
+        <schemaname>cr3d3_bot486100</schemaname>
+      </objectid>
+      <objectidtype>bot</objectidtype>
+    </appelement>
+    <appelement uniquename="cr3d3_request_intake_model_app_20d5b868_schemaname_crb_RequestIntakeCopilot">
+      <iscustomizable>1</iscustomizable>
+      <name>crb_RequestIntakeCopilot</name>
+      <objectid>
+        <schemaname>crb_RequestIntakeCopilot</schemaname>
+      </objectid>
+      <objectidtype>bot</objectidtype>
+    </appelement>
+  </appelements>
+  <appsettings>
+    <appsetting settingdefinitionid.uniquename="AppChannel">
+      <iscustomizable>1</iscustomizable>
+      <value>1</value>
+    </appsetting>
+    <appsetting settingdefinitionid.uniquename="m365copilotmodelappenabled">
+      <iscustomizable>1</iscustomizable>
+      <value>2</value>
+    </appsetting>
+  </appsettings>
+</AppModule>

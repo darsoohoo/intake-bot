@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AppModuleSiteMap xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <SiteMapUniqueName>request_intake_model_app_20d5b868</SiteMapUniqueName>
+  <EnableCollapsibleGroups>True</EnableCollapsibleGroups>
+  <ShowHome>True</ShowHome>
+  <ShowPinned>True</ShowPinned>
+  <ShowRecents>True</ShowRecents>
+  <SiteMap IntroducedVersion="7.0.0.0">
+    <Area Id="area_request_intake_model_app_20d5b868" ResourceId="SitemapDesigner.NewArea" ShowGroups="true" IntroducedVersion="7.0.0.0">
+      <Titles>
+        <Title LCID="1033" Title="Main" />
+      </Titles>
+      <Group Id="group_request_intake" ResourceId="SitemapDesigner.NewGroup" IntroducedVersion="7.0.0.0" IsProfile="false" ToolTipResourseId="SitemapDesigner.Unknown">
+        <Titles>
+          <Title LCID="1033" Title="Intake" />
+        </Titles>
+        <SubArea Id="subarea_request_intakes" IntroducedVersion="7.0.0.0" Entity="crb_intakerequest" AvailableOffline="false" PassParams="false">
+          <Titles>
+            <Title LCID="1033" Title="Request Intakes" />
+          </Titles>
+        </SubArea>
+      </Group>
+    </Area>
+  </SiteMap>
+  <LocalizedNames>
+    <LocalizedName description="Request Intake Model App" languagecode="1033" />
+  </LocalizedNames>
+</AppModuleSiteMap>

@@ -1,0 +1,9 @@
+<dvtablesearchentity dvtablesearchentityid="06e1a511-4464-f111-ab0c-7c1e52199288">
+  <dvtablesearch>
+    <dvtablesearchid>4d72ab99-4264-f111-ab0c-7c1e52199387</dvtablesearchid>
+  </dvtablesearch>
+  <entitylogicalname>crb_intakerequest</entitylogicalname>
+  <iscustomizable>1</iscustomizable>
+  <statecode>0</statecode>
+  <statuscode>1</statuscode>
+</dvtablesearchentity>
