@@ -31,6 +31,10 @@ Use this file when continuing the project from another computer or a fresh Codex
 - Model-driven app display name: `Request Intake Model App`
 - Model-driven app ID: `01e9a589-4264-f111-ab0c-7c1e521c7ea3`
 - Model-driven app unique name: `request_intake_model_app_20d5b868`
+- Model-driven app assistant agent display name: `Copilot in Power Apps - Request Intake ...`
+- Model-driven app assistant agent ID: `5e53f35d-4a64-f111-ab0c-7ced8d217675`
+- Model-driven PCF active control: `cr3d3_WorkManagement.RequestIntakeAgentChatV8`
+- Model-driven PCF source folder: `pcf/RequestIntakeAgentControl`
 
 ## What Was Built
 
@@ -137,6 +141,16 @@ There are two related implementations in this workspace.
 - Created and published model-driven app shell `Request Intake Model App` in the `WorkManagementAgent` solution using `pac model create`. Added `crb_intakerequest` as an app module component and added a sitemap area/group/subarea for `Request Intakes`. Round-trip solution export verified the table component and sitemap subarea are present.
 - Improved Canvas chat perceived speed in the published original Canvas app. `btnSendAgentMessage` now immediately stores the current transcript, appends the user message plus `Agent is thinking...`, disables the input/button via `varAgentBusy`, and starts hidden timer `tmrRunAgent` to call `IntakeCopilot_CanvasRun` after the UI repaints. The timer replaces the thinking placeholder with the returned agent question and re-enables the send controls.
 - Smoke-tested the published Canvas app after the speed update. A Power BI export failure message updated fields and transcript after the flow returned. A second message immediately disabled the send button while the agent ran and then re-enabled it after the response updated the generated fields.
+- Built PCF control source under `pcf/RequestIntakeAgentControl` and imported it into `WorkManagementAgent`.
+- Added `Conversation JSON` / `crb_conversationjson` to the Request Intake main form, relabeled it `Intake Agent Chat`, made it 6 rows tall, and attached the PCF control.
+- Configured the model-driven app's `Agents > App assistant agent`. This created/published app assistant agent `Copilot in Power Apps - Request Intake ...` with ID `5e53f35d-4a64-f111-ab0c-7ced8d217675`.
+- Added intake-specific instructions to the app assistant agent and enabled generative orchestration so model-driven Agent API calls return useful responses instead of echoing prompts.
+- Published the model-driven app after app assistant configuration. The app designer shows `App assistant agent, Last published 6/9/2026`.
+- Published active PCF control `RequestIntakeAgentChatV8` and updated the Request Intake main form XML to reference `cr3d3_WorkManagement.RequestIntakeAgentChatV8` for web/tablet/mobile. The older `RequestIntakeAgentPanel` and `RequestIntakeAgentChatV2` through `RequestIntakeAgentChatV7` controls remain in the solution but are no longer referenced by the form.
+- Updated the model-driven PCF so it immediately drafts suggested intake fields from the user message, then lets the app assistant response refine them if the Agent API returns useful text. This avoids a frozen/blank experience when the app assistant is slow, empty, or returns an internal planning payload.
+- Added a review/apply panel to the model-driven PCF. Users can click `Apply to form` after reviewing suggested values. The control maps suggestions to `crb_title`, `crb_description`, `crb_businessimpact`, `crb_category`, `crb_urgency`, `crb_size`, `crb_affectedarea`, `crb_desiredoutcome`, `crb_estimatedeffort`, `crb_estimatedduration`, `crb_missingrequirements`, and other triage columns. V8 also exposes bound PCF outputs for the main text fields so the form receives values from the control itself.
+- Expanded the Request Intake main form server-side XML to include core triage fields above the chat: description, business impact, category, urgency, size, affected area, desired outcome, estimated effort, estimated duration, missing requirements, and additional information.
+- Smoke-tested the model-driven embedded chat on a new Request Intake record. For `We need a Power Automate flow that emails the intake owner when a request is submitted.`, the embedded chat immediately showed suggested fields including title `Notify intake owner when request is submitted`, category `Automation`, affected area `Power Automate`, urgency `Medium`, desired outcome, and effort/duration. `Apply to form` populated the visible title, problem/request, business impact, category, urgency, size, affected area, desired outcome, effort, duration, and missing requirements fields. Saving succeeded and the form showed `Save status - Saved`.
 
 ## Important Local Files
 
@@ -233,6 +247,8 @@ Start-Process "https://apps.powerapps.com/play/e/543d442f-0b4a-e67b-89eb-1e32c06
 - The current Canvas app uses `IntakeCopilot_CanvasRun.Run(...)` for the send-button agent response and still uses rule-based Power Fx for the separate Analyze button. `Save request draft` writes Dataverse rows with custom status `Draft`; `Submit` writes rows with custom status `Submitted`.
 - The current Canvas app uses hidden timer `tmrRunAgent` to make the chat feel responsive: the click handler updates the transcript and busy state immediately, and the timer performs the flow call.
 - The Dataverse table, Copilot Studio agent, `IntakeCopilot_Run` workflow, and `IntakeCopilot_CanvasRun` wrapper flow now exist. The wrapper is in the `WorkManagementAgent` solution and is associated to the Canvas app as an in-context flow.
+- The model-driven app uses its app assistant agent, not the original Canvas wrapper flow, for the embedded PCF chat. The PCF calls the model-driven Agent API from the form and stores transcript JSON in `crb_conversationjson`.
+- The model-driven PCF now shows suggested fields and can apply reviewed values to the model-driven form. Current active cache-busting control is V8.
 - `IntakeCopilot_Run` was built with the newer Copilot Studio Workflows surface, not the classic Power Automate designer. It uses a Manual/on-demand trigger and M365 Copilot `Response` output instead of separate `draftJson` and `nextQuestion` response outputs.
 - Because `IntakeCopilot_Run` did not appear in the Canvas Add data picker, the Canvas app uses `IntakeCopilot_CanvasRun` from the Power Automate pane/flow context instead.
 - For future package edits through Experimental layout, update both `Src/*.fx.yaml` and `Other/Src/*.pa.yaml` before packing. Updating only `Src/*.fx.yaml` packs but does not change the package returned by `pac canvas download`.

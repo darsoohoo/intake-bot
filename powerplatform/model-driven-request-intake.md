@@ -16,24 +16,40 @@ Model-driven apps are the better fit for an embedded Copilot Studio agent becaus
 
 ## Planned Agent Surface
 
-Build a PCF control for the Request Intake main form that:
+Implemented a PCF control for the Request Intake main form that:
 
 - Reads the current record context from the model-driven form.
-- Sends only scoped intake fields and the latest user message to the existing intake agent path.
+- Sends the latest user message through the model-driven app Agent API.
 - Displays a compact chat/assistant panel on the form.
-- Lets the user apply suggested field updates back to Dataverse only after review.
 - Shows busy/error states and never auto-commits generated content.
+- Stores the chat transcript in `crb_conversationjson`.
 
-## Implementation Options
+## Current Implementation
 
-Preferred next step:
+- PCF source: `pcf/RequestIntakeAgentControl`
+- Active control on the form: `cr3d3_WorkManagement.RequestIntakeAgentChatV8`
+- Earlier control retained in the solution: `cr3d3_WorkManagement.RequestIntakeAgentPanel`
+- Bound Dataverse column: `crb_conversationjson`
+- Main form label: `Intake Agent Chat`
+- App assistant agent: `Copilot in Power Apps - Request Intake ...`
+- App assistant bot ID: `5e53f35d-4a64-f111-ab0c-7ced8d217675`
 
-- Use a PCF control hosted on the `Request Intake` main form.
-- Start by calling the existing `IntakeCopilot_CanvasRun` or a model-driven-specific wrapper flow for parity with the Canvas app.
-- Later, move to `Xrm.Copilot.executeEvent()` / Copilot Studio Agent APIs if the tenant preview capability is available and stable enough.
+The app assistant agent is configured in the model-driven app designer under `Agents > App assistant agent` and has generative orchestration enabled. Its instructions match the intake behavior used by the Canvas app: assume Power Platform, ask one concise follow-up, avoid generic product/service questions, assume Outlook for email unless stated otherwise, and stop once the request is triage-ready.
 
-Open items:
+The V8 PCF control now shows suggested intake fields immediately from the latest user message, then lets the app assistant response refine them when the Agent API returns useful text. This keeps the chat responsive even when the model-driven Agent API is slow, empty, or returns an internal planning payload. Users can review the suggestions and click `Apply to form`; the control updates visible form fields and sends bound PCF outputs for the main text fields.
 
-- Confirm whether `Xrm.Copilot` preview APIs are enabled in `SPDEV-Dev2`.
-- Decide whether the PCF should render as a form section, side panel, or command-launched pane.
-- Create a model-driven-specific flow or connector path if the Canvas wrapper flow's Power Apps trigger is not appropriate outside Canvas.
+The Request Intake main form XML now references `cr3d3_WorkManagement.RequestIntakeAgentChatV8` and includes the main triage columns above the chat in the server-side form definition: description, business impact, category, urgency, size, affected area, desired outcome, estimated effort, estimated duration, missing requirements, and additional information.
+
+## Verification
+
+- `npm.cmd run build` passes in `pcf/RequestIntakeAgentControl`.
+- `pac pcf push` imported and published `RequestIntakeAgentChatV8` into `WorkManagementAgent`.
+- Solution export verified the Request Intake main form references `cr3d3_WorkManagement.RequestIntakeAgentChatV8` and has bound PCF parameters for title, description, business impact, affected area, desired outcome, effort, duration, missing requirements, and additional information.
+- Manual model-driven smoke test on a new Request Intake record showed immediate suggested fields for: `We need a Power Automate flow that emails the intake owner when a request is submitted.`
+- The smoke test confirmed `Apply to form` populated the visible title, problem/request, business impact, category, urgency, size, affected area, desired outcome, effort, duration, and missing requirements fields.
+- The smoke test saved successfully. The form showed `Save status - Saved` with title `Notify intake owner when request is submitted`, category `Automation`, and urgency `Medium`.
+
+## Open Items
+
+- The original `RequestIntakeAgentPanel` custom control remains in the solution because it was used during the first implementation. It can be removed later once no forms reference it.
+- The older `RequestIntakeAgentChatV2` through `RequestIntakeAgentChatV7` controls also remain in the solution because they were used to cache-bust PCF updates during implementation. They can be removed later once V8 has been stable.
