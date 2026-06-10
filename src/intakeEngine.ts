@@ -378,6 +378,36 @@ export function getNextQuestion(draft: IntakeDraft): string {
   return "I have enough to draft the request. Review the fields, adjust anything that looks off, and submit when ready.";
 }
 
+export function selectNextQuestion(
+  draft: IntakeDraft,
+  preferredQuestion?: string,
+  messages: IntakeMessage[] = []
+): string {
+  const localQuestion = getNextQuestion(draft);
+  const trimmedPreferred = preferredQuestion?.trim();
+
+  if (!trimmedPreferred) {
+    return localQuestion;
+  }
+
+  if (isStaleQuestion(trimmedPreferred, draft)) {
+    return localQuestion;
+  }
+
+  const previousAssistantQuestion = findPreviousAssistantPrompt(messages, messages.length);
+  const normalizedPreferred = normalizeQuestion(trimmedPreferred);
+
+  if (
+    previousAssistantQuestion &&
+    normalizedPreferred === normalizeQuestion(previousAssistantQuestion) &&
+    normalizedPreferred !== normalizeQuestion(localQuestion)
+  ) {
+    return localQuestion;
+  }
+
+  return trimmedPreferred;
+}
+
 export function toPowerPlatformPayload(
   draft: IntakeDraft,
   options: {
@@ -852,6 +882,48 @@ function asksForDependencies(prompt: string): boolean {
 
 function asksForConstraints(prompt: string): boolean {
   return containsAny(prompt, ["is there a deadline", "compliance concern", "release window"]);
+}
+
+function isStaleQuestion(question: string, draft: IntakeDraft): boolean {
+  const normalized = question.toLowerCase();
+
+  if (asksForAffectedArea(normalized) && draft.affectedArea) {
+    return true;
+  }
+
+  if (asksForCategory(normalized) && draft.category !== "Uncategorized") {
+    return true;
+  }
+
+  if (asksForBusinessImpact(normalized) && draft.businessImpact) {
+    return true;
+  }
+
+  if (asksForDesiredOutcome(normalized) && draft.desiredOutcome) {
+    return true;
+  }
+
+  if (asksForUsersAffected(normalized) && draft.usersAffected) {
+    return true;
+  }
+
+  if (asksForAcceptanceCriteria(normalized) && draft.acceptanceCriteria) {
+    return true;
+  }
+
+  if (asksForDependencies(normalized) && draft.dependencies) {
+    return true;
+  }
+
+  if (asksForConstraints(normalized) && draft.constraints) {
+    return true;
+  }
+
+  return false;
+}
+
+function normalizeQuestion(question: string): string {
+  return question.replace(/\s+/g, " ").replace(/[?.!]+$/g, "").trim().toLowerCase();
 }
 
 function extractAffectedAreaAnswer(answer: string): string {

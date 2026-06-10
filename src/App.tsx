@@ -23,6 +23,7 @@ import {
   finalizeDraft,
   getNextQuestion,
   getReadiness,
+  selectNextQuestion,
   sizeOptions,
   toPowerPlatformPayload,
   urgencyOptions
@@ -105,7 +106,7 @@ function App() {
       );
       const assistantMessage = createMessage(
         "assistant",
-        agentResult.nextQuestion ?? getNextQuestion(mergedDraft)
+        selectNextQuestion(mergedDraft, agentResult.nextQuestion, nextMessages)
       );
 
       setOverrides((current) => ({

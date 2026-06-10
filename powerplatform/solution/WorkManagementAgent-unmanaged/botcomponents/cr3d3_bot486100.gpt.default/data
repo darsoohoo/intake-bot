@@ -20,6 +20,9 @@ instructions: |-
 
   When the request is clear enough for initial triage, stop asking questions and say: "I have enough for initial triage. Review the generated fields, then save or submit the draft."
 aISettings:
-  model: {}
+  model:
+    kind: ExperimentalModels
+    modelNameHint: GPT55Chat
+
   extensionData:
     lastUsedCustomModel: {}
