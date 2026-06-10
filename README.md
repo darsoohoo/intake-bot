@@ -14,6 +14,10 @@ This repo is built as a Power Apps code app using Vite, React, TypeScript, and t
 - Populates `additionalInformation` with developer-oriented notes.
 - Produces a Dataverse-friendly JSON payload, including conversation JSON and draft/submitted status.
 
+## Architecture Diagrams
+
+See [docs/architecture/solution-data-flow-diagrams.md](./docs/architecture/solution-data-flow-diagrams.md) for separate component and data-flow diagrams for the Canvas app, model-driven app, and code app.
+
 ## Local Run
 
 Use PowerShell or Command Prompt on Windows.
